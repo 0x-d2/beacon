@@ -577,6 +577,7 @@ def main():
           + declaration(mixer, "    private struct OutputAdjustment {")
           + declaration(mixer, "    private struct OutputStep {")
           + "private var queuedOutputSteps: [OutputStep] = []\nvar outputStepReadInFlight = false\nvar outputStepReadGeneration = 0\n"
+          + "private var lastOutputStep: (device: AudioObjectID, lifetime: UUID, from: Double, to: Double)?\n"
           + "static func hasSettableOutputVolume(for device: AudioObjectID) -> Bool { true }\n"
           + "static func outputVolume(for device: AudioObjectID) -> Float32? { Hardware.volume }\n"
           + "static func outputMuted(for device: AudioObjectID) -> Bool? { Hardware.muted }\n"
@@ -592,9 +593,11 @@ def main():
           + "static func defaultOutputDeviceID() -> AudioObjectID { Hardware.device }\n"
           + "static func setOutputVolume(_ value: Float, for device: AudioObjectID) -> Bool {\n"
           + "Hardware.writes.append(.init(device: device, volume: value, muted: nil))\n"
+          + "if let accepts = Hardware.accepts { Hardware.volume = accepts(value) }\n"
           + "let after = Hardware.afterVolumeWrite; Hardware.afterVolumeWrite = nil; after?()\nreturn Hardware.succeeds\n}\n"
           + "static func setOutputMuted(_ value: Bool, for device: AudioObjectID) -> Bool {\n"
           + "Hardware.writes.append(.init(device: device, volume: nil, muted: value)); return Hardware.succeeds\n}\n"
+          + "static func setSystemOutputVolume(_ volume: Double) -> Bool { setOutputVolume(Float(volume), for: Hardware.device) }\n"
           + "func scheduleListenerRefresh() { listenerRefreshes += 1 }\n"
           + "func scheduleOutputControlRefresh(for device: AudioObjectID) { controlRefreshes.append(device) }\n"
           + "func selectOutput(_ device: AudioObjectID?, volume: Double?, muted: Bool?) {\n"
@@ -605,8 +608,10 @@ def main():
               "    func requestOutputStep(", "    func requestOutputMuteToggle(",
               "    private func enqueueOutputKey(", "    private func settleQueuedOutputSteps(",
               "    private func applyQueuedOutputSteps(",
+              "    private func roundedBackStepLevel(", "    private func rememberOutputStep(",
               "    private func isCurrentOutputAdjustment(", "    private var hasCurrentOutputAdjustment:",
-              "    private func applyOutputControls(", "    private func drainOutputAdjustment("])
+              "    private func applyOutputControls(", "    private func drainOutputAdjustment(",
+              "    func setCurrentOutputVolume("])
           + "}\n}\n")
     write("NotchVolumeRouting.swift", "import Foundation\nimport CoreGraphics\n"
           + "extension NotchVolumeRoutingTests {\nfinal class Service: State {\n"
