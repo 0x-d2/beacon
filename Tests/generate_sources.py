@@ -1269,11 +1269,34 @@ def main():
           + "}\n")
 
     preview = "Sources/Vorssaint/Services/QuickTools/ScreenshotQuickPreviewController.swift"
+    screen_text = "Sources/Vorssaint/Services/QuickTools/ScreenTextService.swift"
+    write("ScreenshotOCRControl.swift", "import AppKit\nimport SwiftUI\n"
+          + "extension ScreenshotOCRControlTests {\n"
+          + declaration(preview, "final class ScreenshotQuickPreviewModel:")
+          + declaration(preview, "private struct ScreenshotQuickPreviewView:").replace("private struct", "struct", 1)
+          + declaration(preview, "private struct ScreenshotPreviewActionStyle:").replace("private struct", "struct", 1)
+          + declaration("Sources/Vorssaint/UI/Notch/NotchComponents.swift", "struct NotchButtonStyle:")
+          + "enum ScreenshotQuickPreviewController {\n"
+          + declaration(preview, "    enum Action {")
+          + declaration(preview, "    fileprivate static func size(").replace("fileprivate", "", 1)
+          + "}\n}\nextension View {\n"
+          + declaration("Sources/Vorssaint/UI/Screenshot/ScreenshotEditorView.swift", "    func screenshotSafeHelp(")
+              .replace("    func", "    @ViewBuilder\n    func", 1)
+          + "}\n")
+    write("ScreenTextCompletion.swift", "import Foundation\n"
+          + "extension ScreenTextCompletionTests {\nfinal class ScreenTextService: State {\n"
+          + "".join(declaration(screen_text, prefix).replace("private func", "func", 1)
+                    for prefix in ["    func copyText(", "    func receiveUnifiedCapture(",
+                                   "    private func recognize(", "    func syncWithPreferences()",
+                                   "    func suspend()", "    private func cancelSession()",
+                                   "    enum Outcome:"])
+          + "}\n}\n")
     write("ScreenshotShareCompletion.swift", "import Foundation\n"
           + "extension ScreenshotShareCompletionTests {\nfinal class Controller: State {\n"
           + "".join(declaration(preview, prefix).replace("private func", "func", 1)
                     for prefix in ["    func shareLink()", "    private func performShare(",
-                                   "    private func copySharedLink()", "    private func scheduleAutoDismiss("])
+                                   "    private func copySharedLink()", "    private func scheduleAutoDismiss(",
+                                   "    private func copyText()"])
           + "}\nfinal class Editor: EditorState {\n"
           + declaration("Sources/Vorssaint/Services/QuickTools/ScreenshotEditorController.swift",
                         "    func share(duration:")
@@ -1291,7 +1314,8 @@ def main():
                                    "    func openEditor(with", "    func editorDidClose(",
                                    "    private func invalidateLatestCaptureUploads()",
                                    "    private func beginLatestCapture(", "    private func discardLatestCapture(",
-                                   "    private func withholdLatestCapture()", "    private func syncLatestCapture("])
+                                   "    private func withholdLatestCapture()", "    private func syncLatestCapture(",
+                                   "    func afterAutoCopy("])
           + "}\n}\n")
     write("ScreenshotAutoShelf.swift", "import Foundation\n"
           + "extension ScreenshotAutoShelfTests {\n@MainActor final class Service: State {\n"
