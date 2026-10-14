@@ -47,6 +47,14 @@ def availability_declaration(path, prefix):
 
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
+    recorder = "Sources/Vorssaint/Services/Recorder/ScreenRecorderService.swift"
+    write("RecorderPreparation.swift", "import Foundation\nextension RecorderPreparationTests {\n"
+          + "final class Service: Fixture {\n"
+          + "".join(declaration(recorder, prefix).replace("private func", "func", 1)
+                    for prefix in ["    private func beginRecording(", "    private func pendingStartIsAuthorized(",
+                                   "    private func invalidatePendingStart()", "    var hasActiveCapture:",
+                                   "    func stopOrCancelActiveCapture()", "    func prepareForSelection()"])
+          + "}\n}\n")
     write("SwitcherFullscreenScope.swift", "import AppKit\nimport ApplicationServices\nimport CoreGraphics\n"
           + "extension SwitcherFullscreenScopeTests.Enumerator {\n"
           + "".join(declaration("Sources/Vorssaint/Services/Switcher/WindowEnumerator.swift", prefix)
