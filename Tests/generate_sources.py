@@ -690,6 +690,12 @@ def main():
           + "}\n}\n")
 
     updates = "Sources/Vorssaint/Services/AppUpdates/AppUpdatesService.swift"
+    write("AppUpdateHandoff.swift", "import Foundation\nextension AppUpdateHandoffTests {\n"
+          + "final class Service: State {\n"
+          + "".join(declaration(updates, prefix).replace("private func", "func", 1)
+                    for prefix in ["    var updateHandoffPending:", "    private func handOff(",
+                                   "    func applicationBecameActive()", "    func consumeUpdateHandoffReturn()"])
+          + "}\n}\n")
     loader = "Sources/Vorssaint/Services/AppUpdates/AppUpdateFeedLoader.swift"
     # Only the network configuration, clock and declaration visibility change.
     # The loader, batch loop, catalog matching and fallback resolution stay verbatim.

@@ -152,6 +152,7 @@ struct MetricsTests {
                 NetworkAddressTests.run { suite.expect($0, $1) }
             }),
             ("app-updates", {
+                AppUpdateHandoffTests.run(suite)
                 AppUpdatesContract.run(suite)
                 AppUpdateRulesContract.run(suite)
             }),
