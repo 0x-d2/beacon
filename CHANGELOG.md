@@ -34,7 +34,7 @@ The window switcher can limit its columns and reach fullscreen windows from the 
 - Command Bar finds the tools Xcode keeps inside its bundle, such as Simulator, Instruments and Device Hub, and the uninstaller refuses apps that live inside another app.
 
 ### Contributors
-Thanks to @AB-boi, @beckhauser, @benjcrich, @COMEBACKISREAL, @eioz, @EugeneCarldotme, @Hackmodford, @iancenry, @JeanBaeez, @Likheet, @ManuLorenzzo, @mohammadhprp, @ncesar, @oskarsss, @PratikPawar1401, @unfilet and @ywu73.
+Thanks to @AB-boi, @ahmedabdullah-o, @beckhauser, @benjcrich, @COMEBACKISREAL, @eioz, @EugeneCarldotme, @Hackmodford, @iancenry, @JeanBaeez, @Likheet, @ManuLorenzzo, @mohammadhprp, @ncesar, @oskarsss, @PratikPawar1401, @unfilet and @ywu73.
 
 ## [3.4.1] - 2026-10-08
 
