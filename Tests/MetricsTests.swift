@@ -37,7 +37,10 @@ struct MetricsTests {
             ("scroll-modifier", { ScrollHorizontalModifierTests.run(suite) }),
             ("linear-scroll", { LinearScrollTapTests.run(suite) }),
             ("preferences", { PreferencesFeatureTests.run(suite) }),
-            ("app-management", { AppManagementFeatureTests.run(suite) }),
+            ("app-management", {
+                AppManagementFeatureTests.run(suite)
+                DiskImageHomebrewTests.run(suite)
+            }),
             ("window-layout", { WindowLayoutFeatureTests.run(suite) }),
             ("media", { MediaFeatureTests.run(suite) }),
             ("mixer", {

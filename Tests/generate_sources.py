@@ -431,6 +431,17 @@ def main():
           + declaration("Sources/Vorssaint/Services/Clipboard/ClipboardIgnoredApps.swift",
                         "    func sourceSinceLastCheck(")
           + "}\n")
+    disk_image = "Sources/Vorssaint/Services/DiskImageInstaller/DiskImageInstallerService.swift"
+    write("DiskImageHomebrew.swift", "import Foundation\nimport Darwin\nextension DiskImageHomebrewTests {\n"
+          + "".join(declaration(disk_image, prefix).replace("private struct", "struct", 1)
+                    for prefix in ["    private struct FileIdentity:", "    private struct Candidate {",
+                                   "    private struct CommandResult {"])
+          + "final class Service: Fixture {\n"
+          + "".join(declaration(disk_image, prefix).replace("private ", "", 1)
+                    for prefix in ["    private func inspect(", "    private func candidate(",
+                                   "    private static func isHomebrewImage(",
+                                   "    private static func fileIdentity(", "    private static func validBundle("])
+          + "}\n}\n")
     cleaner = "Sources/Vorssaint/Services/URLCleanerService.swift"
     write("URLCleanerRewrite.swift", "import AppKit\n"
           + "extension ClipboardFeatureTests.URLCleanerHost {\n"
