@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-The window switcher offers column limits and clearer app filtering. Screenshots copy text, recordings export longer GIFs and isolate window audio, and mixer sliders follow perceived loudness. AI Agents supports OpenCode 2 and safer Claude renewal estimates. Dynamic Island improves lyrics, companion playback and keyboard focus. Cleaning Mode keeps input taps suspended, alongside fixes for volume keys, mouse navigation, Dock instances, M4 Pro temperatures and Command Bar.
+The window switcher offers column limits and clearer app filtering. Screenshots copy text, recordings export longer GIFs and isolate window audio, and mixer sliders follow perceived loudness. AI Agents supports OpenCode 2 and safer Claude renewal estimates. Dynamic Island improves lyrics, companion playback and keyboard focus. Command Bar opens and searches faster. Cleaning Mode keeps input taps suspended, alongside fixes for clipboard pastes, display brightness, recording, app updates, Homebrew installs, volume keys, mouse navigation, Dock instances and M4 Pro temperatures.
 
 ### Added
 - Dynamic Island can show the keyboard input source when it changes. Command Bar's temporary layout switches stay quiet. Settings → Dynamic Island → Activity → Indicators.
@@ -15,12 +15,21 @@ The window switcher offers column limits and clearer app filtering. Screenshots 
 - Screenshot previews can copy the text in a capture when Screen OCR is installed.
 
 ### Changed
+- Command Bar opens and searches faster, with the same matching and ranking rules.
 - Save as GIF and Copy as GIF work for recordings of any length.
 - With Show only the current desktop on, the window switcher also lists fullscreen windows from other desktops while Show fullscreen windows is on.
 - App sliders in the Volume mixer follow perceived loudness, so 50% sounds clearly quieter. Saved levels keep how loud each app plays.
 - Recording a single window captures only the sound of the app that owns it.
 
 ### Fixed
+- Paste as plain text and snippets cancel when a newer copy replaces the clipboard before the paste.
+- Recordings and exports fall back to H.264 when the Mac cannot encode their size in HEVC. Recording startup prepares the encoder without freezing the interface.
+- App Updates opens destinations without freezing the interface and preserves the return to its window when requests overlap.
+- Display brightness ignores stale DDC replies meant for other monitor controls.
+- An app hidden by its Command Bar shortcut stays hidden even when macOS reports that hiding failed.
+- Command Bar reads more browser selections and preserves surrounding spaces and line breaks when changing letter case.
+- App Updates recognizes beta10 and rc10 as newer than beta9 and rc9.
+- Disk Image Installer ignores Homebrew's cached installers while still offering unrelated mounted apps.
 - Playing music takes the idle companion's place in Dynamic Island and stays selectable alongside AI activity.
 - Dynamic Island hides its automatic opening focus ring and restores visible focus when keyboard navigation begins.
 - AI Agents estimates Claude session renewals after long gaps without discarding observed usage or sending reset alerts at the estimate.
@@ -39,7 +48,7 @@ The window switcher offers column limits and clearer app filtering. Screenshots 
 - Command Bar finds the tools Xcode keeps inside its bundle, such as Simulator, Instruments and Device Hub, and the uninstaller refuses apps that live inside another app.
 
 ### Contributors
-Thanks to @AB-boi, @Adridot, @ahmedabdullah-o, @beckhauser, @benjcrich, @COMEBACKISREAL, @eioz, @EugeneCarldotme, @gustavoramalho, @Hackmodford, @iancenry, @JeanBaeez, @juanra, @Likheet, @ManuLorenzzo, @mohammadhprp, @ncesar, @oskarsss, @PratikPawar1401, @unfilet, @ywu73 and @zhanghk2001.
+Thanks to @2-Chengs, @AB-boi, @Acronyxxx, @Adridot, @ahmedabdullah-o, @beckhauser, @benjcrich, @capozz03, @claude, @COMEBACKISREAL, @cprecioso, @eioz, @EugeneCarldotme, @gustavoramalho, @Hackmodford, @iancenry, @JeanBaeez, @juanra, @LechTheMitch, @Likheet, @luantedesco, @ManuLorenzzo, @mohammadhprp, @morhaf-ko, @nateships, @ncesar, @oskarsss, @PratikPawar1401, @unfilet, @ywu73 and @zhanghk2001.
 
 ## [3.4.1] - 2026-10-08
 
