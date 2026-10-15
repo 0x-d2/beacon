@@ -44,6 +44,11 @@ enum ScreenshotSpotlightEditingTests {
         var cropResizeOrigin: CGRect?
         var cropMoveOrigin: CGRect?
         var cropSelectionOrigin: CGRect?
+        var expansionDraft: CGRect?
+        var expansionHandle: ScreenshotSupport.Handle?
+        var expansionStartPoint: CGPoint?
+        var expansionRejected = false
+        let currentDisplayZoom: CGFloat = 1
         var color: ScreenshotSupport.ColorID = .red
         var stroke: ScreenshotSupport.StrokeID = .medium
         var arrowStyle: ScreenshotSupport.ArrowStyleID = .filled
@@ -116,6 +121,15 @@ enum ScreenshotSpotlightEditingTests {
         box.beginDrag(at: CGPoint(x: rect.midX, y: rect.midY))
         suite.expect(box.editingSelectedAnnotation && box.annotations.count == 1,
                "other rectangle tools still move a fresh mark from inside it")
+
+        let expanding = model(tool: .expandCanvas, selected: .rect)
+        expanding.beginDrag(at: CGPoint(x: rect.midX, y: rect.midY))
+        Bar(model: expanding).updateHoverCursor(at: CGPoint(x: rect.midX, y: rect.midY))
+        suite.expect(!expanding.editingSelectedAnnotation && expanding.selectDrags.isEmpty
+                && expanding.annotations.count == 1
+                && expanding.expansionDraft == CGRect(origin: .zero, size: expanding.imageSize)
+                && NSCursor.current === NSCursor.crosshair,
+               "expanding the canvas never moves a picked mark, and the hover never offers to")
 
         let hovered = model(tool: .spotlight, selected: .spotlight)
         Bar(model: hovered).updateHoverCursor(at: CGPoint(x: rect.midX, y: rect.midY))

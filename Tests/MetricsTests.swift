@@ -77,6 +77,9 @@ struct MetricsTests {
             }),
             ("repository", { RepositoryFeatureTests.run(suite) }),
             ("screenshots", {
+                ScreenshotCanvasSupportTests.run(suite)
+                ScreenshotImageLayerTests.run(suite)
+                ScreenshotCanvasModelTests.run(suite)
                 ScreenTextCompletionTests.run(suite)
                 ScreenshotOCRControlTests.run(suite)
                 ScreenshotPreviewHoverTests.run(suite)
