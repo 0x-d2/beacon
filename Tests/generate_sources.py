@@ -1390,6 +1390,22 @@ def main():
           + "}\nstruct Preview {\nlet embedded: Bool\nlet hoverChanged: (Bool) -> Void\n"
           + declaration(preview, "    private func previewHoverChanged(").replace("private func", "func", 1)
           + "}\n}\n")
+    editor = "Sources/Vorssaint/Services/QuickTools/ScreenshotEditorController.swift"
+    editor_view = "Sources/Vorssaint/UI/Screenshot/ScreenshotEditorView.swift"
+    write("ScreenshotSpotlightEditing.swift", "import CoreGraphics\nimport Foundation\nimport SwiftUI\n"
+          + "extension ScreenshotSpotlightEditingTests {\nfinal class Model: State {\n"
+          + declaration(editor, "    @Published var spotlightDimStrength: CGFloat {")
+          .replace("@Published var", "override var", 1)
+          + "".join(declaration(editor, prefix).replace("private func", "func", 1)
+                    for prefix in ["    func beginDrag(at point:", "    func selectedAnnotationOwns(",
+                                   "    func hitTest(", "    private func refreshDirtyState()"])
+          + "}\nstruct Bar {\nlet model: Model\n"
+          + "".join(declaration(editor_view, prefix).replace("private var", "var", 1)
+                    for prefix in ["    private var showsColorControls:",
+                                   "    private var showsSpotlightControls:",
+                                   "    private var spotlightDimValue:"])
+          + declaration(editor_view, "    private func updateHoverCursor(").replace("private func", "func", 1)
+          + "}\n}\n")
     selection = "Sources/Vorssaint/Services/QuickTools/ScreenshotSelectionController.swift"
     refresh_methods = [
         "    private func screenCaptureToolDidChange()",
