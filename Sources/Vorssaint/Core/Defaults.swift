@@ -915,6 +915,7 @@ enum DefaultsKey {
     static let notchBattery = "notchBattery"
     static let notchClipboard = "notchClipboard"
     static let notchClipboardWindow = "notchClipboardWindow"
+    static let notchClipboardCardSize = "notchClipboardCardSize"
     static let notchCapture = "notchCapture"
     static let notchTrackChange = "notchTrackChange"
     // Legacy backup key. Resting content is now selected explicitly by notchIdleContent.
@@ -1502,6 +1503,7 @@ enum Defaults {
         DefaultsKey.notchBattery: true,
         DefaultsKey.notchClipboard: true,
         DefaultsKey.notchClipboardWindow: true,
+        DefaultsKey.notchClipboardCardSize: NotchClipboardCardSize.comfortable.rawValue,
         DefaultsKey.notchCapture: true,
         DefaultsKey.notchTrackChange: true,
         DefaultsKey.notchMusicActivity: false,
