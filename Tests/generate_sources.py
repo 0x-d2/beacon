@@ -167,7 +167,9 @@ def main():
               "    private func presentUpdateIntros()", "    private func showUpdateHighlightsIfNeeded()",
               "    private func markUpdateHighlightsSeen()", "    private func showSupportUpdateIntroIfNeeded()",
               "    func windowShouldClose(", "    func windowWillClose(", "    private func markOnboardingComplete()",
-              "    private func markSupportUpdateIntroSeenIfCurrentUpdate()", "    private func markSupportUpdateIntroSeen()"])
+              "    private func markSupportUpdateIntroSeenIfCurrentUpdate()", "    private func markSupportUpdateIntroSeen()",
+              "    private func queueWhatsNewIfNeeded(", "    private func showWhatsNewIfNeeded()",
+              "    private func markWhatsNewSeen()"])
           + "}\n}\n")
     write("PostUpdateStatusItemRecovery.swift", "import AppKit\nimport Foundation\n"
           + "extension PostUpdateStatusItemRecoveryTests {\nfinal class Host: Fixture {\n"

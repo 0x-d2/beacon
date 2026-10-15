@@ -74,6 +74,7 @@ struct MetricsTests {
                 UpdateAdminInstallContract.run(suite)
                 UpdateHighlightsTests.run(suite)
                 UpdateIntroFlowTests.run(suite)
+                ReleaseDigestTests.run(suite)
             }),
             ("repository", { RepositoryFeatureTests.run(suite) }),
             ("screenshots", {
