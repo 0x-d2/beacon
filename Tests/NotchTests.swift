@@ -1031,7 +1031,56 @@ enum NotchTests {
         }
     }
 
+    private static func shortcutContracts(_ suite: TestSuite) {
+        suite.expect(Defaults.registeredDefaults[DefaultsKey.notchShortcutEnabled] as? Bool == false,
+               "the island shortcut ships off, so no key is taken until the user asks")
+        suite.expect(Defaults.registeredDefaults[DefaultsKey.notchShortcut] as? String
+                == "control+option+command:34",
+               "the default island shortcut is control option command I")
+        suite.expect(!GlobalShortcutRole.allCases.contains { $0 != .notch && $0.defaultShortcut == .notchDefault },
+               "the default island shortcut is not another feature's default")
+        func active(_ keys: Set<String>) -> Bool {
+            GlobalShortcutRole.activeRoles(isOn: { keys.contains($0) }).contains(.notch)
+        }
+        suite.expect(active([DefaultsKey.notchEnabled, DefaultsKey.notchShortcutEnabled])
+                && !active([DefaultsKey.notchShortcutEnabled])
+                && !active([DefaultsKey.notchEnabled]),
+               "the island shortcut is live only while both the island and its shortcut are on")
+        suite.expect(!GlobalShortcutRole.activeRoles(isOn: { _ in true },
+                                                     isAvailable: { $0 != .notch }).contains(.notch),
+               "an island removed in the hub does not reserve its shortcut")
+        let backupKeys = SettingsBackupSupport.exportKeys()
+        suite.expect(backupKeys.contains(DefaultsKey.notchShortcut)
+                && backupKeys.contains(DefaultsKey.notchShortcutEnabled),
+               "the island shortcut travels with the settings backup")
+        let domain = "com.vorssaint.tests.notch-shortcut-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: domain)!
+        defer { defaults.removePersistentDomain(forName: domain) }
+        func holds(installed: Bool = true, island: Bool = true, shortcut: Bool = true) -> Bool {
+            defaults.set(installed, forKey: AppFeature.notch.availabilityKey)
+            defaults.set(island, forKey: DefaultsKey.notchEnabled)
+            defaults.set(shortcut, forKey: DefaultsKey.notchShortcutEnabled)
+            return NotchSupport.holdsShortcut(in: defaults)
+        }
+        suite.expect(holds(), "the island shortcut holds its key while the island and its shortcut are on")
+        suite.expect(!holds(island: false), "the island shortcut is not wanted while the island is off")
+        suite.expect(!holds(installed: false), "the island shortcut is not wanted while the island is removed in the hub")
+        suite.expect(!holds(shortcut: false), "turning the island shortcut off releases its key")
+        // The service is a singleton holding a real Carbon hotkey, so its
+        // wiring is checked in the source, like the launch hooks below.
+        let service = (try? String(contentsOfFile: "Sources/Vorssaint/Services/Notch/NotchService.swift",
+                                   encoding: .utf8)) ?? ""
+        suite.expect(service.contains("hotkey.onPress = { [weak self] in self?.toggleFromShortcut() }"),
+               "the island shortcut answers like a click on the island")
+        suite.expect(service.contains("guard NotchSupport.isEnabled() else { stop(); return }")
+                && service.contains("        syncShortcut()\n        if !NotchTimerSupport.isEnabled()"),
+               "every preference sync of a running island registers or releases its shortcut")
+        suite.expect(service.contains("preferenceSyncWork?.cancel(); preferenceSyncWork = nil\n        hotkey.unregister()"),
+               "stopping the island releases its shortcut")
+    }
+
     static func run(_ suite: TestSuite) {
+        shortcutContracts(suite)
         let previewStrip: CGFloat = 37
         suite.expect(NotchTranslucentTint.opacity(atDepth: previewStrip, stripHeight: previewStrip,
                                                   openness: 1, increasedContrast: false) == 1
