@@ -1786,7 +1786,10 @@ def main():
           + "".join(declaration(window_directional, prefix).replace("private ", "", 1)
                     for prefix in ["private enum WindowEdgeSnapPointerInput {",
                                    "private struct WindowEdgeSnapDrag {",
-                                   "private struct WindowLayoutTarget {"])
+                                   "private struct WindowLayoutTarget {",
+                                   "private struct WindowPointerGesture {",
+                                   "private struct PendingWindowGesture {",
+                                   "private struct WindowGestureTarget {"])
           + "final class Host: Fixture {\n"
           + "".join(declaration(window_directional, prefix).replace("private ", "", 1)
                     .replace("AXIsProcessTrusted()", "WindowEdgeSnapRuntimeTests.accessibilityGranted")
@@ -1806,7 +1809,15 @@ def main():
               "    private func armEdgeSnapStillCheck(",
               "    private func resetEdgeSnapTrail()",
               "    private func applyEdgeSnap(",
-              "    private func cancelEdgeSnapTracking()"])
+              "    private func cancelEdgeSnapTracking()",
+              "    private var edgeSnapCanTrack:",
+              "    private func forwardToEdgeSnap(",
+              "    private var gestureState:",
+              "    private var trackedGestureButton:",
+              "    private func handleGestureEvent(",
+              "    private func gestureChord(",
+              "    private func arm(",
+              "    private func promote("])
           + "}\n}\n")
     write("WindowGestureApplyRuntime.swift", "import AppKit\nimport CoreGraphics\nimport Foundation\n"
           + "extension WindowGestureApplyRuntimeTests {\n"
