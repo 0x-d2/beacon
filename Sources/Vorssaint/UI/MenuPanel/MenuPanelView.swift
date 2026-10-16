@@ -153,7 +153,7 @@ struct MenuPanelView: View {
         case .system: return SystemMonitorPanelNeeds(system: true)
         case .network: return SystemMonitorPanelNeeds(network: true)
         case .disk: return SystemMonitorPanelNeeds(disk: true)
-        case .power: return SystemMonitorPanelNeeds(power: true)
+        case .power: return SystemMonitorPanelNeeds(power: true, powerCard: true)
         default: return .none
         }
     }
