@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-After updating, What's New shows the changes for the features you use. The window switcher offers column limits and clearer app filtering. The screenshot editor adds Spotlight, canvas expansion and pasted image layers, and screenshots copy text. Recordings export longer GIFs and isolate window audio, and mixer sliders follow perceived loudness. Dynamic Island opens with a keyboard shortcut, starts its clipboard page on the last copy and improves lyrics, companion playback and keyboard focus. The scratchpad reads task lists, App Updates can leave any app out, and windows moved with the modifier drag snap to screen edges. AI Agents supports OpenCode 2 and safer Claude renewal estimates. Command Bar opens and searches faster. Clipboard history leaves sensitive-text guessing off by default. Cleaning Mode keeps input taps suspended, alongside fixes for microphone volume, clipboard pastes, display brightness, recording, app updates, Homebrew installs, volume keys, mouse navigation, Dock instances and M4 Pro temperatures.
+After updating, What's New shows the changes for the features you use. The window switcher offers column limits and clearer app filtering. The screenshot editor adds Spotlight, canvas expansion and pasted image layers, and screenshots copy text. Recordings export longer GIFs and isolate window audio, and mixer sliders follow perceived loudness. Dynamic Island opens to a cleaner layout and with a keyboard shortcut, starts its clipboard page on the last copy and improves lyrics, companion playback and keyboard focus. The scratchpad reads task lists, App Updates can leave any app out, and windows moved with the modifier drag snap to screen edges. AI Agents supports OpenCode 2 and safer Claude renewal estimates. Command Bar opens and searches faster. Clipboard history leaves sensitive-text guessing off by default. Cleaning Mode keeps input taps suspended, alongside fixes for microphone volume, clipboard pastes, display brightness, recording, app updates, Homebrew installs, volume keys, mouse navigation, Dock instances and M4 Pro temperatures.
 
 ### Added
 - Dynamic Island can show the keyboard input source when it changes. Command Bar's temporary layout switches stay quiet. Settings → Dynamic Island → Activity → Indicators.
@@ -21,6 +21,7 @@ After updating, What's New shows the changes for the features you use. The windo
 - After an update, What's New lists the changes for the features you use, with new features first and the others a click away. The release notes shown before updating can be turned off. Settings → About → Updates.
 
 ### Changed
+- The open Dynamic Island drops page titles, the ⋯ menu and the companion. Each page keeps its controls beside the camera, the home page's levels share the top row, Now Playing has a compact player, and Pin, Settings and Close are a secondary click away.
 - Clipboard history's sensitive-text filter now starts off, including after upgrading or restoring an older backup. It can be enabled in Settings → Clipboard. Copies marked as confidential and ignored apps remain excluded.
 - Command Bar opens and searches faster, with the same matching and ranking rules.
 - Save as GIF and Copy as GIF work for recordings of any length.
@@ -42,6 +43,7 @@ After updating, What's New shows the changes for the features you use. The windo
 - Disk Image Installer ignores Homebrew's cached installers while still offering unrelated mounted apps.
 - Playing music takes the idle companion's place in Dynamic Island and stays selectable alongside AI activity.
 - Dynamic Island hides its automatic opening focus ring and restores visible focus when keyboard navigation begins.
+- Dynamic Island's brightness and keyboard light sliders no longer repeat their level over the top row.
 - AI Agents estimates Claude session renewals after long gaps without discarding observed usage or sending reset alerts at the estimate.
 - Cleaning Mode keeps middle click and debounce suspended. Stopping input taps for permission cleanup or shutdown no longer restarts them.
 - Window switcher settings explain why replacing macOS app shortcuts locks the choices for apps with no open window.
