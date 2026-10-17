@@ -66,7 +66,7 @@ A cleaner Dynamic Island, a What's New window that shows what changed in the fea
 - App Updates opens destinations without freezing and treats beta10 and rc10 as newer than beta9 and rc9.
 - Disk Image Installer ignores Homebrew's cached installers.
 - The screenshot editor keeps every tool reachable in short windows.
-- Recordings and exports fall back to H.264 when HEVC cannot encode their size, and starting a recording no longer freezes the interface.
+- Recordings and exports fall back to H.264 when HEVC cannot encode their size, starting a recording no longer freezes the interface and exporting makes it stutter less.
 - AI Agents follows OpenCode 2, keeps an edited Codex conversation working as one task with its reviews and subagents, and estimates Claude renewals safely after long gaps.
 - CPU temperature on Apple M4 Pro reads its hottest cores, so alerts and fan curves react in time.
 - Display brightness ignores stale DDC replies from other monitor controls.
@@ -75,7 +75,7 @@ A cleaner Dynamic Island, a What's New window that shows what changed in the fea
 - Quit on close keeps apps running while they still show something, such as a floating control bar, a slideshow or an Open dialog.
 
 ### Contributors
-Thanks to @2-Chengs, @69grcv8vfm-sys, @AB-boi, @Acronyxxx, @Adridot, @ahmedabdullah-o, @akune, @Alpaka05, @beckhauser, @benjcrich, @brtkdev, @capozz03, @carltonking, @chadfidev, @claude, @COMEBACKISREAL, @cprecioso, @CSkjolden, @DanyRodier, @DigitalWestern, @eioz, @Ep0chalypse, @EtienneLescot, @EugeneCarldotme, @fandiyi047, @galpressman, @georgeat8, @gustavoramalho, @Hackmodford, @Hongsheng-Y, @iancenry, @iltonandrew, @JeanBaeez, @JoeC-Dev, @jonathanrparis, @joshrad-dev, @juanra, @kit101, @LechTheMitch, @Likheet, @LoBot9, @louisboii747, @luantedesco, @ManuLorenzzo, @Mohamed-Elshesheny, @mohammadhprp, @morhaf-ko, @Narangor, @nateships, @ncesar, @noctisyuan123-lgtm, @Noelia09, @npcmail010, @oecer, @oskarsss, @PerretWilliam, @PHSM22, @PratikPawar1401, @rgndxzzk, @rhukster, @RoccoRakete, @runxel, @samanyudas, @Samuel61904, @schematicdnb, @skiner68, @thitiwats, @Timothy-ZhangYF, @tyfoan, @unfilet, @voljumet, @webuildfabian, @Werkezeugs, @xftvl, @yuzu-octopus, @ywu73 and @zhanghk2001.
+Thanks to @2-Chengs, @69grcv8vfm-sys, @AB-boi, @Acronyxxx, @Adridot, @ahmedabdullah-o, @akune, @Alpaka05, @beckhauser, @benjcrich, @brtkdev, @capozz03, @carltonking, @chadfidev, @claude, @COMEBACKISREAL, @cprecioso, @CSkjolden, @DanyRodier, @DigitalWestern, @eioz, @Ep0chalypse, @EtienneLescot, @EugeneCarldotme, @fandiyi047, @galpressman, @georgeat8, @gustavoramalho, @Hackmodford, @Hongsheng-Y, @iancenry, @iltonandrew, @JeanBaeez, @JoeC-Dev, @jonathanrparis, @joshrad-dev, @juanra, @kit101, @LechTheMitch, @Likheet, @LoBot9, @louisboii747, @luantedesco, @ManuLorenzzo, @Mohamed-Elshesheny, @mohammadhprp, @morhaf-ko, @Narangor, @nateships, @ncesar, @noctisyuan123-lgtm, @Noelia09, @npcmail010, @oecer, @oskarsss, @PerretWilliam, @PHSM22, @PratikPawar1401, @rgndxzzk, @rhukster, @RoccoRakete, @runxel, @samanyudas, @Samuel61904, @schematicdnb, @skiner68, @thitiwats, @Timothy-ZhangYF, @tyfoan, @unfilet, @voljumet, @webuildfabian, @Werkezeugs, @xftvl, @yuzu-octopus, @ywu73, @zepeng-jin and @zhanghk2001.
 
 ## [3.4.1] - 2026-10-08
 
