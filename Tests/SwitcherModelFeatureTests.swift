@@ -5000,6 +5000,23 @@ enum SwitcherModelFeatureTests {
         suite.expect(SwitcherSupport.appGroups(items: [groupedSwitcherItems[2], fullscreenElsewhere],
                                                currentSpaceOnly: true).map(\.representativeIndex) == [0, 1],
                "a fullscreen window on another desktop still stands in for an app with no window here")
+        // Beta used its fullscreen window on another desktop last, so it
+        // comes first among Beta's items; a row below Alpha reaches Beta.
+        let wrappedCurrentDesktop = [
+            groupedSwitcherItems[0],
+            SwitcherItem.window(id: 6, title: "Notes", appName: "Gamma", pid: 303,
+                                isOnScreen: true, frame: .zero),
+            SwitcherItem.window(id: 7, title: "Movie", appName: "Beta", pid: 202,
+                                isOnScreen: false, isFullscreen: true, frame: .zero)
+                .withHiddenSpaceState(true),
+            groupedSwitcherItems[2],
+        ]
+        suite.expect(SwitcherSupport.iconRowSelectionIndex(after: 0, items: wrappedCurrentDesktop, windowRow: false,
+                                                           columns: 2, movingDown: true,
+                                                           currentSpaceOnly: true) == 3
+               && SwitcherSupport.iconRowSelectionIndex(after: 0, items: wrappedCurrentDesktop, windowRow: false,
+                                                        columns: 2, movingDown: true) == 2,
+               "a row step in current-desktop mode lands on the app's window here, not its fullscreen window elsewhere")
         let iconRepresentativeReaders = [
             sourceBody(of: switcherSource, from: "private func initialSelectionIndex(",
                        to: "private func focusedWindowID("),
@@ -5007,6 +5024,8 @@ enum SwitcherModelFeatureTests {
                        to: "private func advanceWindowInSelectedApp("),
             sourceBody(of: switcherSource, from: "private func selectionIndex(forIconRowIndex",
                        to: "private func revealSelectedIconInVisibleRow("),
+            sourceBody(of: switcherSource, from: "private func moveIconRowSelection(",
+                       to: "func commitSession("),
             sourceBody(of: switcherCardSource, from: "private var appGroups: [SwitcherAppGroup] {",
                        to: "private var iconRowContentWidth"),
         ]
