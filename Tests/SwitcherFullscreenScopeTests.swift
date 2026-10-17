@@ -88,6 +88,8 @@ enum SwitcherFullscreenScopeTests {
             })
         static let connection: UInt32 = 1
         static var windowQuery: WindowQuery? = windowServer
+        /// The per-window read, which answers for every app before macOS 27.
+        static var getWindowTags: ((UInt32, CGWindowID, UnsafeMutablePointer<UInt32>, Int) -> CGError)?
         static var windowServerTags: [CGWindowID: UInt64] = [:]
         static var memberships: [CGWindowID: [UInt64]] = [:]
         static var orderedOut: Set<CGWindowID> = []
@@ -119,6 +121,7 @@ enum SwitcherFullscreenScopeTests {
             Bridge.memberships = [:]
             Bridge.windowServerTags = [:]
             Bridge.windowQuery = Bridge.windowServer
+            Bridge.getWindowTags = nil
             Bridge.orderedOut = []
             Bridge.hiddenWithApp = nil
             Preferences.standard.values = [:]
@@ -326,5 +329,24 @@ enum SwitcherFullscreenScopeTests {
         Bridge.windowQuery = nil
         suite.expect(listed().compactMap(\.windowID) == [40, 41],
                      "without the window query the surface is not hidden on a guess")
+        // Where the batched query gives no answer, as it may before
+        // macOS 27, the per-window read still keeps the surface out.
+        Bridge.getWindowTags = { _, id, tags, _ in
+            let value = Bridge.windowServerTags[id] ?? 0
+            tags[0] = UInt32(truncatingIfNeeded: value)
+            tags[1] = UInt32(truncatingIfNeeded: value >> 32)
+            return .success
+        }
+        suite.expect(listed().compactMap(\.windowID) == [40],
+                     "without the window query the per-window read keeps the surface out of the switcher")
+        Bridge.windowQuery = Bridge.WindowQuery(
+            query: { _, _, _ in Unmanaged.passRetained(Bridge.Answer([]) as AnyObject) },
+            windows: Bridge.windowServer.windows, advance: Bridge.windowServer.advance,
+            windowID: Bridge.windowServer.windowID, tags: Bridge.windowServer.tags)
+        suite.expect(listed().compactMap(\.windowID) == [40],
+                     "a window query that leaves the surface out of its answer falls back to the per-window read")
+        Bridge.getWindowTags = { _, _, _, _ in .success }
+        suite.expect(listed().compactMap(\.windowID) == [40, 41],
+                     "a per-window read of zeros, as macOS 27 gives for other apps, hides nothing")
     }
 }
