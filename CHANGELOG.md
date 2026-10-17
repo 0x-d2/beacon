@@ -16,7 +16,7 @@ After updating, What's New shows the changes for the features you use. The windo
 - The screenshot editor's Spotlight tool dims everything outside the areas you draw. Expand canvas adds white, transparent or custom-color space, and Command-V pastes an image as a layer to move, resize and reorder.
 - Dynamic Island can open and close with a keyboard shortcut, off until you turn it on. Settings → Dynamic Island → Behavior → Opening.
 - The scratchpad's formatted reading shows Markdown task lists as checkboxes you can click, and Shift-Return continues a list.
-- App Updates can leave out any app, including one with no update showing, from Update exceptions. Settings → App Updates.
+- App Updates can leave out any app, including one with no update showing, from Update exceptions. Settings → App updates.
 - With Snap windows at screen edges and Move and resize by dragging on, a window moved with the modifier drag snaps like a title bar drag.
 - After an update, What's New lists the changes for the features you use, with new features first and the others a click away. The release notes shown before updating can be turned off. Settings → About → Updates.
 - Dynamic Island can find sharp covers for YouTube and YouTube Music playing in Firefox, Zen and other Firefox-based browsers, off until you turn it on. Settings → Dynamic Island → Content → Music → Find covers for Firefox and Zen.
@@ -30,11 +30,12 @@ After updating, What's New shows the changes for the features you use. The windo
 - With Show only the current desktop on, the window switcher also lists fullscreen windows from other desktops while Show fullscreen windows is on.
 - App sliders in the Volume mixer follow perceived loudness, so 50% sounds clearly quieter. Saved levels keep how loud each app plays.
 - Recording a single window captures only the sound of the app that owns it.
-- Dynamic Island's clipboard page opens on the entry copied last, keeps search behind a magnifier and can show compact entries. Settings → Dynamic Island → Content → Clipboard.
-- The speakers can be lowered to silence when headphones disconnect, and at 0% they are also muted.
+- Dynamic Island's clipboard page opens on the entry copied last, keeps search behind a search button and can show compact entries. Settings → Dynamic Island → Content → Clipboard.
+- The Volume mixer can lower the speakers to silence when headphones disconnect, and at 0% it also mutes them.
 - AI Agents reads Claude's limits through Claude Code when it is installed, so use on other Macs counts. It asks every minute while the AI page is open and every five minutes otherwise.
 - The menu bar panel's Super key row names its mapping, such as Caps Lock ⌃⌥⇧⌘, while the key is on.
 - The Power card can list accessory batteries without the menu bar item, and updates keep the current choice. Settings → Monitor → Power.
+- Settings → Features installs and uninstalls each feature with a button instead of a switch.
 
 ### Fixed
 - Clipboard history's optional sensitive-text filter no longer rejects commands, terminal output and links merely for mentioning words such as "token" or "password".
@@ -81,9 +82,11 @@ After updating, What's New shows the changes for the features you use. The windo
 - With the capture controls in Dynamic Island and the screen not frozen, a selection drag that starts on the desktop draws a selection.
 - Mouse features now leave Launchpad alone when Launchpad or the Dock is listed under Apps to leave alone.
 - Quit on close keeps apps running while they still show something, such as a floating control bar, a Keynote slideshow or an Open dialog.
+- The screenshot editor keeps every tool reachable in short windows, moving the last ones into a menu.
+- Number shortcuts in Clipboard history, the island's clipboard page, Command Bar, the snippet list and Quick Launcher also work with the numeric keypad.
 
 ### Contributors
-Thanks to @2-Chengs, @69grcv8vfm-sys, @AB-boi, @Acronyxxx, @Adridot, @ahmedabdullah-o, @akune, @Alpaka05, @beckhauser, @benjcrich, @brtkdev, @capozz03, @carltonking, @chadfidev, @claude, @COMEBACKISREAL, @cprecioso, @CSkjolden, @DanyRodier, @DigitalWestern, @eioz, @Ep0chalypse, @EtienneLescot, @EugeneCarldotme, @fandiyi047, @galpressman, @georgeat8, @gustavoramalho, @Hackmodford, @Hongsheng-Y, @iancenry, @iltonandrew, @JeanBaeez, @JoeC-Dev, @jonathanrparis, @joshrad-dev, @juanra, @kit101, @LechTheMitch, @Likheet, @LoBot9, @louisboii747, @luantedesco, @ManuLorenzzo, @Mohamed-Elshesheny, @mohammadhprp, @morhaf-ko, @Narangor, @nateships, @ncesar, @noctisyuan123-lgtm, @npcmail010, @oecer, @oskarsss, @PerretWilliam, @PHSM22, @PratikPawar1401, @rgndxzzk, @rhukster, @RoccoRakete, @runxel, @samanyudas, @Samuel61904, @schematicdnb, @skiner68, @thitiwats, @Timothy-ZhangYF, @tyfoan, @unfilet, @voljumet, @webuildfabian, @Werkezeugs, @xftvl, @yuzu-octopus, @ywu73 and @zhanghk2001.
+Thanks to @2-Chengs, @69grcv8vfm-sys, @AB-boi, @Acronyxxx, @Adridot, @ahmedabdullah-o, @akune, @Alpaka05, @beckhauser, @benjcrich, @brtkdev, @capozz03, @carltonking, @chadfidev, @claude, @COMEBACKISREAL, @cprecioso, @CSkjolden, @DanyRodier, @DigitalWestern, @eioz, @Ep0chalypse, @EtienneLescot, @EugeneCarldotme, @fandiyi047, @galpressman, @georgeat8, @gustavoramalho, @Hackmodford, @Hongsheng-Y, @iancenry, @iltonandrew, @JeanBaeez, @JoeC-Dev, @jonathanrparis, @joshrad-dev, @juanra, @kit101, @LechTheMitch, @Likheet, @LoBot9, @louisboii747, @luantedesco, @ManuLorenzzo, @Mohamed-Elshesheny, @mohammadhprp, @morhaf-ko, @Narangor, @nateships, @ncesar, @noctisyuan123-lgtm, @Noelia09, @npcmail010, @oecer, @oskarsss, @PerretWilliam, @PHSM22, @PratikPawar1401, @rgndxzzk, @rhukster, @RoccoRakete, @runxel, @samanyudas, @Samuel61904, @schematicdnb, @skiner68, @thitiwats, @Timothy-ZhangYF, @tyfoan, @unfilet, @voljumet, @webuildfabian, @Werkezeugs, @xftvl, @yuzu-octopus, @ywu73 and @zhanghk2001.
 
 ## [3.4.1] - 2026-10-08
 
