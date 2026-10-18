@@ -9,6 +9,12 @@ All notable changes to this project are documented here. The format follows
 ### Summary
 A cleaner Dynamic Island, a What's New window that shows what changed in the features you use, and new screenshot editor tools. Also a faster Command Bar, better AI Agents, recordings and window switcher, and many fixes.
 
+### Highlights
+- **What's New for the features you use.** After an update, a window shows what changed in the features you use, and the release notes before updating can be turned off. Settings → About → Updates.
+- **A cleaner Dynamic Island.** The open island drops page titles and the ⋯ menu, keeps each page's controls beside the camera and plays music in a compact Now Playing player.
+- **New screenshot editor tools.** The editor adds a Spotlight tool, canvas expansion and image layers pasted with Command-V.
+- **AI Agents for every Codex account.** Limits show for each separate Codex account, and Claude's limits come through Claude Code, so use on other Macs counts. Settings → Dynamic Island → Content → AI Agents.
+
 ### Added
 - Dynamic Island can show the keyboard input source when it changes. Settings → Dynamic Island → Activity → Indicators.
 - Dynamic Island can open and close with a keyboard shortcut. Settings → Dynamic Island → Behavior → Opening.
