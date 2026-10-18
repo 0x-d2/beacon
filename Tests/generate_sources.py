@@ -1109,6 +1109,7 @@ def main():
           + declaration(notch, "    var usesGlassSurface:")
           + declaration(notch, "    var lingeringMusic:")
           + declaration(notch, "    var expandedGeometry:").replace("var expandedGeometry", "override var expandedGeometry", 1)
+          + declaration(notch, "    private var playerToggleCount:")
           + declaration(notch, "    private func compactMusicTransition(").replace("private func", "func", 1)
           + declaration(notch, "    private func rememberPresentedMusic(").replace("private func", "func", 1)
           + declaration(notch, "    private func switchCompactSelection(").replace("private func", "func", 1)
