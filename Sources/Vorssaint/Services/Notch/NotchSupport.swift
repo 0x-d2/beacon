@@ -280,6 +280,10 @@ enum NotchLayout {
     /// to none, before their rail scrolls: each tile's own margin keeps them
     /// apart, and the narrowest island holds four across.
     static let shortcutLeastSpacing: CGFloat = 0
+    /// A rail a few points short of its next row closes its rows only this
+    /// far: a title on two lines then sits as near the circle under it as
+    /// its own circle above, never nearer.
+    static let shortcutLeastRowSpacing: CGFloat = 6
     static let systemCardHeight: CGFloat = 72
     static let systemCardWidth: CGFloat = 128
     /// Leave room for the card's hover scale, including a single full-width card.
@@ -572,22 +576,33 @@ enum NotchLayout {
 
     /// The home page: the levels a camera's row has no room for, the
     /// player's card and a rail of shortcuts. A tight budget shortens the
-    /// card before it drops a row.
+    /// card, then closes the rows of a rail that would scroll, before it
+    /// drops a row.
     static func controls(hasCards: Bool, levelRow: Bool = false, shortcutCount: Int,
                          width: CGFloat, height: CGFloat) -> NotchControlsLayout {
         let levels = levelRow ? levelRowHeight : 0
         guard hasCards || shortcutCount > 0 else { return NotchControlsLayout(levelRow: levels, cardRow: 0, shortcutRows: 0) }
         let budget = height - (levels > 0 ? levels + rowSpacing : 0)
-        var rows = 0
+        var rows = 0, rowGap = shortcutSpacing
         if shortcutCount > 0 {
             let remaining = hasCards ? budget - minimumCardHeight - rowSpacing : budget
             rows = railRows(count: shortcutCount,
                             perRow: railCapacity(width: width, itemWidth: shortcutWidth, spacing: shortcutSpacing),
                             rowHeight: shortcutHeight, spacing: shortcutSpacing, height: remaining)
+            // A rail that would scroll sideways closes its rows as it closes
+            // its columns, to take the row it is a few points short of; one
+            // that fits keeps its rows and gaps.
+            if railGap(columns: railColumns(count: shortcutCount, rows: rows), itemWidth: shortcutWidth,
+                       spacing: shortcutSpacing, least: shortcutLeastSpacing, width: width) == nil,
+               let gap = railGap(columns: rows + 1, itemWidth: shortcutHeight, spacing: shortcutSpacing,
+                                 least: shortcutLeastRowSpacing, width: remaining) {
+                rows += 1
+                rowGap = gap
+            }
         }
-        let rail = rows > 0 ? railHeight(rows: rows, rowHeight: shortcutHeight, spacing: shortcutSpacing) + rowSpacing : 0
+        let rail = rows > 0 ? railHeight(rows: rows, rowHeight: shortcutHeight, spacing: rowGap) + rowSpacing : 0
         let cardRow = hasCards ? min(cardHeight, max(minimumCardHeight, budget - rail)) : 0
-        return NotchControlsLayout(levelRow: levels, cardRow: cardRow, shortcutRows: rows)
+        return NotchControlsLayout(levelRow: levels, cardRow: cardRow, shortcutRows: rows, shortcutRowSpacing: rowGap)
     }
 
     /// The modes and Start are in the island's top row, so setup is the
@@ -657,10 +672,11 @@ struct NotchControlsLayout: Equatable {
     var levelRow: CGFloat = 0
     let cardRow: CGFloat
     let shortcutRows: Int
+    var shortcutRowSpacing = NotchLayout.shortcutSpacing
 
     var height: CGFloat {
         let rail = shortcutRows > 0
-            ? NotchLayout.railHeight(rows: shortcutRows, rowHeight: NotchLayout.shortcutHeight, spacing: NotchLayout.shortcutSpacing) : 0
+            ? NotchLayout.railHeight(rows: shortcutRows, rowHeight: NotchLayout.shortcutHeight, spacing: shortcutRowSpacing) : 0
         let rows = [levelRow, cardRow, rail].filter { $0 > 0 }
         return rows.reduce(0, +) + CGFloat(max(0, rows.count - 1)) * NotchLayout.rowSpacing
     }
