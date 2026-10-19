@@ -25,9 +25,13 @@ Clipboard history that can expire old items and a hidden Dynamic Island that sti
 - App lists in Settings show names without ".app" when the Finder shows all filename extensions.
 - The volume mixer's AirPlay stream pauses once routed apps go quiet, so iPhones and HomePods stop showing the Mac as playing, and sound comes back after pausing from the phone.
 - Command Bar copies a script's output and closes when the script row was reached by part of its name or opened from its shortcut.
+- Settings says when the chosen display keeps Dynamic Island off displays without a notch, such as a monitor beside a MacBook, and offers All displays. Settings → Dynamic Island → Behavior → Display.
+- Focus follows mouse keeps Chrome's address bar suggestions and other pop-ups open when the pointer moves between them and their window.
+- App Switcher, Dock Preview and Watch pause window captures while macOS is slow to check the app's permission to see the screen, which could log you out under heavy load. Thumbnails also stop updating while the displays sleep or the screen is locked.
+- App Updates stops showing false updates for Private Internet Access, and lists apps it can't compare, such as Unified Remote and Android Studio, under Versions not compared.
 
 ### Contributors
-Thanks to @bebricoOOOOOOf, @becastellani, @Chubi01, @emreertunc, @jainnam-1993, @juanra, @Likheet, @marianhoenscheid, @mikeknight85, @mschoeffmann, @RKeyProg and @root-daemon.
+Thanks to @andrewgribben, @bebricoOOOOOOf, @becastellani, @bharathvbcr, @cdbrandt729-code, @Chubi01, @Dusk-afk, @emreertunc, @iltonandrew, @jainnam-1993, @juanra, @Likheet, @marianhoenscheid, @mendozal, @mikeknight85, @mmoradi97, @mschoeffmann, @pedro-fontinele, @RKeyProg, @rohanod, @root-daemon, @StudioKeys and @webipsum.
 Feedback: Brain.
 
 ## [3.4.2-beta.1] - 2026-10-18
