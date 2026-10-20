@@ -9,6 +9,11 @@ All notable changes to this project are documented here. The format follows
 ### Summary
 Clipboard history that can expire old items and a hidden Dynamic Island that still shows activity, plus fixes for AirPlay, displays, battery updates and more.
 
+### Highlights
+- **A hidden island that still shows activity.** Dynamic Island set to Hidden until hover can come into view for activities, indicators and notifications, then hide again. Settings → Dynamic Island → Behavior → Opening → Show activity and indicators.
+- **Clipboard history that expires.** Items can be removed after a set number of days, while pinned items stay. Settings → Clipboard → Keep items for.
+- **⌘Tab under secure input.** When the window switcher replaces macOS ⌘Tab, the shortcut no longer goes dead while another app has secure input on, as password fields do.
+
 ### Added
 - Clipboard history can remove items after a set number of days, while pinned items stay. Settings → Clipboard → Keep items for.
 - Dynamic Island set to Hidden until hover can still come into view for activities, indicators and notifications, then hide again. Settings → Dynamic Island → Behavior → Opening → Show activity and indicators.
