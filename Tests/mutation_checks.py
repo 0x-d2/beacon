@@ -1396,6 +1396,11 @@ MUTATIONS = [
      "answerHandlers = whenAnswered.map { [cacheKey: $0] } ?? [:]",
      "if let whenAnswered { answerHandlers = [cacheKey: whenAnswered] }",
      "Return on a row that shows its own answer takes over from a script still running"),
+    ("a mirroring display's brightness overlay looks only for its own screen", "display-restoration",
+     "Sources/Vorssaint/Services/Display/BrightnessOSD.swift",
+     "return number == displayID || number == sharedScreenID || number == mirroredID",
+     "return number == displayID",
+     "a mirroring display's brightness overlay shows on the screen its mirror set shares"),
 ]
 
 
