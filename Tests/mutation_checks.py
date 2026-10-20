@@ -1483,6 +1483,20 @@ MUTATIONS = [
      "Sources/Vorssaint/Services/ScrollInverter.swift",
      "        ScrollWheelHIDStage.shared.setWatching(true, for: .wheelTap)\n", "",
      "both wheel taps keep the HID stage watched while they run"),
+    ("Quit on close takes a minimize click for a close without Accessibility", "app-management",
+     "Sources/Vorssaint/Services/WindowServerSupport.swift",
+     "return dx >= 0 && dy >= 0 && max(dx, dy) <= 35 && abs(dx - dy) <= 9",
+     "return dx >= 0 && dy >= 0 && dx <= 52 && dy <= 46",
+     "without Accessibility, a click on the minimize or zoom button is never taken for the close button (#3249)"),
+    ("Quit on close counts an unconfirmed traffic light click as a close anywhere", "app-management",
+     "Sources/Vorssaint/Services/AutoQuit/AutoQuitService.swift",
+     "guard let element, let window = Self.topLevelWindow(from: element) else { return unconfirmedClose() }",
+     "guard let element, let window = Self.topLevelWindow(from: element) else { return candidate.pid }",
+     "a traffic light click Accessibility cannot confirm counts as a close only on the close button's place"),
+    ("Quit on close reads a minimized window as closed", "app-management",
+     "Sources/Vorssaint/Services/AutoQuit/AutoQuitSupport.swift",
+     "            if windowIsMinimized(CGWindowID(windowID)) { return true }\n", "",
+     "a window minimized into the Dock keeps its app running when Accessibility cannot see it (#3249)"),
 ]
 
 
