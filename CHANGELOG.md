@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+- Wallpaper's Add image and Add folder open the file picker in front on the first click instead of behind other windows.
+
+### Contributors
+Feedback: Brain.
+
 ## [3.4.2-beta.2] - 2026-10-20
 
 ### Summary
