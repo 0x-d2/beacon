@@ -4,9 +4,7 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
-
-## [3.4.2]
+## [3.4.2] - 2026-10-21
 
 ### Summary
 A cleaner Dynamic Island, clearer updates, more flexible screenshots and clipboard history, and smoother everyday controls. This release also improves AI Agents, recordings and window switching, with many fixes.
@@ -16,7 +14,7 @@ A cleaner Dynamic Island, clearer updates, more flexible screenshots and clipboa
 - Dynamic Island can show the keyboard input source when it changes. Settings → Dynamic Island → Activity → Indicators.
 - Dynamic Island can open and close with a keyboard shortcut. Settings → Dynamic Island → Behavior → Opening.
 - Dynamic Island set to Hidden until hover can appear for activities, indicators and notifications, then hide again. Settings → Dynamic Island → Behavior → Opening → Show activity and indicators.
-- Dynamic Island can find covers for YouTube and YouTube Music in Firefox, Zen and other Firefox-based browsers. Settings → Dynamic Island → Content → Music → Find covers for Firefox and Zen.
+- Dynamic Island can find covers for YouTube and YouTube Music in Firefox, Zen and other Firefox-based browsers. Cover lookups stop when disabled and ignore outdated replies. Settings → Dynamic Island → Content → Music → Find covers for Firefox and Zen.
 - AI Agents can show limits for each separate Codex account. Settings → Dynamic Island → Content → AI Agents.
 - The screenshot editor adds Spotlight, canvas expansion and editable images pasted with Command-V; previews can copy text when Copy text from screen is installed.
 - Clipboard history can remove old items after a set number of days while keeping pinned items. Settings → Clipboard history → Keep items for.
