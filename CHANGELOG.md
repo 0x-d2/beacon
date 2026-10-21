@@ -19,7 +19,7 @@ A cleaner Dynamic Island, clearer updates, more flexible screenshots and clipboa
 - Dynamic Island can find covers for YouTube and YouTube Music in Firefox, Zen and other Firefox-based browsers. Settings → Dynamic Island → Content → Music → Find covers for Firefox and Zen.
 - AI Agents can show limits for each separate Codex account. Settings → Dynamic Island → Content → AI Agents.
 - The screenshot editor adds Spotlight, canvas expansion and editable images pasted with Command-V; previews can copy text when Copy text from screen is installed.
-- Clipboard history can remove old items after a set number of days while keeping pinned items. Settings → Clipboard → Keep items for.
+- Clipboard history can remove old items after a set number of days while keeping pinned items. Settings → Clipboard history → Keep items for.
 - The window switcher can limit how many items fit in a row. Settings → Window switcher → Options → Maximum columns.
 - Window layout can snap windows moved with the modifier drag when Snap windows at screen edges is on. Settings → Window layout → Window dragging.
 - The scratchpad shows Markdown task lists as checkboxes, and Shift-Return continues a list.
@@ -31,7 +31,7 @@ A cleaner Dynamic Island, clearer updates, more flexible screenshots and clipboa
 - Dynamic Island closes when a file or link is dragged out of its Shelf, making room for the drop destination; a pinned island stays open.
 - AI Agents reads Claude's limits through Claude Code when installed, including use on other Macs.
 - Command Bar opens and searches faster, with smoother opening inside Dynamic Island.
-- Clipboard history's sensitive-text filter is off by default, including after upgrading, and no longer rejects ordinary commands, output or links just for words such as "token" or "password". Confidential copies and ignored apps stay out. Settings → Clipboard.
+- Clipboard history's sensitive-text filter is off by default, including after upgrading, and no longer rejects ordinary commands, output or links just for words such as "token" or "password". Confidential copies and ignored apps stay out. Settings → Clipboard history.
 - Volume mixer sliders follow perceived loudness while preserving saved levels, and the headphone-disconnect setting can now silence the speakers.
 - Settings → Features uses Install and Uninstall buttons instead of switches.
 - Release notes shown before updating can be turned off. Settings → About → Updates.
@@ -46,7 +46,8 @@ A cleaner Dynamic Island, clearer updates, more flexible screenshots and clipboa
 - Dock clicks and Dock Preview target the correct instance of an app with multiple processes, and hovering the Dock no longer waits on a frozen neighboring app.
 - Window switcher, Dock Preview, mouse features and Window layout recognize programs added by path, including Java runtimes used by games.
 - Smooth scrolling stays in its original window or scroll area, and Focus follows mouse keeps address bar suggestions and other pop-ups open.
-- Mouse navigation handles rapid Back and Forward clicks and leaves unsupported clicks to the app; mouse exceptions also recognize Launchpad and the Dock.
+- Mouse navigation handles rapid Back and Forward clicks and leaves unsupported clicks to the app.
+- Mouse features leave Launchpad alone when Launchpad or the Dock is listed under Apps to leave alone.
 - Cleaning Mode keeps middle click and debounce suspended, and input taps stopped for permission cleanup or shutdown stay stopped.
 - Dynamic Island fits the physical notch when the menu bar is taller, with Hide gap below notch off by default, and opens on hover on displays without a notch when hidden in full screen.
 - Dynamic Island keeps playing music ahead of the idle companion and selectable beside AI activity, finds lyrics across more catalog variations and shows the playing app's icon when a cover is missing.
@@ -62,13 +63,13 @@ A cleaner Dynamic Island, clearer updates, more flexible screenshots and clipboa
 - Recordings fall back to H.264 when HEVC rejects the size, start and export more smoothly, and save or copy long recordings as GIFs without excessive memory use.
 - AI Agents follows OpenCode 2, keeps edited Codex conversations together with their reviews and subagents, and improves Claude renewal estimates.
 - Display brightness ignores stale monitor replies and keeps controls for mirrored displays; Extra Brightness preserves windows in Mission Control's desktop thumbnails.
-- System monitor reads the hottest M4 Pro cores, updates battery readings promptly and can show accessory batteries without their menu bar item.
+- System monitor reads CPU temperature from the hottest M4 Pro cores, updates battery readings promptly and can show accessory batteries without their menu bar item.
 - App Updates avoids false updates from incompatible version numbering, compares beta and rc numbers correctly, and opens destinations without freezing.
 - The uninstaller handles iPhone and iPad apps and rejects apps nested inside another app; Disk Image Installer ignores Homebrew's cached installers.
-- Settings no longer freezes or jumps while scrolling Monitor or installing features, and Wallpaper's file pickers open in front on the first click.
+- The Settings window no longer freezes or jumps while scrolling Monitor or installing features, and Wallpaper's file pickers open in front on the first click.
 
 ### Contributors
-Thanks to @2-Chengs, @69grcv8vfm-sys, @AB-boi, @Acronyxxx, @Adridot, @ahmedabdullah-o, @akune, @Alpaka05, @andrewgribben, @baacon, @bebricoOOOOOOf, @becastellani, @beckhauser, @benjcrich, @bharathvbcr, @brtkdev, @capozz03, @carltonking, @cdbrandt729-code, @chadfidev, @Chubi01, @claude, @COMEBACKISREAL, @cprecioso, @CSkjolden, @DanyRodier, @DigitalWestern, @Dusk-afk, @eioz, @emreertunc, @Ep0chalypse, @EtienneLescot, @EugeneCarldotme, @fandiyi047, @galpressman, @georgeat8, @gustavoramalho, @Hackmodford, @Hongsheng-Y, @iancenry, @iltonandrew, @jainnam-1993, @JeanBaeez, @JoeC-Dev, @jonathanrparis, @joshrad-dev, @juanra, @kit101, @LechTheMitch, @Likheet, @LoBot9, @louisboii747, @luantedesco, @ManuLorenzzo, @marianhoenscheid, @Memphizzz, @mendozal, @mikeknight85, @mmoradi97, @Mohamed-Elshesheny, @mohammadhprp, @morhaf-ko, @mr-tco, @mschoeffmann, @Narangor, @nateships, @ncesar, @noctisyuan123-lgtm, @Noelia09, @npcmail010, @oecer, @oskarsss, @pedro-fontinele, @PerretWilliam, @PHSM22, @PratikPawar1401, @rgndxzzk, @rhukster, @RKeyProg, @RoccoRakete, @rohanod, @root-daemon, @runxel, @samanyudas, @Samuel61904, @schematicdnb, @skiner68, @StudioKeys, @suhrudsh, @thitiwats, @Timothy-ZhangYF, @tyfoan, @ucrbuffalo, @unfilet, @voljumet, @webipsum, @webuildfabian, @Werkezeugs, @xftvl, @Yahddyyp, @yuzu-octopus, @ywu73, @zepeng-jin, @zhanghk2001 and @Zvzdov.
+Thanks to @2-Chengs, @69grcv8vfm-sys, @AB-boi, @Acronyxxx, @Adridot, @ahmedabdullah-o, @akune, @Alpaka05, @andrewgribben, @baacon, @bebricoOOOOOOf, @becastellani, @beckhauser, @benjcrich, @bharathvbcr, @brtkdev, @capozz03, @carltonking, @cdbrandt729-code, @chadfidev, @Chubi01, @claude, @COMEBACKISREAL, @cprecioso, @CSkjolden, @DanyRodier, @DigitalWestern, @Dusk-afk, @eioz, @emreertunc, @Ep0chalypse, @EtienneLescot, @EugeneCarldotme, @fandiyi047, @galpressman, @georgeat8, @gustavoramalho, @Hackmodford, @Hongsheng-Y, @iancenry, @iltonandrew, @jainnam-1993, @JeanBaeez, @JoeC-Dev, @jonathanrparis, @joshrad-dev, @juanra, @kit101, @LechTheMitch, @Likheet, @LoBot9, @louisboii747, @luantedesco, @ManuLorenzzo, @marianhoenscheid, @Memphizzz, @mendozal, @mikeknight85, @mmoradi97, @Mohamed-Elshesheny, @mohammadhprp, @morhaf-ko, @mr-tco, @mschoeffmann, @N-o-c-t-i-s, @Narangor, @nateships, @ncesar, @Noelia09, @npcmail010, @oecer, @oskarsss, @pedro-fontinele, @PerretWilliam, @PHSM22, @PratikPawar1401, @rgndxzzk, @rhukster, @RKeyProg, @RoccoRakete, @rohanod, @root-daemon, @runxel, @samanyudas, @Samuel61904, @schematicdnb, @skiner68, @StudioKeys, @suhrudsh, @thitiwats, @Timothy-ZhangYF, @tyfoan, @ucrbuffalo, @unfilet, @voljumet, @webipsum, @webuildfabian, @Werkezeugs, @xftvl, @Yahddyyp, @yuzu-octopus, @ywu73, @zepeng-jin, @zhanghk2001 and @Zvzdov.
 Feedback: Brain.
 
 ## [3.4.2-beta.2] - 2026-10-20
