@@ -11,6 +11,7 @@ Clearer screenshot tools, more reliable clipboard history and Command Bar answer
 
 ### Added
 - Window layout can reserve space for Stage Manager when maximizing or arranging windows, including the green-button override. Settings → Window layout → Reserve space for Stage Manager. Thanks to @ilvesBogdan and @jainnam-1993.
+- Switch Spaces by dragging a button now accepts the middle mouse button, including upward drags for Mission Control and downward drags for App Exposé. A short click keeps its normal behavior. Settings → Mouse → Mouse button shortcuts.
 
 ### Changed
 - Command Bar accepts British unit spellings and spaced fluid-ounce names.
@@ -33,7 +34,7 @@ Clearer screenshot tools, more reliable clipboard history and Command Bar answer
 - Scrolling screenshots preserve the selected width and keep sparse Terminal output aligned without losing lines.
 
 ### Contributors
-Thanks to @0miicr0n, @AB-boi, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @ilvesBogdan, @Jacob-9909, @jainnam-1993, @JB-OD, @JeanBaeez, @Likheet, @LJXXXD, @muratozturk5, @raymondchins, @shlee0932-afk, @stors789, @TarGz and @ygh1254.
+Thanks to @0miicr0n, @AB-boi, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @ilvesBogdan, @Jacob-9909, @jainnam-1993, @JB-OD, @JeanBaeez, @Likheet, @LJXXXD, @muratozturk5, @raymondchins, @shlee0932-afk, @Spokplacenta, @stors789, @TarGz and @ygh1254.
 
 ## [3.4.2] - 2026-10-21
 
