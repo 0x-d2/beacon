@@ -26,9 +26,10 @@ Clearer screenshot tools, more reliable clipboard history and Command Bar answer
 - Screen recordings avoid loud noise from 16-bit USB microphones. Thanks to @globeatin.
 - Volume mixer no longer cuts off buffered sound or replays it late after short gaps in captured audio.
 - Dynamic Island checks and monitors Bluetooth accessories on a dedicated thread, so a slow request does not hold up the interface. Delayed connection events are discarded after sleep or when accessory alerts are turned off.
+- Dynamic Island's Hide content in full screen blocks hover opening again. Hidden until hover in full screen is a separate option under Settings → Dynamic Island → Behavior → Display, leaving the opening mode outside full screen unchanged.
 
 ### Contributors
-Thanks to @0miicr0n, @AB-boi, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @Jacob-9909, @JB-OD, @JeanBaeez, @Likheet, @muratozturk5, @raymondchins, @stors789, @TarGz and @ygh1254.
+Thanks to @0miicr0n, @AB-boi, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @Jacob-9909, @JB-OD, @JeanBaeez, @Likheet, @LJXXXD, @muratozturk5, @raymondchins, @stors789, @TarGz and @ygh1254.
 
 ## [3.4.2] - 2026-10-21
 
