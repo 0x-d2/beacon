@@ -32,9 +32,10 @@ Clearer screenshot tools, more reliable clipboard history and Command Bar answer
 - Dynamic Island checks and monitors Bluetooth accessories on a dedicated thread, so a slow request does not hold up the interface. Delayed connection events are discarded after sleep or when accessory alerts are turned off.
 - Dynamic Island's Hide content in full screen blocks hover opening again. Hidden until hover in full screen is a separate option under Settings → Dynamic Island → Behavior → Display, leaving the opening mode outside full screen unchanged.
 - Scrolling screenshots preserve the selected width and keep sparse Terminal output aligned without losing lines.
+- Scrolling screenshots keep capturing long pages when successive views share a smaller overlap, including pages with blank spacing.
 
 ### Contributors
-Thanks to @0miicr0n, @AB-boi, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @ilvesBogdan, @Jacob-9909, @jainnam-1993, @JB-OD, @JeanBaeez, @Likheet, @LJXXXD, @muratozturk5, @raymondchins, @shlee0932-afk, @Spokplacenta, @stors789, @TarGz and @ygh1254.
+Thanks to @0miicr0n, @AB-boi, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @ilvesBogdan, @Jacob-9909, @jainnam-1993, @JB-OD, @JeanBaeez, @Likheet, @LJXXXD, @muratozturk5, @oc7opu5, @raymondchins, @shlee0932-afk, @Spokplacenta, @stors789, @TarGz and @ygh1254.
 
 ## [3.4.2] - 2026-10-21
 
