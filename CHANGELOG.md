@@ -24,9 +24,10 @@ Clearer screenshot tools, more reliable clipboard history and Command Bar answer
 - Screenshot area selection keeps its crosshair over other apps, and card shadows follow the captured window's own rounded corners.
 - Volume mixer leaves Discord and Teams audio untouched by default to prevent call echo when sharing audio. Their app menus can re-enable volume control, with a reminder to turn it off before sharing; saved levels and outputs are preserved.
 - Screen recordings avoid loud noise from 16-bit USB microphones. Thanks to @globeatin.
+- Volume mixer no longer cuts off buffered sound or replays it late after short gaps in captured audio.
 
 ### Contributors
-Thanks to @0miicr0n, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @Jacob-9909, @JB-OD, @JeanBaeez, @Likheet, @muratozturk5, @raymondchins, @stors789 and @TarGz.
+Thanks to @0miicr0n, @AB-boi, @derpyjoystick, @DigitalWestern, @dimitarmanov, @globeatin, @Goonwb, @hash00, @Jacob-9909, @JB-OD, @JeanBaeez, @Likheet, @muratozturk5, @raymondchins, @stors789 and @TarGz.
 
 ## [3.4.2] - 2026-10-21
 
