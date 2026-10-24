@@ -7,13 +7,14 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-Clearer screenshot tools, more reliable clipboard history and Command Bar answers, and better monitoring and headphone detection.
+Clearer screenshot tools, more reliable clipboard history and Command Bar answers, and better monitoring and headphone detection. The menu bar panel uses a single, consistent outline on macOS Sonoma and Sequoia.
 
 ### Changed
 - Command Bar accepts British unit spellings and spaced fluid-ounce names.
 - The window switcher's icon row, previews and hints use Liquid Glass when available and enabled.
 
 ### Fixed
+- The menu bar panel no longer draws a second background with mismatched corners on macOS Sonoma and Sequoia. Thanks to @Goonwb and @derpyjoystick.
 - The cleaner leaves system log files out of app leftovers.
 - Command Bar handles extreme date offsets without crashing and keeps tiny non-temperature unit conversions from reading as zero.
 - Clipboard history ignores marked temporary content and restores the previous copy without another notice, while preserving ordinary copies and sensitive-text filtering.
