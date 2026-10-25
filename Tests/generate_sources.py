@@ -227,17 +227,24 @@ def main():
               "    private func beginPopoverDriftCorrection(window: NSWindow, anchor: PanelAnchor) {",
               "    private func armPopoverDriftCorrection(", "    private func endPopoverDriftCorrection(",
               "    private func showPopover(", "    func popoverWillClose(", "    func popoverDidClose(",
+              "    private func finishPopoverClose(",
               "    private func releasePanelResources(", "    private func anchorAfterForeignClose(",
               "    private func reopenPanelAfterForeignClose(", "    private func shouldDismissPopover(",
               "    private var popoverIsOpen:", "    private func showMetricPanel(",
+              "    private func reanchorMetricPopover(", "    private func switchMetricPopover(",
               "    private func beginPanelActivationTracking(", "    private func updatePanelActivationSource(",
               "    private func endPanelActivationTracking(", "    private func returnActivation(",
               "    private func runPopoverCloseCompletions(",
+              "    private struct PanelPresentation", "    private func beginPanelPresentationWatch(",
+              "    private func logPanelPresentation(", "    private func endPanelPresentationWatch(",
+              "    private static func milliseconds(",
               "    private func closePopoverNow(", "    private func fadeOutPopover(",
               "    private func finishPopoverFadeOut(", "    private func closePopoverWithoutAnimation("])
+          .replace(", privacy: .public", "")
           .replace("func endPanelActivationTracking()", "@discardableResult func endPanelActivationTracking()")
           + "func closePopover(animated: Bool = true, reason: PanelCloseReason) { closePopoverNow(animated: animated, reason: reason, completion: nil) }\n"
           + "var popoverAnchor: PanelAnchor?\nvar lastGoodPanelAnchor: PanelAnchor?\n"
+          + "var panelPresentation: PanelPresentation?\nvar panelPresentationSerial = 0\nvar panelPresentationObservers: [NSObjectProtocol] = []\n"
           + "}\n}\n")
     write("MenuPanelKey.swift", "import Foundation\nimport Carbon.HIToolbox\n"
           + "extension MenuPanelKeyTests {\nfinal class Host: Fixture {\n"
