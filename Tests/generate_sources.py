@@ -47,6 +47,13 @@ def availability_declaration(path, prefix):
 
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
+    recent_captures = "Sources/Vorssaint/Services/QuickTools/RecentCaptureService.swift"
+    write("RecentCapturePanel.swift", "import Foundation\nimport Carbon.HIToolbox\n"
+          + "extension RecentCapturePanelTests {\nfinal class Service: Fixture {\n"
+          + "".join(declaration(recent_captures, prefix).replace("private func", "func", 1)
+                    for prefix in ["    private func installPanelMonitors(",
+                                   "    private func removePanelMonitors()", "    func hideHistoryWindow()"])
+          + "}\n}\n")
     recorder = "Sources/Vorssaint/Services/Recorder/ScreenRecorderService.swift"
     write("RecorderPreparation.swift", "import Foundation\nextension RecorderPreparationTests {\n"
           + "final class Service: Fixture {\n"
