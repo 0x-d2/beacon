@@ -211,6 +211,8 @@ struct MetricsTests {
                 SwitcherSearchLayoutTests.run(suite)
                 SwitcherScrollContract.run(suite)
                 SwitcherActivationTests.run(suite)
+                AXHiddenSpaceLookupTests.run(suite)
+                SwitcherWindowCloseTests.run(suite)
                 WindowServerCaptureContract.run(suite)
             }),
             ("keep-awake", {
