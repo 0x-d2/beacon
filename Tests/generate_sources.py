@@ -374,6 +374,18 @@ def main():
                         "    private func rememberForResume(", "    private func stopIdleWorkIfPossible(",
                         "    @objc private func workspaceDidWake("])
           + "}\n}\n")
+    write("FanControlRecovery.swift", "import Foundation\n"
+          + "extension FanControlRecoveryContract {\nfinal class Controller: Fixture {\n"
+          + "".join(declaration("Sources/FanControlHelper/main.swift", prefix)
+                    .replace("private func", "func", 1) for prefix in [
+                        "    private func requestedLevel(", "    private func performRestore(",
+                        "    private func watchdogTick()", "    private func stopWatchdogIfIdle()"])
+          + "}\n}\n")
+    fan_hardware = "Sources/Vorssaint/Services/FanControl/FanControlHardware.swift"
+    write("FanControlHardwareContract.swift", "import Foundation\nextension FanControlHardwareContract {\n"
+          + declaration(fan_hardware, "enum FanControlHardwareError:")
+          + declaration(fan_hardware, "final class FanControlHardware {")
+          + "}\n")
     write("NotchAudioLevelLifecycle.swift", "import Combine\nimport Foundation\n"
           + "extension NotchAudioLevelLifecycleContract {\n"
           + declaration("Sources/Vorssaint/Services/Notch/NotchAudioLevelService.swift",
