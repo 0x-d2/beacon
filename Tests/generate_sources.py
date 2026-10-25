@@ -119,8 +119,14 @@ def main():
                     .replace("private ", "", 1) for prefix in [
                         "    private struct AccessibilityWindowSnapshot {",
                         "    private struct AccessibilityWindowSnapshotList {",
+                        "    private struct AccessibilityWindowAttributes {",
                         "    private enum WindowReading {",
                         "    private static func accessibilityWindows(for pid: pid_t,",
+                        "    private static func userFacingReading(",
+                        "    private static func frameLooksFullscreen(",
+                        "    private static func hasWorkingMinimizeButton(",
+                        "    private static func accessibilityWindowAttribute(",
+                        "    private static func boolAttribute(",
                         "    private static func appendUnique(", "    private static func contains("])
           + "}\n")
     write("TransientPasteRuntime.swift", "import AppKit\nimport Carbon.HIToolbox\nimport CoreGraphics\n"
