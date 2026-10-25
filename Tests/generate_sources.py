@@ -177,6 +177,17 @@ def main():
                         "    static func clipboardImage(")
           + "}\n")
     editor = "Sources/Vorssaint/Services/QuickTools/ScreenshotEditorController.swift"
+    write("ScreenshotClipboard.swift", "import AppKit\nextension ScreenshotClipboardTests {\n"
+          + "final class Editor: State {\n"
+          + "".join(declaration(editor, prefix).replace(
+              "ScreenshotSupport.copiedFilesDirectory()", "ScreenshotClipboardTests.copyDirectory")
+              for prefix in [
+              "    func copyToClipboard()", "    static func copyImage(", "    static func copyFile(",
+              "    struct ClipboardPayload:",
+              "    static func clipboardPayload(from export: ScreenshotRenderer.Export) ->",
+              "    static func clipboardPayload(from export: ScreenshotRenderer.Export,",
+              "    static func copyClipboardPayload("])
+          + "}\n}\n")
     write("ScreenshotCanvasModel.swift",
           "import AppKit\nextension ScreenshotCanvasModelTests {\nfinal class Host: Fixture {\n"
           + "".join(declaration(editor, prefix) for prefix in [
@@ -1629,6 +1640,10 @@ def main():
                         "    func createLink(pngData:")
           + "}\n}\n")
     screenshot_service = "Sources/Vorssaint/Services/QuickTools/ScreenshotService.swift"
+    write("ScreenshotAutoCopy.swift", "import Foundation\nextension ScreenshotAutoCopyTests {\n"
+          + "@MainActor final class Service: State {\n"
+          + declaration(screenshot_service, "    private func autoCopy(").replace("private func", "func", 1)
+          + "}\n}\n")
     write("ScreenshotShortcutCompletion.swift", "import Foundation\n"
           + "extension ScreenshotShareCompletionTests {\n@MainActor final class Uploader: UploadState {\n"
           + "".join(declaration(screenshot_service, prefix).replace("private func", "func", 1)

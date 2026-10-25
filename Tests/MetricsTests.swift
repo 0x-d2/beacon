@@ -83,6 +83,8 @@ struct MetricsTests {
             }),
             ("repository", { RepositoryFeatureTests.run(suite) }),
             ("screenshots", {
+                ScreenshotClipboardTests.run(suite)
+                ScreenshotAutoCopyTests.run(suite)
                 ScreenshotCanvasSupportTests.run(suite)
                 ScreenshotImageLayerTests.run(suite)
                 ScreenshotCanvasModelTests.run(suite)
