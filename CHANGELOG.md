@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-More reliable window switching, screenshots, audio and Settings. New controls add configurable calendar countdowns, mouse-wheel zoom and app quitting, alongside smoother sliders, English command search and command-line settings backups.
+More reliable window switching, screenshots, audio and Settings. New controls add configurable calendar countdowns, mouse-wheel zoom and app quitting, alongside more switcher columns, smoother sliders, English command search and command-line settings backups.
 
 ### Added
 - Dynamic Island level controls and the menu panel's mixer can be adjusted with a mouse wheel or trackpad. Thanks to @JB-OD.
@@ -28,6 +28,7 @@ More reliable window switching, screenshots, audio and Settings. New controls ad
 - Clipboard history uses a smaller decoded-thumbnail cache while keeping the window preview cache unchanged.
 - Command Bar accepts British unit spellings and spaced fluid-ounce names.
 - The window switcher's icon row, previews and hints use Liquid Glass when available and enabled.
+- The window switcher allows up to 10 columns while preserving Auto and screen-width limits. Settings → Window switcher → Options → Maximum columns. Thanks to @EugeneCarldotme.
 
 ### Fixed
 - Mic Mute describes its device-control limits and reports known failures even when no microphone could be changed. Siri and some apps may still hear audio. Thanks to @sarat03 for the diagnosis.
