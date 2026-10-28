@@ -1116,6 +1116,25 @@ def main():
     write("QuickTogglesAlert.swift", "import AppKit\nextension QuickTogglesAlertTests {\nfinal class Host: Fixture {\n"
           + declaration("Sources/Vorssaint/Services/QuickTools/QuickTogglesService.swift", "    func emptyTrash()")
           + "}\n}\n")
+    quit_panel = "Sources/Vorssaint/Services/QuickTools/QuitAppsPanelController.swift"
+    quit_service = "Sources/Vorssaint/Services/QuickTools/QuickTogglesService.swift"
+    write("QuitAppsRuntime.swift", "import AppKit\nimport Carbon.HIToolbox\nimport Combine\nimport SwiftUI\n"
+          + "extension QuitAppsRuntimeTests {\n"
+          + declaration(quit_panel, "final class QuitAppsPanelController {")
+              .replace("private ", "")
+          + declaration(quit_panel, "final class QuitAppsModel:")
+          + declaration(quit_panel, "private struct QuitAppsView:").replace("private struct", "struct", 1)
+          + declaration(quit_panel, "private struct QuitAppsRowView:").replace("private struct", "struct", 1)
+          + "final class QuickTogglesService: ServiceState {\nstatic let shared = QuickTogglesService()\n"
+          + "".join(declaration(quit_service, prefix)
+                    for prefix in ["    func showQuitApps(", "    func quitAllApps(", "    func quitApp(",
+                                   "    private static func candidate(", "    func frontmostAppPID()"])
+          + "}\nfinal class AppDelegate {\nvar panelActivationSource: NSRunningApplication?\n"
+          + declaration("Sources/Vorssaint/App/AppDelegate.swift", "    var panelActivationSourcePID:")
+          + "}\nstruct Editor {\n"
+          + availability_declaration("Sources/Vorssaint/UI/Settings/RadialMenuSettings.swift",
+                                     "    private var availableQuickToggles:").replace("private var", "var", 1)
+          + "}\n}\n")
     write("OverlayPanelDeclaration.swift", "import AppKit\n"
           + declaration("Sources/Vorssaint/UI/OverlayPanel.swift", "class OverlayPanel:"))
     shelf = "Sources/Vorssaint/Services/Shelf/ShelfService.swift"
