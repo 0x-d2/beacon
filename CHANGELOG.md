@@ -27,6 +27,7 @@ More reliable window switching, screenshots, audio and Settings, with smoother c
 - The window switcher's icon row, previews and hints use Liquid Glass when available and enabled.
 
 ### Fixed
+- Mic Mute describes its device-control limits and reports known failures even when no microphone could be changed. Siri and some apps may still hear audio. Thanks to @sarat03 for the diagnosis.
 - The onboarding feature picker stays responsive when scrolling. Thanks to @yousefhamza.
 - Ultra-wide wallpaper previews stay within their own grid cells. Thanks to @ozanuslan.
 - Dynamic Island keeps volume, brightness and keyboard-light notices at a stable width as the percentage gains a digit. Thanks to @nikigan.
