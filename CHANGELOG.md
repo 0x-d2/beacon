@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-More reliable window switching, screenshots, audio and Settings, with percentage examples in AI Agents previews. New controls add configurable calendar countdowns, mouse-wheel zoom and app quitting, alongside more switcher columns, smoother sliders, English command search and command-line settings backups.
+More reliable window switching, screenshots, audio and Settings, with percentage examples in AI Agents previews. New controls add configurable calendar countdowns, mouse-wheel zoom and app quitting, alongside clipboard source icons, more switcher columns, smoother sliders, English command search and command-line settings backups.
 
 ### Added
 - Dynamic Island level controls and the menu panel's mixer can be adjusted with a mouse wheel or trackpad. Thanks to @JB-OD.
@@ -16,6 +16,7 @@ More reliable window switching, screenshots, audio and Settings, with percentage
 - An optional Quit apps panel can request normal quits for one app, all apps or all except the current app, with a saved list of apps to keep running. Thanks to @thedankest.
 - Command Bar converts days, weeks and fixed 365-day years, with English and Portuguese unit names. Thanks to @asim-sde.
 - Settings backups can be exported or imported with `--export-settings FILE` and `--import-settings FILE`; importing requires the app to be closed. Thanks to @DrakeEvans.
+- Clipboard history can show source app icons in list view. The option starts off and preserves file icons and selection controls. Settings → Clipboard history → Show source app icons in list view. Thanks to @ywu73.
 - Dynamic Island can show a volume row below the music player. Settings → Dynamic Island → Content → Music → Show volume in the player.
 - Screenshots can copy only image data, without a file URL, for apps that otherwise paste the file instead of its image. Settings → Screenshot → Copy as image only.
 - Quit on close can handle selected menu bar apps that keep a Dock icon after their last window closes. The list starts empty, and existing exceptions still apply. Settings → Quit on close → Menu bar apps to quit.
