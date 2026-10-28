@@ -7,7 +7,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Summary
-More reliable window switching, quit protection, screenshots, audio, URL Cleaner rules and Settings, including radial menu file selection and percentage examples in AI Agents previews. New controls add configurable calendar countdowns, mouse-wheel zoom and app quitting, alongside clipboard source icons, more switcher columns, smoother sliders, English command search and command-line settings backups.
+More reliable window switching, quit protection, screenshots, audio, URL Cleaner rules and Settings, including radial menu file selection, clearer agent limit labels and percentage examples in AI Agents previews. New controls add configurable calendar countdowns, mouse-wheel zoom and app quitting, alongside clipboard source icons, more switcher columns, smoother sliders, English command search and command-line settings backups.
 
 ### Added
 - Dynamic Island level controls and the menu panel's mixer can be adjusted with a mouse wheel or trackpad. Thanks to @JB-OD.
@@ -38,6 +38,7 @@ More reliable window switching, quit protection, screenshots, audio, URL Cleaner
 - The onboarding feature picker stays responsive when scrolling. Thanks to @yousefhamza.
 - Ultra-wide wallpaper previews stay within their own grid cells. Thanks to @ozanuslan.
 - Dynamic Island keeps volume, brightness and keyboard-light notices at a stable width as the percentage gains a digit. Thanks to @nikigan.
+- AI Agents cards keep "left" or "used" beside limit percentages in narrow layouts, letting the reset countdown give way when needed. Thanks to @sakemyali.
 - AI Agents settings previews show example limit percentages when account limits are unavailable. Thanks to @hrithiksaini99.
 - Command Bar finds English built-in commands and system answers when the interface uses another language. Thanks to @ywu73.
 - Clicking outside Dynamic Island dismisses its screenshot preview while preserving active sharing, pinned surfaces and clicks in copies on other displays. Thanks to @samanyudas.
@@ -74,7 +75,7 @@ More reliable window switching, quit protection, screenshots, audio, URL Cleaner
 - Screenshot area selection keeps its crosshair over other apps, and card shadows follow the captured window's own rounded corners.
 
 ### Contributors
-Thanks to @0miicr0n, @AB-boi, @ahmadhatahet, @ALaunert, @Aryan-Saini, @asim-sde, @BerkUyku, @Blasted246, @buhbyehotmail, @derpyjoystick, @DigitalWestern, @dimashpt, @dimitarmanov, @dongzoor, @DrakeEvans, @eliamarinen, @EugeneCarldotme, @fablau, @Forenzo, @g1obalworlds, @globeatin, @Goonwb, @hash00, @hertza-haeon, @hrithiksaini99, @i0208, @ilvesBogdan, @iva-zhu, @Jacob-9909, @jainnam-1993, @JB-OD, @JeanBaeez, @kidtaroi, @Likheet, @LJXXXD, @MartinSchlender, @Mikkeep, @mthsmb, @muratozturk5, @nikigan, @oc7opu5, @othmanehousni, @ozanuslan, @pedro-fontinele, @pedrozimmermannsoares, @raymondchins, @RKeyProg, @rochapaesc, @ruvelro, @saarmiara, @saiganeshreddy7, @samanyudas, @shlee0932-afk, @Spokplacenta, @stors789, @TarGz, @thedankest, @ve3dy, @ygh1254, @yousefhamza, @ywu73 and @Zekuath.
+Thanks to @0miicr0n, @AB-boi, @ahmadhatahet, @ALaunert, @Aryan-Saini, @asim-sde, @BerkUyku, @Blasted246, @buhbyehotmail, @derpyjoystick, @DigitalWestern, @dimashpt, @dimitarmanov, @dongzoor, @DrakeEvans, @eliamarinen, @EugeneCarldotme, @fablau, @Forenzo, @g1obalworlds, @globeatin, @Goonwb, @hash00, @hertza-haeon, @hrithiksaini99, @i0208, @ilvesBogdan, @iva-zhu, @Jacob-9909, @jainnam-1993, @JB-OD, @JeanBaeez, @kidtaroi, @Likheet, @LJXXXD, @MartinSchlender, @Mikkeep, @mthsmb, @muratozturk5, @nikigan, @oc7opu5, @othmanehousni, @ozanuslan, @pedro-fontinele, @pedrozimmermannsoares, @raymondchins, @RKeyProg, @rochapaesc, @ruvelro, @saarmiara, @saiganeshreddy7, @sakemyali, @samanyudas, @shlee0932-afk, @Spokplacenta, @stors789, @TarGz, @thedankest, @ve3dy, @ygh1254, @yousefhamza, @ywu73 and @Zekuath.
 
 ## [3.4.2] - 2026-10-21
 
