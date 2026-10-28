@@ -47,6 +47,23 @@ def availability_declaration(path, prefix):
 
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
+    slider_area = "Sources/Vorssaint/UI/SliderScrollArea.swift"
+    slider_control = "Sources/Vorssaint/UI/Notch/NotchLevelSlider.swift"
+    wheel_route = "Sources/Vorssaint/Services/HorizontalWheelScrolling.swift"
+    brightness = "Sources/Vorssaint/Services/Display/BrightnessService.swift"
+    write("SliderScrollRouting.swift", "import AppKit\n"
+          + declaration(slider_area, "protocol SliderScrollTarget:")
+          + declaration(slider_area, "extension SliderScroll {")
+          + declaration(slider_control, "private final class NotchLevelControl:")
+              .replace("private final class NotchLevelControl", "final class NotchLevelControl", 1)
+          + "extension SliderScrollRoutingTests {\nenum Route {\n"
+          + declaration(wheel_route, "    static func sidewaysStrip(")
+          + declaration(wheel_route, "    private static func scrolls(")
+          + "}\nfinal class Light: LightState {\n"
+          + declaration(brightness, "    func keyboardLightDragChanged(")
+          + declaration(brightness, "    private func finishKeyboardLightDrag(")
+          + declaration(brightness, "    func setKeyboardLightLevel(")
+          + "}\n}\n")
     recent_captures = "Sources/Vorssaint/Services/QuickTools/RecentCaptureService.swift"
     write("RecentCapturePanel.swift", "import Foundation\nimport Carbon.HIToolbox\n"
           + "extension RecentCapturePanelTests {\nfinal class Service: Fixture {\n"
