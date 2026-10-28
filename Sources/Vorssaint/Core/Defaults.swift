@@ -54,6 +54,10 @@ enum DefaultsKey {
     static let scrollInverterHorizontalEnabled = "scrollInverterHorizontalEnabled"
     static let scrollHorizontalEnabled = "scrollHorizontalEnabled"
     static let scrollHorizontalModifier = "scrollHorizontalModifier"
+    static let verticalZoomEnabled = "verticalZoomEnabled"
+    static let verticalZoomModifier = "verticalZoomModifier"
+    static let pinchZoomEnabled = "pinchZoomEnabled"
+    static let pinchZoomModifier = "pinchZoomModifier"
     static let focusFollowsMouseEnabled = "focusFollowsMouseEnabled"
     static let focusFollowsMouseDelay = "focusFollowsMouseDelayMilliseconds"
     static let focusFollowsMouseRaise = "focusFollowsMouseRaise"
@@ -1233,6 +1237,10 @@ enum Defaults {
         DefaultsKey.scrollInverterHorizontalEnabled: false,
         DefaultsKey.scrollHorizontalEnabled: false,
         DefaultsKey.scrollHorizontalModifier: ScrollHorizontalModifier.shift.rawValue,
+        DefaultsKey.verticalZoomEnabled: false,
+        DefaultsKey.verticalZoomModifier: ScrollZoomModifier.command.rawValue,
+        DefaultsKey.pinchZoomEnabled: false,
+        DefaultsKey.pinchZoomModifier: ScrollZoomModifier.control.rawValue,
         DefaultsKey.focusFollowsMouseEnabled: false,
         DefaultsKey.focusFollowsMouseDelay: FocusFollowsMouseSupport.defaultDelayMilliseconds,
         DefaultsKey.focusFollowsMouseRaise: true,
@@ -2273,6 +2281,7 @@ enum Defaults {
         else { return }
         defaults.set(true, forKey: AppFeature.linearScroll.availabilityKey)
     }
+
 
     static func migrateFanControlVisibility(in defaults: UserDefaults) {
         if let oldValue = defaults.object(forKey: DefaultsKey.monitorShowFanControlBeta) as? Bool {

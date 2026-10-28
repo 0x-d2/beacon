@@ -358,7 +358,7 @@ def main():
           + "extension SwitcherActivationTests.Activator {\n"
           + "".join(declaration(activator, prefix).replace("private static", "static", 1)
                     for prefix in ["    private static func activateApp(",
-                                   "    private static func activateAppCooperatively(",
+                                   "    static func activateAppCooperatively(",
                                    "    private static func activateSource("])
           + "}\nextension SwitcherActivationTests.HiddenSpaceActivator {\n"
           + "".join(declaration(activator, prefix).replace("private static", "static", 1)
@@ -802,6 +802,13 @@ def main():
     # The raw wheel tap runs as shipped: linear scrolling's cap, carry and
     # write-back, then the direction change. Only the services it asks and
     # the defaults it reads are fixtures.
+    write("ZoomSettingsDirectory.swift", "import Foundation\n"
+          + declaration("Sources/Vorssaint/UI/Settings/SettingsDirectory.swift", "struct SettingsDirectoryItem:")
+          + "enum SettingsDirectory {\n"
+          + declaration("Sources/Vorssaint/UI/Settings/SettingsDirectory.swift", "    static func sections(")
+              .replace("SuperKeyService.shared.source", ".capsLock")
+              .replace("$0.hubTitle(s, hub: FeatureStrings.hub(language))", "$0.rawValue")
+          + "}\n")
     wheel_tap = declaration("Sources/Vorssaint/Services/ScrollInverter.swift", "    private func handle(type:",
                             scope="final class ScrollInverter:")
     if wheel_tap.count("AppFeature.linearScroll.isAvailable") != 1:
@@ -809,6 +816,10 @@ def main():
     write("LinearScrollTap.swift", "import CoreGraphics\nimport Foundation\nextension LinearScrollTapTests.Inverter {\n"
           + wheel_tap.replace("private func", "func", 1)
                      .replace("AppFeature.linearScroll.isAvailable", "AppFeature.linearScroll.isAvailable(in: defaults)")
+          + declaration("Sources/Vorssaint/Services/ScrollInverter.swift", "    func consumeZoom(")
+          + "".join(declaration("Sources/Vorssaint/Services/ScrollInverter.swift", prefix)
+                    .replace("private func", "func", 1) for prefix in [
+                        "    private func postPinchZoomLocked(", "    private func endPinchZoomLocked()"])
           + declaration("Sources/Vorssaint/Services/ScrollInverter.swift", "    static func directionApplied(to event:",
                         scope="final class ScrollInverter:")
           + "}\nextension LinearScrollTapTests.SideWheel {\n"
@@ -829,7 +840,32 @@ def main():
                          .replace("down.post(tap: .cgSessionEventTap)", "recordReplay(down)")
                          .replace("if let proxy {", "if proxy != nil {")
           + "}\n")
+    write("ZoomTargetRefresh.swift", "import CoreGraphics\nimport Foundation\n"
+          + "extension LinearScrollTapTests.Refresher {\n"
+          + "".join(declaration("Sources/Vorssaint/Services/ScrollInverter.swift", prefix)
+                    .replace("private func", "func", 1)
+                    .replace("AXIsProcessTrusted()", "self.AXIsProcessTrusted()") for prefix in [
+                        "    private func startZoomTargetTimerLocked()",
+                        "    private func stopZoomTargetTimerLocked()"])
+          + "}\n")
+    zoom_post = declaration("Sources/Vorssaint/Services/ScrollInverter.swift", "    private func postKeyboardZoom(")
+    write("ZoomTargetRequest.swift", "import CoreGraphics\nimport Foundation\n"
+          + "extension LinearScrollTapTests.TargetResolver {\n"
+          + "".join(declaration("Sources/Vorssaint/Services/ScrollInverter.swift", prefix)
+                    .replace("private func", "func", 1) for prefix in [
+                        "    private func invalidateZoomTargetLocked()",
+                        "    private func requestZoomTargetLocked("])
+          + "}\n")
+    for name in ["down", "up", "restore"]:
+        zoom_post = zoom_post.replace(f"{name}.postToPid(targetProcessID)", f"recordZoomEvent({name}, to: targetProcessID)")
+    write("ZoomKeyboardPost.swift", "import CoreGraphics\nimport Carbon.HIToolbox\n"
+          + "extension LinearScrollTapTests.Inverter {\n"
+          + zoom_post.replace("private func", "func", 1) + "}\n")
     smooth = "Sources/Vorssaint/Services/SmoothScrollService.swift"
+    write("ScrollZoomFocus.swift", "import AppKit\nimport ApplicationServices\n"
+          + "extension ScrollZoomFocusTests {\n"
+          + declaration("Sources/Vorssaint/Services/Switcher/WindowActivator.swift", "    static func focusWindow(")
+          + "}\n")
     smooth_handler = declaration(smooth, "    private func handle(type:").replace("private func", "func", 1)
     smooth_handler = smooth_handler.replace("AppFeature.smoothScroll.isAvailable", "AppFeature.smoothScroll.isAvailable(in: UserDefaults.standard)")
     smooth_handler = smooth_handler.replace("AppFeature.linearScroll.isAvailable", "AppFeature.linearScroll.isAvailable(in: defaults)")
