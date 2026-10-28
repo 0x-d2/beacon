@@ -47,6 +47,14 @@ def availability_declaration(path, prefix):
 
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
+    write("SettingsCommandDispatch.swift", "import Foundation\n"
+          + "extension SettingsFeatureTests.CommandDispatchHost {\nstatic func run() {\n"
+          # Both app entry points are named main.swift. Keep diagnostics in
+          # this generated file to avoid ambiguous #fileID source locations.
+          + "\n".join(line for line in declaration(
+              "Sources/Vorssaint/main.swift", "if let command = SettingsBackupSupport.command(")
+              .splitlines() if not line.startswith("#sourceLocation")) + "\n"
+          + "}\n}\n")
     slider_area = "Sources/Vorssaint/UI/SliderScrollArea.swift"
     slider_control = "Sources/Vorssaint/UI/Notch/NotchLevelSlider.swift"
     wheel_route = "Sources/Vorssaint/Services/HorizontalWheelScrolling.swift"
