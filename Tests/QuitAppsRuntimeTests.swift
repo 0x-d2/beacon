@@ -200,7 +200,7 @@ enum QuitAppsRuntimeTests {
     }
 
     private static func radialAvailability(_ suite: TestSuite) {
-        let name = "QuitAppsRuntimeTests.\(UUID().uuidString)"
+        let name = "com.vorssaint.tests.quit-apps-runtime.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: name)!
         defaults.register(defaults: Defaults.registeredDefaults)
         ReviewDefaults.current = defaults
