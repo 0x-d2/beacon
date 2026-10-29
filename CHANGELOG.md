@@ -4,7 +4,7 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [3.4.3] - 2026-10-29
 
 ### Summary
 More reliable window switching, audio, screenshots and display recovery, with safer file handling and app removal. New options include an all-windows shortcut, Claude account selection, scroll-to-zoom, a Quit apps panel and more flexible calendar countdowns.
