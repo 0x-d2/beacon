@@ -54,8 +54,6 @@ enum DefaultsKey {
     static let scrollInverterHorizontalEnabled = "scrollInverterHorizontalEnabled"
     static let scrollHorizontalEnabled = "scrollHorizontalEnabled"
     static let scrollHorizontalModifier = "scrollHorizontalModifier"
-    static let verticalZoomEnabled = "verticalZoomEnabled"
-    static let verticalZoomModifier = "verticalZoomModifier"
     static let pinchZoomEnabled = "pinchZoomEnabled"
     static let pinchZoomModifier = "pinchZoomModifier"
     static let focusFollowsMouseEnabled = "focusFollowsMouseEnabled"
@@ -1241,8 +1239,6 @@ enum Defaults {
         DefaultsKey.scrollInverterHorizontalEnabled: false,
         DefaultsKey.scrollHorizontalEnabled: false,
         DefaultsKey.scrollHorizontalModifier: ScrollHorizontalModifier.shift.rawValue,
-        DefaultsKey.verticalZoomEnabled: false,
-        DefaultsKey.verticalZoomModifier: ScrollZoomModifier.command.rawValue,
         DefaultsKey.pinchZoomEnabled: false,
         DefaultsKey.pinchZoomModifier: ScrollZoomModifier.control.rawValue,
         DefaultsKey.focusFollowsMouseEnabled: false,

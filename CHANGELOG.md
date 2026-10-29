@@ -14,7 +14,7 @@ More reliable window switching, audio, screenshots and display recovery, with sa
 - AI Agents can select an existing Claude Code account profile and show the monitored account. Local usage and plan limits follow the selected profile. Settings → Dynamic Island → Content → AI Agents → Claude account.
 - Dynamic Island level controls and the menu panel's mixer can be adjusted with a mouse wheel or trackpad. Thanks to @JB-OD.
 - Dynamic Island can start event countdowns 15, 30, 60 or 120 minutes before an event and keeps longer countdowns fully visible. Thanks to @Aryan-Saini.
-- An optional Zoom feature turns a modifier and mouse-wheel movement into app zoom or pinch gestures, with separate controls and scroll exceptions. Thanks to @ahmadhatahet.
+- An optional Pinch Zoom feature turns a modifier and mouse-wheel movement into pinch gestures in supported apps, with a choice of modifier and scroll exceptions. Thanks to @ahmadhatahet.
 - An optional Quit apps panel can request normal quits for one app, all apps or all except the current app, with a saved list of apps to keep running. Thanks to @thedankest.
 - Command Bar converts days, weeks and fixed 365-day years, with English and Portuguese unit names. Thanks to @asim-sde.
 - Settings backups can be exported or imported with `--export-settings FILE` and `--import-settings FILE`; importing requires the app to be closed. Thanks to @DrakeEvans.
