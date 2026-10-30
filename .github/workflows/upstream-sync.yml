@@ -3,9 +3,11 @@
 # `main` carries no commit of its own, so that is a fast-forward — and, when `custom` lacks something `main` has, offers
 # it to `custom` as a pull request from `upstream-sync`. That branch is a copy of `main` made for the pull request:
 # GitHub's "Resolve conflicts" commits to the head branch, and the head is never `main`.
-# It runs on the owner's fine-grained token in the `UPSTREAM_SYNC_TOKEN` secret (this repo only; Contents, Workflows and
-# Pull requests: read and write). GITHUB_TOKEN can't write the workflow files upstream changes, and a pull request it
-# opens starts no CI.
+# It runs on the owner's fine-grained token in the `UPSTREAM_SYNC_TOKEN` secret (this repo only; Contents and Pull
+# requests: read and write), because a pull request GITHUB_TOKEN opens starts no CI. The token is left without the
+# Workflows permission on purpose: a workflow that arrives on `main` runs here at once, with this repo's secrets and its
+# self-hosted runner within reach, so an upstream change to `.github/workflows/` stops the sync until the owner has read
+# it and taken it by hand.
 name: Upstream sync
 
 on:
@@ -30,14 +32,26 @@ jobs:
       GH_TOKEN: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
       GH_REPO: ${{ github.repository }}
     steps:
-      # A 409 means `main` has a commit upstream doesn't: the run fails, and GitHub mails the owner.
+      # A failed run is GitHub's mail to the owner: either upstream changed a workflow, or `main` has a commit upstream
+      # doesn't (a 409).
       - name: Bring main up to Vorssaint
         run: |
           if [[ -z $GH_TOKEN ]]; then
             echo "::error::UPSTREAM_SYNC_TOKEN secret'ı yok (ref/git.md › Upstream updates)."
             exit 1
           fi
-          gh api --method POST "repos/$GH_REPO/merge-upstream" -f branch=main --jq .message
+          if gh api --method POST "repos/$GH_REPO/merge-upstream" -f branch=main --jq .message; then
+            exit 0
+          fi
+          parent=$(gh api "repos/$GH_REPO" --jq .parent.owner.login)
+          workflows=$(gh api "repos/$GH_REPO/compare/main...$parent:main" \
+            --jq '[.files[]?.filename | select(startswith(".github/workflows/"))] | join(", ")')
+          if [[ -n $workflows ]]; then
+            echo "::error::Vorssaint workflow değiştirmiş ($workflows). Oku; uygunsa elle al: ref/git.md › Upstream updates."
+          else
+            echo "::error::main Vorssaint'e çekilemedi (yukarıdaki hata); main'de upstream'de olmayan bir commit olabilir."
+          fi
+          exit 1
 
       - name: Offer it to custom
         run: |
@@ -52,18 +66,23 @@ jobs:
             --jq '.[0].html_url // empty')
           if [[ -n $open ]]; then
             # Fast-forward only: a conflict resolution committed on the branch stays, and what came after it arrives
-            # with the next pull request.
+            # with the next pull request. Commits the owner took by hand for their workflows stop here too.
             if gh api --method PATCH "repos/$GH_REPO/git/refs/heads/upstream-sync" -f sha="$main" -F force=false --silent; then
               echo "$open artık main'in ucunda." >> "$GITHUB_STEP_SUMMARY"
             else
-              echo "$open üzerinde kendi commit'leri var; kalanı o birleşince gelir." >> "$GITHUB_STEP_SUMMARY"
+              echo "$open ilerletilemedi (dalda kendi commit'leri ya da yeni bir workflow var); kalanı o birleşince gelir." \
+                >> "$GITHUB_STEP_SUMMARY"
             fi
             exit 0
           fi
 
           # The branch outlives its merged pull request; a new one starts it over from `main`.
-          gh api --method PATCH "repos/$GH_REPO/git/refs/heads/upstream-sync" -f sha="$main" -F force=true --silent \
-            || gh api --method POST "repos/$GH_REPO/git/refs" -f ref=refs/heads/upstream-sync -f sha="$main" --silent
+          if ! gh api --method PATCH "repos/$GH_REPO/git/refs/heads/upstream-sync" -f sha="$main" -F force=true --silent \
+            && ! gh api --method POST "repos/$GH_REPO/git/refs" -f ref=refs/heads/upstream-sync -f sha="$main" --silent; then
+            echo "::error::upstream-sync main'e taşınamadı (main'e elle alınmış bir workflow olabilir): \
+          git push --force origin origin/main:upstream-sync, sonra bu workflow'u yeniden çalıştır."
+            exit 1
+          fi
           {
             echo "Vorssaint'ten \`custom\`'a henüz gelmemiş $missing commit: https://github.com/$GH_REPO/compare/custom...main"
             echo
