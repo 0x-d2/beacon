@@ -67,7 +67,7 @@ extension KitSpecimen {
             KitVariant("cpu", "ProcessUsageRow(row:value:)") {
                 VStack(spacing: 4) {
                     ForEach(KitFixtures.processes) { process in
-                        ProcessUsageRow(row: process, value: String(format: "%.1f%%", process.value))
+                        ProcessUsageRow(row: process, value: String(format: "%.1f%%", locale: Locale(identifier: L10n.shared.language.rawValue), process.value))
                     }
                 }
                 .panelCard()
