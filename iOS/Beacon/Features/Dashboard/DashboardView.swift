@@ -75,53 +75,6 @@ struct DashboardView: View {
     }
 }
 
-/// The readings the dashboard shows, in order, and what each tile and detail page are about.
-enum MetricKind: String, CaseIterable, Identifiable, Hashable {
-    case cpu, memory, gpu, temperature, network, power, disk, fans
-
-    var id: String { rawValue }
-    static let dashboard: [MetricKind] = allCases
-
-    var title: LocalizedStringKey {
-        switch self {
-        case .cpu: return "CPU"
-        case .memory: return "Memory"
-        case .gpu: return "GPU"
-        case .temperature: return "Temperatures"
-        case .network: return "Network"
-        case .power: return "Power"
-        case .disk: return "Disks"
-        case .fans: return "Fans"
-        }
-    }
-
-    var symbol: String {
-        switch self {
-        case .cpu: return "cpu"
-        case .memory: return "memorychip"
-        case .gpu: return "square.stack.3d.up"
-        case .temperature: return "thermometer.medium"
-        case .network: return "network"
-        case .power: return "bolt.fill"
-        case .disk: return "internaldrive"
-        case .fans: return "fanblades"
-        }
-    }
-
-    var tint: Color {
-        switch self {
-        case .cpu: return BeaconColor.cpu
-        case .memory: return BeaconColor.memory
-        case .gpu: return BeaconColor.gpu
-        case .temperature: return BeaconColor.temperature
-        case .network: return BeaconColor.download
-        case .power: return BeaconColor.power
-        case .disk: return BeaconColor.disk
-        case .fans: return BeaconColor.fan
-        }
-    }
-}
-
 /// One dashboard tile: the reading, and the chart, ring or bar that suits it.
 struct DashboardTile: View {
     let session: MacSession

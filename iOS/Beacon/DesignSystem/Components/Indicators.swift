@@ -70,8 +70,11 @@ struct StatusPill: View {
             Circle()
                 .fill(color)
                 .frame(width: 7, height: 7)
-                .opacity(kind == .connecting ? 0.5 : 1)
-                .animation(kind == .connecting ? .easeInOut(duration: 0.8).repeatForever() : .default, value: kind)
+                // The pulse animates the dot's opacity only: a repeating animation that caught the pill moving would
+                // swing the dot between both places for good.
+                .animation(kind == .connecting ? .easeInOut(duration: 0.8).repeatForever() : .default) {
+                    $0.opacity(kind == .connecting ? 0.5 : 1)
+                }
             Text(label).font(BeaconType.caption.weight(.semibold))
         }
         .foregroundStyle(kind == .offline ? Color.secondary : color)

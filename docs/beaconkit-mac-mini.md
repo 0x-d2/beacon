@@ -1,32 +1,38 @@
 # BeaconKit™ · Mac mini kurulumu
 
 Katalog, evdeki Mac mini'de (`brain`) çalışan bir GitHub Actions runner'ı ile üretilir ve yalnız tailnet'e yayınlanır.
-Ata-Online'ın `ata-kit` runner'ı aynı makinede durur; bu repo için ikinci, ayrı bir runner kurulur. Aşağıdakiler bir
+Ata-Online'ın `ata-kit` runner'ı aynı makinede durur; Beacon için ikinci, ayrı bir runner kurulur. Aşağıdakiler bir
 kez yapılır. Referans: `docs/beaconkit.md` › Hosting.
+
+**Runner public `0x-d2/beacon`'a asla kaydedilmez.** Public bir depoya herkes fork'layıp PR açabilir ve PR kendi iş
+akışı dosyalarını çalıştırır: runner orada kayıtlı olsaydı biri `runs-on: beacon-kit` diyen bir dosyayla mini'de komut
+çalıştırabilirdi. Runner ve iş akışı private **`0x-d2/beacon-kit-runner`** deposundadır; iş akışı public deponun bir
+dalını ya da etiketini (varsayılan `custom`) çekip çalıştırır.
 
 ## 1. Runner
 
-GitHub'da: **0x-d2/beacon › Settings › Actions › Runners › New self-hosted runner** (macOS, ARM64). Sayfanın verdiği
-indirme ve `config.sh` komutlarını mini'de, **ayrı bir klasörde** çalıştırın:
+GitHub'da: **0x-d2/beacon-kit-runner › Settings › Actions › Runners › New self-hosted runner** (macOS, ARM64). Sayfanın
+verdiği indirme ve `config.sh` komutlarını mini'de, **ayrı bir klasörde** çalıştırın:
 
 ```sh
 mkdir -p ~/actions-runner/beacon && cd ~/actions-runner/beacon
 # … sayfadaki curl + tar satırları …
-./config.sh --url https://github.com/0x-d2/beacon --token <SAYFADAKİ-TOKEN> \
+./config.sh --url https://github.com/0x-d2/beacon-kit-runner --token <SAYFADAKİ-TOKEN> \
   --name brain-beacon-kit --labels beacon-kit --unattended
 ./svc.sh install
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/actions.runner.0x-d2-beacon.brain-beacon-kit.plist
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/actions.runner.0x-d2-beacon-kit-runner.brain-beacon-kit.plist
 ```
 
-- Etiket yalnız `beacon-kit`: `kit.yml` bu etiketi ister, başka hiçbir workflow istemez.
+- Etiket yalnız `beacon-kit`: private depodaki `kit.yml` bu etiketi ister, başka hiçbir workflow istemez.
 - `./svc.sh start` SSH'tan GUI oturumunun dışına düşer; `launchctl bootstrap gui/…` kullanın (Ata'dakiyle aynı).
 - Durum: `./svc.sh status`. Kaldırmak: `./svc.sh uninstall && ./config.sh remove --token <TOKEN>`.
-- Repo public: **Settings › Actions › General › Fork pull request workflows** altında "Require approval for all
-  external contributors" seçili kalsın. `kit.yml` zaten yalnız elle ve yalnız repo sahibi tetiklediğinde çalışır.
+- `0x-d2/beacon-kit-runner` private kalmalı ve işbirlikçi eklenmemeli. `kit.yml` yalnız elle ve yalnız depo sahibi
+  tetiklediğinde çalışır; public depodan yalnız bir dal ya da etiket çeker (onları yalnız depo sahibi gönderebilir), PR
+  başlığı ya da çıplak commit kabul etmez.
 
 ## 2. Node ve gh
 
-`kit.yml` Node'u kendisi kurar (`actions/setup-node`, Node 25). `gh` Homebrew'den (`/opt/homebrew/bin`) gelir; revize
+İş akışı Node'u kendisi kurar (`actions/setup-node`, Node 25). `gh` Homebrew'den (`/opt/homebrew/bin`) gelir; revize
 notlarını okumak için workflow kendi token'ını verir, mini'de ayrıca `gh auth login` gerekmez.
 
 ## 3. Ekran: HiDPI ve uyku
@@ -80,8 +86,9 @@ yalnız bu portu açmak için Tailscale ACL'ine Ata'daki gibi `tcp:8445` ekleyin
 ## 7. İlk çalıştırma
 
 ```sh
-gh workflow run kit.yml -f scope=all --repo 0x-d2/beacon
-gh run watch --repo 0x-d2/beacon
+gh workflow run kit.yml -R 0x-d2/beacon-kit-runner -f ref=custom -f scope=all
+gh run watch -R 0x-d2/beacon-kit-runner
 ```
 
-`kit.yml` main'de olmalı: `workflow_dispatch` yalnız varsayılan dalda tanımlı workflow'ları listeler.
+`ref` public deponun bir dalı ya da etiketidir; bir özellik dalını birleşmeden önce çekmek için onun adını verin
+(`-f ref=0x-d2/watchos-companion-app-stats`).
