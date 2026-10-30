@@ -1,8 +1,12 @@
 # BeaconKit™ · Mac mini kurulumu
 
 Katalog, evdeki Mac mini'de (`brain`) çalışan bir GitHub Actions runner'ı ile üretilir ve yalnız tailnet'e yayınlanır.
-Ata-Online'ın `ata-kit` runner'ı aynı makinede durur; Beacon için ikinci, ayrı bir runner kurulur. Aşağıdakiler bir
-kez yapılır. Referans: `docs/beaconkit.md` › Hosting.
+Aşağıdakiler bir kez yapılır. Referans: `docs/beaconkit.md` › Hosting.
+
+**Kendi başına bir kurulum.** Beacon'ın mini'deki her parçası kendinedir: runner `~/actions-runner/beacon`'da,
+görüntüler ve site `~/BeaconKit`'te, siteyi kendi Caddy süreci kendi yerel portundan sunar, tailnet'e kendi Tailscale
+Serve portundan çıkar; portlar doluysa boş olanları kendisi seçer (5). Makinede başka projeler de çalışabilir;
+Beacon onların dosyalarına, binary'lerine, yapılandırmasına ya da portlarına dayanmaz, onlar kaldırılsa etkilenmez.
 
 **Runner public `0x-d2/beacon`'a asla kaydedilmez.** Public bir depoya herkes fork'layıp PR açabilir ve PR kendi iş
 akışı dosyalarını çalıştırır: runner orada kayıtlı olsaydı biri `runs-on: beacon-kit` diyen bir dosyayla mini'de komut
@@ -12,7 +16,7 @@ dalını ya da etiketini (varsayılan `custom`) çekip çalıştırır.
 ## 1. Runner
 
 GitHub'da: **0x-d2/beacon-kit-runner › Settings › Actions › Runners › New self-hosted runner** (macOS, ARM64). Sayfanın
-verdiği indirme ve `config.sh` komutlarını mini'de, **ayrı bir klasörde** çalıştırın:
+verdiği indirme ve `config.sh` komutlarını mini'de, **kendi klasöründe** çalıştırın:
 
 ```sh
 mkdir -p ~/actions-runner/beacon && cd ~/actions-runner/beacon
@@ -24,7 +28,8 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/actions.runner.0x-d2-bea
 ```
 
 - Etiket yalnız `beacon-kit`: private depodaki `kit.yml` bu etiketi ister, başka hiçbir workflow istemez.
-- `./svc.sh start` SSH'tan GUI oturumunun dışına düşer; `launchctl bootstrap gui/…` kullanın (Ata'dakiyle aynı).
+- `./svc.sh start` SSH'tan GUI oturumunun dışına düşer; render'lar ekran istediği için `launchctl bootstrap gui/…`
+  kullanın.
 - Durum: `./svc.sh status`. Kaldırmak: `./svc.sh uninstall && ./config.sh remove --token <TOKEN>`.
 - `0x-d2/beacon-kit-runner` private kalmalı ve işbirlikçi eklenmemeli. `kit.yml` yalnız elle ve yalnız depo sahibi
   tetiklediğinde çalışır; public depodan yalnız bir dal ya da etiket çeker (onları yalnız depo sahibi gönderebilir), PR
@@ -41,47 +46,49 @@ Render'lar mini'nin ekranında çekilir; renderer @1x bir ekranda çekmez (site 
 
 - **HiDPI:** mini'ye bir HDMI dummy plug (4K) takın, ya da BetterDisplay ile HiDPI sanal bir ekran açın. Kontrol:
   Sistem Ayarları › Ekranlar'da çözünürlük "… (HiDPI)" ya da Retina ölçekli olmalı.
-- **Otomatik giriş açık, FileVault kapalı:** runner GUI oturumunda çalışır; yeniden başlatmadan sonra oturum kendiliğinden
-  açılmalı. (Ata için zaten böyle.)
-- **Ekran uykusu:** `kit.sh` çekim süresince `caffeinate -d` tutar; yine de Enerji ayarlarında ekran uykusunu kapatmak iyi
-  olur. Ekran kilitliyken çekim yapılmaz.
+- **Otomatik giriş açık, FileVault kapalı:** runner GUI oturumunda çalışır; yeniden başlatmadan sonra oturum
+  kendiliğinden açılmalı.
+- **Ekran uykusu:** `kit.sh` çekim süresince `caffeinate -d` tutar; yine de Enerji ayarlarında ekran uykusunu kapatmak
+  iyi olur. Ekran kilitliyken çekim yapılmaz.
 
 ## 4. Ekran Kaydı izni (isteğe bağlı, önerilir)
 
-İzin olmadan da render'lar çekilir, ama malzemeler (panelin camı, HUD) arkalarındaki zemini bulanıklaştırmaz, düz çıkar;
-site bunu "malzeme düz" diye işaretler. Gerçek görünüm için bir kez:
+İzin olmadan da render'lar çekilir, ama malzemeler (panelin camı, HUD) arkalarındaki zemini bulanıklaştırmaz, düz
+çıkar; site bunu "malzeme düz" diye işaretler. Gerçek görünüm için bir kez:
 
 1. Workflow'u bir kez `scope=components` ile çalıştırın: `~/BeaconKit/BeaconKit Renderer.app` oluşur.
-2. Mini'ye Ekran Paylaşımı ile bağlanın: **Sistem Ayarları › Gizlilik ve Güvenlik › Ekran ve Sistem Sesi Kaydı** › **+** ›
-   `~/BeaconKit/BeaconKit Renderer.app`.
-3. İzin, renderer aynı kimlikle imzalandıkça (derleme her seferinde aynı yerel kimliği kullanır) kalır. macOS ara ara yeniden
-   sorabilir: renderer beklemez, o çekimde malzemeler düz çıkar.
+2. Mini'ye Ekran Paylaşımı ile bağlanın: **Sistem Ayarları › Gizlilik ve Güvenlik › Ekran ve Sistem Sesi Kaydı** › **+**
+   › `~/BeaconKit/BeaconKit Renderer.app`.
+3. İzin, renderer aynı kimlikle imzalandıkça (derleme her seferinde aynı yerel kimliği kullanır) kalır. macOS ara ara
+   yeniden sorabilir: renderer beklemez, o çekimde malzemeler düz çıkar.
 
-## 5. Caddy
+## 5. Sunucu: Caddy ve Tailscale Serve
 
-Ata için çalışan Caddy'ye bir blok ekleyin (`~/AtaKit/Caddyfile`), ya da Beacon'a ayrı bir Caddyfile açın:
-
-```caddyfile
-http://127.0.0.1:8789 {
-	root * {$HOME}/BeaconKit/site/current
-	encode gzip
-	header Cache-Control no-cache
-	try_files {path} /index.html
-	file_server
-}
-```
-
-Sonra Caddy'yi yeniden yükleyin (`~/AtaKit/bin/caddy reload --config ~/AtaKit/Caddyfile`).
-
-## 6. Tailscale
+Site tek sayfalık bir uygulama (bilinmeyen bir yol `index.html`'e düşmeli), bu yüzden dosyaları Caddy sunar; tailnet'e
+Tailscale Serve çıkarır. İkisini de `docs/scripts/kit-serve.sh` kurar ve iş akışı her yayından sonra onu çalıştırır.
+Elle yapılacak olan yalnız araçlar:
 
 ```sh
-tailscale serve --bg --https=8445 http://127.0.0.1:8789
-tailscale serve status
+brew install caddy     # jq macOS'ta yoksa: brew install jq
+tailscale status       # mini tailnet'te, oturum açık olmalı
 ```
 
-8443 ve 8444 Ata'nın; onlara dokunmayın. Site: `https://brain.<tailnet>.ts.net:8445`. Paylaşılan kullanıcılara
-yalnız bu portu açmak için Tailscale ACL'ine Ata'daki gibi `tcp:8445` ekleyin.
+- **Portları kendisi seçer.** Caddy yerelde `127.0.0.1:8789`'dan, Serve tailnet'te `8445`'ten başlar. Bir port başka
+  bir sunucunun ya da başka bir Serve kaydının elindeyse sıradaki boş porta geçer (8789–8888, 8445–8544). Seçtiği
+  portları `~/BeaconKit/serve.env`'de tutar ve sonraki yayınlarda, hâlâ Beacon'ınsa korur. Başkasının dinlediği porta
+  ya da Serve kaydına hiç dokunmaz: yalnız kendi kaydettiği portu kendisininki sayar.
+- **Kendi Caddy'si:** `~/BeaconKit/Caddyfile`, LaunchAgent `co.ikili.beaconkit.caddy`, günlük `~/BeaconKit/caddy.log`.
+  Yönetim API'si kapalı (`admin off`), böylece makinedeki başka bir Caddy'nin `localhost:2019`'uyla da çakışmaz.
+- **Elle:** bir checkout'ta `docs/scripts/kit-serve.sh` kurar ya da onarır ve adresi yazar; `--dry-run` yalnız hangi
+  portları kullanacağını söyler. Durdurmak: `launchctl bootout gui/$(id -u)/co.ikili.beaconkit.caddy` ve
+  `tailscale serve --https=<tailnet portu> off`.
+
+## 6. Adres
+
+Her yayın adresi (`https://brain.<tailnet>.ts.net:<port>`) çalıştırmanın özetine yazar. Adres ya da yerel port
+değişince `0x-d2/beacon-kit-runner`'daki **"BeaconKit adresi"** issue'suna yeni bir yorum düşer ve GitHub bunu size
+bildirir. Adres tailnet'in adını taşıdığı için yalnız private depoya yazılır, public depoya asla. Mini'yi tailnet'te
+başka kullanıcılarla paylaşıyor ve ACL'de port kısıtlıyorsanız, port değişince ACL'i de güncelleyin.
 
 ## 7. İlk çalıştırma
 
@@ -91,4 +98,5 @@ gh run watch -R 0x-d2/beacon-kit-runner
 ```
 
 `ref` public deponun bir dalı ya da etiketidir; bir özellik dalını birleşmeden önce çekmek için onun adını verin
-(`-f ref=0x-d2/watchos-companion-app-stats`).
+(`-f ref=0x-d2/watchos-companion-app-stats`). İlk yayın Caddy'yi ve Serve kaydını da kurar; adres çalıştırmanın
+özetinde ve "BeaconKit adresi" issue'sunda.

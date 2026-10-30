@@ -1,5 +1,5 @@
 // The catalog and the viewer's settings, for every page: which theme the renders show and the site takes (Tema: Koyu,
-// Koyu | Açık, Açık; Açık makes the whole site light, as AtaKit™'s does), the language of the renders and of the site's
+// Koyu | Açık, Açık; Açık makes the whole site light), the language of the renders and of the site's
 // own copy (Dil: TR · EN), the components as a grid or a list, and the sidebar hidden and its width. Settings stay in
 // localStorage.
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'

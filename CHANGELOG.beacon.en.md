@@ -6,6 +6,9 @@ Vorssaint's own log is `CHANGELOG.md`; Beacon is never written there.
 
 ## 2026-10-31
 
+- **BeaconKit:** The catalog's setup on the Mac mini stands on its own: its own Caddy serves the site, tied to no
+  other project's files, server or ports on the machine. It picks free ports itself when its own are taken, and posts
+  the address to the "BeaconKit adresi" issue in `0x-d2/beacon-kit-runner` when it changes.
 - **Development:** Agents start every piece of work from `custom` and send its PR to `custom`, even when Conductor
   shows the workspace another target branch.
 

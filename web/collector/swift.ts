@@ -1,5 +1,5 @@
 // Reading the Swift sources (docs/beaconkit.md › Collector): doc comments, declarations, the code lines that count as
-// uses, and the initialisers a view offers. Line-based on purpose, as AtaKit™'s collector is: the app's files follow
+// uses, and the initialisers a view offers. Line-based on purpose: the app's files follow
 // one style (four-space indents, one declaration per line), so a declaration's first line and the `///` block above it
 // are enough, and the collector stays a plain script with nothing to build.
 import { readdirSync, readFileSync, statSync } from 'node:fs'

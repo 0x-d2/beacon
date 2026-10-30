@@ -1,4 +1,4 @@
-/* BeaconKit™ catalog: a specimen bench, AtaKit™'s layout on the Mac's own greys. The accent is the app's (the system
+/* BeaconKit™ catalog: a specimen bench on the Mac's own greys. The accent is the app's (the system
    blue: the app has no accent of its own, Color.accentColor everywhere), used only for what's selected and for
    links' hovers. Surfaces without outlines; hairlines only between a table's rows and a list's items. A heading, a
    body and a mono font for every number. Tema (data.tsx) sets data-appearance on <html>: dark here, light below. What
