@@ -137,14 +137,22 @@ theme and language, the commit and a link back; the viewer's own account sends i
 collect shows it on the item. Work through them with `gh issue list --label kit-revize`; a fix closes its issue. The
 `kit-revize` label must exist in the repo (`gh label create kit-revize`).
 
-## Hosting (`.github/workflows/kit.yml`)
+## Hosting (the private `0x-d2/beacon-kit-runner`)
 
-- **Manual only:** Actions › BeaconKit™ › Run workflow, or `gh workflow run kit.yml -f scope=all`. Pushes and pull
-  requests never trigger it. `scope`: `all` (the Mac's components and surfaces and the iPhone app, then the site),
-  `components`, `surfaces`, `ios`, or
-  `site` (the site alone, on the images kept in `~/BeaconKit/kit` from an earlier run); `languages`: `tr en`, `tr`, `en`. The job runs only when the repo's owner starts it (`github.triggering_actor`), since the
-  repo is public and the runner is the owner's Mac.
-- **The runner:** the Mac mini `brain`, a runner of this repo's own (`~/actions-runner/beacon`, label `beacon-kit`,
+- **Not in this repo, on purpose.** This repo is public: anyone can fork it and open a pull request, and a pull request
+  runs the workflows it brings. A self-hosted runner registered here would be within reach of a file saying
+  `runs-on: beacon-kit`. So the runner and its workflow (`.github/workflows/kit.yml` there) live in a private repo whose
+  only job is this; no workflow of a public repo can ask for another repo's runner. Never register a runner here.
+- **Manual only:** Actions › BeaconKit™ › Run workflow in that repo, or
+  `gh workflow run kit.yml -R 0x-d2/beacon-kit-runner -f ref=custom -f scope=all`. `ref`: a branch or tag of this repo
+  (only its owner can push those; a pull request's head or a bare commit, which could come from anyone's fork, is
+  refused). `scope`: `all` (the Mac's components and surfaces and the iPhone app, then the site), `components`,
+  `surfaces`, `ios`, or `site` (the site alone, on the images kept in `~/BeaconKit/kit` from an earlier run);
+  `languages`: `tr en`, `tr`, `en`. The job runs only when the repo's owner starts it (`github.triggering_actor`).
+- **The checkout is this repo's:** the collector reads the repo and branch its links name from the checkout
+  (`git.ts`'s `repository()` falls back to the `origin` remote when `GITHUB_REPOSITORY` is unset, which the workflow
+  ensures with `env -u`), so the site links here, not to the private repo.
+- **The runner:** the Mac mini `brain`, registered on the private repo (`~/actions-runner/beacon`, label `beacon-kit`,
   beside Ata-Online's `ata-kit`), a LaunchAgent in the mini's GUI session.
 - **Publish:** `web/dist` → `~/BeaconKit/site/releases/<run>`, the `current` link moved to it in one rename (the newest
   two stay). Caddy serves `current` on 127.0.0.1:8789; `tailscale serve --bg --https=8445 http://127.0.0.1:8789` brings
