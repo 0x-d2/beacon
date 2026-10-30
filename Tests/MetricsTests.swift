@@ -74,6 +74,7 @@ struct MetricsTests {
                 MixerFeatureTests.run(suite)
             }),
             ("audio-priority", { AudioPriorityTests.run(suite) }),
+            ("remote-monitor", { RemoteMonitorProtocolTests.run(suite) }),
             ("shelf", { ShelfFeatureTests.run(suite) }),
             ("overlays", { OverlayPanelTests.run(suite) }),
             ("updates", {

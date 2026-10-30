@@ -421,6 +421,10 @@ enum DefaultsKey {
     static let monitorMemoryMetric = "monitorMemoryMetric" // used | app
     static let monitorInterval = "monitorIntervalSeconds"  // sampling cadence: 1/2/5
     static let temperatureUnit = "temperatureUnit"          // celsius | fahrenheit
+    // Remote monitor: readings for the paired Beacon iPhone app (Services/RemoteMonitor/).
+    static let remoteMonitorEnabled = "remoteMonitorEnabled"
+    static let remoteMonitorPort = "remoteMonitorPort"
+    static let remoteMonitorAlternateHost = "remoteMonitorAlternateHost" // e.g. the Mac's Tailscale name
     // System monitor — which blocks appear in the panel.
     static let monitorShowSystem = "monitorShowSystem"
     static let monitorShowNetwork = "monitorShowNetwork"
@@ -1651,6 +1655,10 @@ enum Defaults {
         // they don't want.
         DefaultsKey.monitorInterval: 2,
         DefaultsKey.temperatureUnit: TemperatureUnit.celsius.rawValue,
+        // Off until the owner pairs a phone: nothing listens on the network before.
+        DefaultsKey.remoteMonitorEnabled: false,
+        DefaultsKey.remoteMonitorPort: Int(RemoteMonitorProtocol.defaultPort),
+        DefaultsKey.remoteMonitorAlternateHost: "",
         DefaultsKey.menuBarCPUTemperature: false,
         DefaultsKey.menuBarGPUTemperature: false,
         DefaultsKey.menuBarBatteryTemperature: false,

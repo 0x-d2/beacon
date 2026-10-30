@@ -19,6 +19,7 @@ You can review or change every grant in System Settings, under Privacy and Secur
 | Administrator (one time) | Yes | Password free closed lid toggling |
 | Automation | Yes | Finder actions and supported music playback controls |
 | App Management | Yes | App installs, updates and removal |
+| Local Network | Yes | Watch from iPhone: sending this Mac's readings to the Beacon app on the phones you pair |
 
 ## Accessibility
 

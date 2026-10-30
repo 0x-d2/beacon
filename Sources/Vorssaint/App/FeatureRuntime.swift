@@ -413,6 +413,7 @@ final class FeatureRuntime: ObservableObject {
     private static func syncMonitor() {
         SystemMonitor.shared.planDidChange()
         MonitorAlertService.shared.syncWithPreferences()
+        RemoteMonitorService.shared.syncWithPreferences()
     }
 }
 

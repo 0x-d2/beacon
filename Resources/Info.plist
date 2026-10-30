@@ -72,6 +72,12 @@
 	<string>Vorssaint organizes confirmed WhatsApp downloads in a destination folder you explicitly choose. The Cleaner also looks for forgotten screenshots when you save screenshots here.</string>
 	<key>NSDocumentsFolderUsageDescription</key>
 	<string>Vorssaint organizes confirmed WhatsApp downloads in a destination folder you explicitly choose. The Cleaner also looks for forgotten screenshots when you save screenshots here.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Vorssaint uses the local network only when you turn on Watch from iPhone, to send this Mac's readings to the Beacon app on the phones you pair. Nothing goes anywhere else.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_beacon-mac._tcp</string>
+	</array>
 	<key>NSNetworkVolumesUsageDescription</key>
 	<string>Vorssaint organizes confirmed WhatsApp downloads in a destination folder you explicitly choose. The Cleaner also looks for forgotten screenshots when you save screenshots here.</string>
 	<key>NSRemovableVolumesUsageDescription</key>

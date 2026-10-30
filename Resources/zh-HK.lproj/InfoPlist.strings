@@ -22,3 +22,6 @@
 "NSNetworkVolumesUsageDescription" = "Vorssaint 會將已確認的 WhatsApp 下載項目整理到你明確選擇的目標資料夾。如果你將截圖儲存在這裡，清理功能亦會尋找被遺忘的截圖。";
 "NSRemovableVolumesUsageDescription" = "Vorssaint 會將已確認的 WhatsApp 下載項目整理到你明確選擇的目標資料夾。如果你將截圖儲存在這裡，清理功能亦會尋找被遺忘的截圖。";
 "NSCalendarsFullAccessUsageDescription" = "在螢幕頂部顯示即將到來的行程。日曆行程只會保留在這部 Mac 上。";
+
+/* macOS Local Network permission prompt (Watch from iPhone). */
+"NSLocalNetworkUsageDescription" = "只有在你開啟「在 iPhone 上查看」時，Vorssaint 才會使用區域網絡，將這部 Mac 的讀數傳送到已配對手機上的 Beacon App。不會傳到其他地方。";

@@ -10,6 +10,7 @@ enum SystemMonitorPlanTests {
     class Fixture {
         var menuPanelNeeds = SystemMonitorPanelNeeds.none
         var notchDetailNeeds = SystemMonitorPanelNeeds.none
+        var remoteNeeds = SystemMonitorPanelNeeds.none
         var fullMonitorVisible = false
         var notchVisible = false
         var notchAccessoryMonitoring = false
@@ -51,6 +52,15 @@ enum SystemMonitorPlanTests {
         suite.expect(monitor.currentPlan(defaults: defaults).needConnectedDevices,
                      "the island System page's device card ignores the panel row's toggle")
         monitor.notchDetailNeeds = .none
+        // A paired phone showing the Mac's readings (RemoteMonitorService) asks like a panel would.
+        let watched = [AppFeature.monitorCPU, .monitorMemory, .monitorNetwork].map(\.availabilityKey)
+        watched.forEach { defaults.set(true, forKey: $0) }
+        monitor.remoteNeeds = SystemMonitorPanelNeeds(network: true, cpu: true, memory: true)
+        let remote = monitor.currentPlan(defaults: defaults)
+        suite.expect(remote.any, "a phone watching the Mac is a reason to sample")
+        monitor.remoteNeeds = .none
+        suite.expect(!monitor.currentPlan(defaults: defaults).any, "nothing is sampled once the phone stops watching")
+        watched.forEach { defaults.removeObject(forKey: $0) }
         monitor.fullMonitorVisible = true
         let preview = monitor.currentPlan(defaults: defaults)
         suite.expect(preview.needConnectedDevices && preview.needFanSpeed,

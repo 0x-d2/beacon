@@ -22,3 +22,6 @@
 "NSNetworkVolumesUsageDescription" = "Vorssaint usporadúva potvrdené stiahnuté súbory z WhatsAppu do cieľového priečinka, ktorý výslovne vyberiete. Čistenie tiež hľadá zabudnuté snímky obrazovky, ak ich sem ukladáte.";
 "NSRemovableVolumesUsageDescription" = "Vorssaint usporadúva potvrdené stiahnuté súbory z WhatsAppu do cieľového priečinka, ktorý výslovne vyberiete. Čistenie tiež hľadá zabudnuté snímky obrazovky, ak ich sem ukladáte.";
 "NSCalendarsFullAccessUsageDescription" = "Zobrazte svoje nadchádzajúce udalosti v hornej časti obrazovky. Udalosti kalendára ostávajú na tomto Macu.";
+
+/* macOS Local Network permission prompt (Watch from iPhone). */
+"NSLocalNetworkUsageDescription" = "Vorssaint používa miestnu sieť len vtedy, keď zapnete Sledovať z iPhonu, aby posielal údaje tohto Macu do aplikácie Beacon na spárovaných telefónoch. Nič nejde nikam inam.";

@@ -129,6 +129,11 @@ enum SettingsBackupSupport {
     /// out by construction (they are not preference keys), listed here only
     /// when they would otherwise slip in through the registered set.
     static let machineStateKeys: Set<String> = [
+        // The phones paired with this Mac are in its keychain; another Mac
+        // restoring the switch would listen with none of them.
+        DefaultsKey.remoteMonitorEnabled,
+        DefaultsKey.remoteMonitorPort,
+        DefaultsKey.remoteMonitorAlternateHost,
         DefaultsKey.displaysSwitchedOff,
         DefaultsKey.displaysSwitchedOffFingerprints,
         // Agent profiles are folders on this Mac whose sign-in the cards use,

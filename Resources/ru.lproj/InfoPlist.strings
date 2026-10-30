@@ -22,3 +22,6 @@
 "NSNetworkVolumesUsageDescription" = "Vorssaint упорядочивает подтверждённые загрузки WhatsApp в папке назначения, которую вы явно выбираете. Очистка также ищет забытые снимки экрана, если вы сохраняете их сюда.";
 "NSRemovableVolumesUsageDescription" = "Vorssaint упорядочивает подтверждённые загрузки WhatsApp в папке назначения, которую вы явно выбираете. Очистка также ищет забытые снимки экрана, если вы сохраняете их сюда.";
 "NSCalendarsFullAccessUsageDescription" = "Показывает предстоящие встречи в верхней части экрана. События календаря остаются на этом Mac.";
+
+/* macOS Local Network permission prompt (Watch from iPhone). */
+"NSLocalNetworkUsageDescription" = "Vorssaint использует локальную сеть, только когда вы включаете «Наблюдение с iPhone», чтобы отправлять показатели этого Mac в приложение Beacon на сопряжённых телефонах. Больше никуда ничего не уходит.";
