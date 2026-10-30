@@ -1,0 +1,80 @@
+# Keeps the fork on Vorssaint (ref/git.md › Upstream updates). Every morning, and on demand (Actions › Upstream sync ›
+# Run workflow, or `gh workflow run upstream-sync.yml`), it brings `main` up to vorssaint/vorssaint-utils' `main` —
+# `main` carries no commit of its own, so that is a fast-forward — and, when `custom` lacks something `main` has, offers
+# it to `custom` as a pull request from `upstream-sync`. That branch is a copy of `main` made for the pull request:
+# GitHub's "Resolve conflicts" commits to the head branch, and the head is never `main`.
+# It runs on the owner's fine-grained token in the `UPSTREAM_SYNC_TOKEN` secret (this repo only; Contents, Workflows and
+# Pull requests: read and write). GITHUB_TOKEN can't write the workflow files upstream changes, and a pull request it
+# opens starts no CI.
+name: Upstream sync
+
+on:
+  schedule:
+    # 07:00 in Turkey.
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: upstream-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # A fork of this fork has nothing to sync.
+    if: github.repository == '0x-d2/beacon'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      # A 409 means `main` has a commit upstream doesn't: the run fails, and GitHub mails the owner.
+      - name: Bring main up to Vorssaint
+        run: |
+          if [[ -z $GH_TOKEN ]]; then
+            echo "::error::UPSTREAM_SYNC_TOKEN secret'ı yok (ref/git.md › Upstream updates)."
+            exit 1
+          fi
+          gh api --method POST "repos/$GH_REPO/merge-upstream" -f branch=main --jq .message
+
+      - name: Offer it to custom
+        run: |
+          main=$(gh api "repos/$GH_REPO/git/ref/heads/main" --jq .object.sha)
+          missing=$(gh api "repos/$GH_REPO/compare/custom...$main" --jq .ahead_by)
+          if (( missing == 0 )); then
+            echo "custom, main'deki her şeyi içeriyor." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          open=$(gh api "repos/$GH_REPO/pulls?state=open&base=custom&head=${GH_REPO%%/*}:upstream-sync" \
+            --jq '.[0].html_url // empty')
+          if [[ -n $open ]]; then
+            # Fast-forward only: a conflict resolution committed on the branch stays, and what came after it arrives
+            # with the next pull request.
+            if gh api --method PATCH "repos/$GH_REPO/git/refs/heads/upstream-sync" -f sha="$main" -F force=false --silent; then
+              echo "$open artık main'in ucunda." >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "$open üzerinde kendi commit'leri var; kalanı o birleşince gelir." >> "$GITHUB_STEP_SUMMARY"
+            fi
+            exit 0
+          fi
+
+          # The branch outlives its merged pull request; a new one starts it over from `main`.
+          gh api --method PATCH "repos/$GH_REPO/git/refs/heads/upstream-sync" -f sha="$main" -F force=true --silent \
+            || gh api --method POST "repos/$GH_REPO/git/refs" -f ref=refs/heads/upstream-sync -f sha="$main" --silent
+          {
+            echo "Vorssaint'ten \`custom\`'a henüz gelmemiş $missing commit: https://github.com/$GH_REPO/compare/custom...main"
+            echo
+            cat <<'EOF'
+          - Birleştirmeden önce CI'ye ve Beacon'ın dokunduğu upstream dosyalarına bak (`ref/git.md` › Upstream updates).
+          - Conflict'i bu dalda (`upstream-sync`) çöz; GitHub'ın *Resolve conflicts*'i de buraya yazar. `main`'e dokunma.
+          - Repo yalnız merge commit'e izin veriyor: upstream'in commit'leri `custom`'da olduğu gibi kalmalı.
+          EOF
+          } > "$RUNNER_TEMP/body.md"
+          url=$(gh api --method POST "repos/$GH_REPO/pulls" --jq .html_url \
+            -f base=custom -f head=upstream-sync \
+            -f title="chore(upstream): merge Vorssaint's latest" \
+            -F body=@"$RUNNER_TEMP/body.md")
+          echo "$url ($missing commit)" >> "$GITHUB_STEP_SUMMARY"
