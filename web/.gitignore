@@ -1,0 +1,5 @@
+node_modules/
+dist/
+# Written by `npm run collect` from the sources and ~/BeaconKit/kit (docs/scripts/kit.sh): never committed.
+public/data/
+public/renders/

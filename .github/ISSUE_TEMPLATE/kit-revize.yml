@@ -1,0 +1,34 @@
+# BeaconKit™ catalog notes (docs/beaconkit.md › Notes): the site's "Not bırak" opens this form filled in. The collector
+# reads the "Öğe" field to show the open notes on that item's page.
+name: BeaconKit™ revize notu
+description: Katalogdaki bir bileşen, token, yüzey ya da satır içi değer hakkında not
+title: "[BeaconKit™] "
+labels: ["kit-revize"]
+body:
+  - type: textarea
+    id: note
+    attributes:
+      label: Not
+      description: Ne değişmeli, neden? Tutarsızlık, yanlış renk, eksik hâl…
+    validations:
+      required: true
+  - type: input
+    id: item
+    attributes:
+      label: Öğe
+      description: Bileşen (SettingsCard), token (PanelSurface.cardFill), yüzey (panel.system) ya da rehber maddesi
+    validations:
+      required: true
+  - type: input
+    id: variant
+    attributes:
+      label: Hâl
+  - type: input
+    id: context
+    attributes:
+      label: Bağlam
+      description: Tema, dil ve katalogun commit'i
+  - type: input
+    id: link
+    attributes:
+      label: Katalogda

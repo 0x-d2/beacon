@@ -1,0 +1,256 @@
+{
+  "accent" : "The viewer's accent setting at the time of the run (Multicolor: blue).",
+  "colors" : {
+    "accentColor" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#007aff"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#007aff"
+      }
+    },
+    "black" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#000000"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#000000"
+      }
+    },
+    "blue" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#0091ff"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#0088ff"
+      }
+    },
+    "brown" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#b78a66"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ac7f5e"
+      }
+    },
+    "clear" : {
+      "dark" : {
+        "alpha" : 0,
+        "hex" : "#000000"
+      },
+      "light" : {
+        "alpha" : 0,
+        "hex" : "#000000"
+      }
+    },
+    "controlBackground" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#1e1e1e"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ffffff"
+      }
+    },
+    "cyan" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#3cd3fe"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#00c0e8"
+      }
+    },
+    "gray" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#98989d"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#8e8e93"
+      }
+    },
+    "green" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#30d158"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#34c759"
+      }
+    },
+    "indigo" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#6d7cff"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#6155f5"
+      }
+    },
+    "mint" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#00dac3"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#00c8b3"
+      }
+    },
+    "orange" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#ff9230"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ff8d28"
+      }
+    },
+    "pink" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#ff375f"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ff2d55"
+      }
+    },
+    "primary" : {
+      "dark" : {
+        "alpha" : 0.84699999999999998,
+        "hex" : "#ffffff"
+      },
+      "light" : {
+        "alpha" : 0.84699999999999998,
+        "hex" : "#000000"
+      }
+    },
+    "purple" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#db34f2"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#cb30e0"
+      }
+    },
+    "quaternary" : {
+      "dark" : {
+        "alpha" : 0.098000000000000004,
+        "hex" : "#ffffff"
+      },
+      "light" : {
+        "alpha" : 0.098000000000000004,
+        "hex" : "#000000"
+      }
+    },
+    "red" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#ff4245"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ff383c"
+      }
+    },
+    "secondary" : {
+      "dark" : {
+        "alpha" : 0.54900000000000004,
+        "hex" : "#ffffff"
+      },
+      "light" : {
+        "alpha" : 0.498,
+        "hex" : "#000000"
+      }
+    },
+    "separator" : {
+      "dark" : {
+        "alpha" : 0.12,
+        "hex" : "#ffffff"
+      },
+      "light" : {
+        "alpha" : 0.10000000000000001,
+        "hex" : "#000000"
+      }
+    },
+    "teal" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#00d2e0"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#00c3d0"
+      }
+    },
+    "tertiary" : {
+      "dark" : {
+        "alpha" : 0.247,
+        "hex" : "#ffffff"
+      },
+      "light" : {
+        "alpha" : 0.25900000000000001,
+        "hex" : "#000000"
+      }
+    },
+    "underPageBackground" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#282828"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#f6f6f6"
+      }
+    },
+    "white" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#ffffff"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ffffff"
+      }
+    },
+    "windowBackground" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#1e1e1e"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ffffff"
+      }
+    },
+    "yellow" : {
+      "dark" : {
+        "alpha" : 1,
+        "hex" : "#ffd600"
+      },
+      "light" : {
+        "alpha" : 1,
+        "hex" : "#ffcc00"
+      }
+    }
+  },
+  "macOS" : "27.2.0"
+}
