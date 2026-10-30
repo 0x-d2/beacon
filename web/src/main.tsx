@@ -20,6 +20,7 @@ import { Surfaces } from './pages/Surfaces.tsx'
 import { SurfacePage } from './pages/SurfacePage.tsx'
 import { Literals } from './pages/Literals.tsx'
 import { Changes } from './pages/Changes.tsx'
+import { IOSColors, IOSComponents, IOSScreens } from './pages/IOS.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -43,6 +44,9 @@ createRoot(document.getElementById('root')!).render(
             <Route path="degerler" element={<Literals />} />
             <Route path="degerler/:kind" element={<Literals />} />
             <Route path="degisiklikler" element={<Changes />} />
+            <Route path="ios/bilesenler" element={<IOSComponents />} />
+            <Route path="ios/ekranlar" element={<IOSScreens />} />
+            <Route path="ios/renkler" element={<IOSColors />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

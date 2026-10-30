@@ -77,6 +77,14 @@ export function Layout() {
                 </NavLink>
               ))}
             </div>
+            {catalog.ios && (
+              <div className="nav-section">
+                <div className="nav-title">iPhone · Beacon</div>
+                <NavLink to="/ios/bilesenler">{t('Bileşenler', 'Components')} <span className="count">{catalog.ios.components.length}</span></NavLink>
+                <NavLink to="/ios/ekranlar">{t('Ekranlar', 'Screens')} <span className="count">{catalog.ios.screens.length}</span></NavLink>
+                <NavLink to="/ios/renkler">{t('Renkler', 'Colours')} <span className="count">{catalog.ios.colors.length}</span></NavLink>
+              </div>
+            )}
             <div className="nav-section">
               <div className="nav-title">{t('İnceleme', 'Review')}</div>
               <NavLink to="/degerler">{t('Satır içi değerler', 'Inline values')} <span className="count">{literalTotal.toLocaleString(t.language)}</span></NavLink>

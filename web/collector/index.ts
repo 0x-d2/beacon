@@ -11,6 +11,7 @@ import { categories, findComponents, type Component } from './components.ts'
 import { git, lastChanges, recentChanges, repository, revisionNotes } from './git.ts'
 import { resolveGuide, resolveLandmarks } from './guide.ts'
 import { scanLiterals, type LiteralGroup, type LiteralKind } from './literals.ts'
+import { collectIOS } from './ios.ts'
 import { readRenders } from './renders.ts'
 import { catalog as schema } from './schema.ts'
 import { appStrings } from './strings.ts'
@@ -159,7 +160,9 @@ for (const s of surfaces) for (const used of Object.keys(s.components)) usedBy.s
 const guide = resolveGuide(files)
 for (const missing of guide.missing) warnings.push(`guide entry no longer found: ${missing}`)
 
-const status = git(root, 'status', '--porcelain', '--', 'Sources', 'web', 'docs')
+const ios = await collectIOS(root, web, kit)
+
+const status = git(root, 'status', '--porcelain', '--', 'Sources', 'web', 'docs', 'iOS')
 const catalog = schema.parse({
   meta: {
     sha: git(root, 'rev-parse', 'HEAD') || 'unknown',
@@ -204,6 +207,7 @@ const catalog = schema.parse({
     issues: notesFor(s.id),
   })),
   guide: guide.entries,
+  ios,
   changes: recentChanges(root, ['Sources/Vorssaint/UI', 'Sources/Vorssaint/Services/Notch', 'Sources/Vorssaint/App/MenuBarRenderer.swift', 'Resources/Brand']),
   issues,
 })
@@ -218,5 +222,6 @@ console.log([
   `  ${catalog.tokens.colors.length} colours, ${catalog.tokens.gradients.length} gradients, ${catalog.tokens.textStyles.length} text styles, ${catalog.tokens.metrics.length} metrics, ${catalog.tokens.motions.length} motions, ${catalog.tokens.palettes.length} palettes`,
   `  ${catalog.components.length} components, ${catalog.surfaces.length} surfaces, ${literalTotal} inline values, ${catalog.guide.length} guide entries, ${issues.length} open notes`,
   renders ? `  renders: ${[...renders.variants.values()].reduce((n, v) => n + v.length, 0)} variants, ${renders.surfaces.size} surfaces` : '  renders: none (npm run collect -- --kit <dir>)',
+  ios ? `  iOS: ${ios.components.length} components, ${ios.colors.length} colours, ${ios.screens.filter((s) => Object.keys(s.images).length).length} screens rendered` : '  iOS: none',
 ].join('\n'))
 for (const warning of warnings) console.warn(`  ! ${warning}`)

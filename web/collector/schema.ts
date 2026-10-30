@@ -125,6 +125,20 @@ export const change = z.object({ sha: z.string(), at: z.string(), subject: z.str
 /** When a group of renders was taken and at which commit (kit.sh's rendered.json); null before the first render. */
 export const rendered = z.object({ sha: z.string(), at: z.string() }).nullable()
 
+/** Beacon, the iPhone app (collector/ios.ts). */
+export const ios = z.object({
+  components: z.array(z.object({
+    id: z.string(), category: z.string(), doc: z.string(), source,
+    variants: z.array(z.object({ id: z.string(), title: z.string(), images })),
+  })),
+  colors: z.array(z.object({
+    id: z.string(), doc: z.string(), mac: z.string().nullable(), expression: z.string(),
+    light: colorValue.nullable(), dark: colorValue.nullable(), source,
+  })),
+  screens: z.array(z.object({ id: z.string(), title: localized, images })),
+  rendered,
+}).nullable()
+
 export const catalog = z.object({
   meta: z.object({
     sha: z.string(),
@@ -154,6 +168,7 @@ export const catalog = z.object({
   components: z.array(component),
   surfaces: z.array(surface),
   guide: z.array(guideEntry),
+  ios,
   changes: z.array(change),
   issues: z.array(issue),
 })
@@ -174,3 +189,4 @@ export type Usage = z.infer<typeof usage>
 export type Issue = z.infer<typeof issue>
 export type GuideEntry = z.infer<typeof guideEntry>
 export type Rendered = z.infer<typeof rendered>
+export type IOS = NonNullable<z.infer<typeof ios>>

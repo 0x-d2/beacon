@@ -16,6 +16,8 @@ struct BeaconApp: App {
                 // such a link, so it's shown for the owner to confirm, never saved on its own.
                 .onOpenURL { url in model.propose(link: url.absoluteString) }
                 .task {
+                    // BeaconKit™'s renders (`-kitExport 1`): draw every specimen, write them out, quit.
+                    if KitExport.isRequested { KitExport.run() }
                     // Launch arguments for the simulator and the catalog's renders: `-screen dashboard`, `-pair <link>`.
                     if let screen = UserDefaults.standard.string(forKey: "screen") { model.open(screen: screen) }
                     if let link = UserDefaults.standard.string(forKey: "pair") { model.pair(link: link) }
