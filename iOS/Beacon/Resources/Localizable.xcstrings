@@ -1041,6 +1041,26 @@
           }
         }
       }
+    },
+    "Pair with this Mac?": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac’le eşleşilsin mi?"
+          }
+        }
+      }
+    },
+    "Pair only with a Mac of your own: it will see this phone's name.\n%@": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnız kendi Mac’inle eşleş: Mac bu telefonun adını görür.\n%@"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

@@ -56,12 +56,26 @@ struct MacsView: View {
             }
             .sheet(isPresented: $pairing) { PairingView() }
             .sheet(isPresented: $settings) { SettingsView() }
+            .alert("Pair with this Mac?", isPresented: Binding(get: { model.proposedPairing != nil }, set: { if !$0 { model.proposedPairing = nil } }),
+                   presenting: model.proposedPairing) { _ in
+                Button("Pair") { model.confirmProposedPairing() }
+                Button("Cancel", role: .cancel) { model.proposedPairing = nil }
+            } message: { pairing in
+                Text("Pair only with a Mac of your own: it will see this phone's name.\n\(Self.details(pairing))")
+            }
             .alert("Couldn't pair", isPresented: Binding(get: { model.pairingError != nil && !pairing }, set: { if !$0 { model.pairingError = nil } })) {
                 Button("OK", role: .cancel) {}
             } message: {
                 Text(model.pairingError ?? "")
             }
         }
+    }
+}
+
+extension MacsView {
+    /// The name and every address a pairing would connect to, for the owner to recognise.
+    static func details(_ pairing: RemotePairing) -> String {
+        ([pairing.name, pairing.host] + (pairing.alternateHost.map { [$0] } ?? []) + ["\(pairing.port)"]).joined(separator: " · ")
     }
 }
 

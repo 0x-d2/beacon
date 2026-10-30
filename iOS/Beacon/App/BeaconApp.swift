@@ -12,8 +12,9 @@ struct BeaconApp: App {
         WindowGroup {
             MacsView()
                 .environment(model)
-                // The Mac's QR code is a beacon:// link: the Camera app hands it here too.
-                .onOpenURL { url in model.pair(link: url.absoluteString) }
+                // The Mac's QR code is a beacon:// link: the Camera app hands it here too. Anything can open
+                // such a link, so it's shown for the owner to confirm, never saved on its own.
+                .onOpenURL { url in model.propose(link: url.absoluteString) }
                 .task {
                     // Launch arguments for the simulator and the catalog's renders: `-screen dashboard`, `-pair <link>`.
                     if let screen = UserDefaults.standard.string(forKey: "screen") { model.open(screen: screen) }

@@ -34,23 +34,43 @@ final class AppModel {
         return session
     }
 
-    /// Reads a pairing link and keeps the Mac it names; the same Mac paired
-    /// again (a new code) replaces its old key.
+    /// A pairing link that came from outside the app (the Camera app, a web
+    /// page, another app): shown for the owner to confirm, never saved on its
+    /// own, since anything can open a beacon:// link.
+    var proposedPairing: RemotePairing?
+
+    /// Reads a pairing link the owner scanned or pasted in the app, and keeps the Mac it names.
     @discardableResult
     func pair(link: String) -> PairedMac? {
+        guard let pairing = parse(link) else { return nil }
+        return pair(pairing)
+    }
+
+    /// A pairing link from outside the app: asks first (MacsView's confirmation).
+    func propose(link: String) {
+        proposedPairing = parse(link)
+    }
+
+    func confirmProposedPairing() {
+        if let pairing = proposedPairing { pair(pairing) }
+        proposedPairing = nil
+    }
+
+    private func parse(_ link: String) -> RemotePairing? {
         guard let url = URL(string: link.trimmingCharacters(in: .whitespacesAndNewlines)),
               let pairing = RemotePairing(url: url) else {
             pairingError = String(localized: "That isn't a Beacon pairing code. On the Mac, open Settings › Monitor › Watch from iPhone and add a phone.")
             return nil
         }
-        return pair(pairing)
+        return pairing
     }
 
+    /// Keeps the Mac a pairing names. The same pairing again (its id) updates
+    /// it; any other entry stays until the owner forgets it, whatever the new
+    /// one calls itself.
     @discardableResult
     func pair(_ pairing: RemotePairing) -> PairedMac? {
         let mac = PairedMac(pairing: pairing)
-        // A Mac paired again: drop the old entry for the same host and name.
-        for old in macs where old.id != mac.id && old.name == mac.name && old.host == mac.host { remove(old.id) }
         guard PairingStore.save(mac) else {
             pairingError = String(localized: "Couldn't save the Mac's key on this phone.")
             return nil

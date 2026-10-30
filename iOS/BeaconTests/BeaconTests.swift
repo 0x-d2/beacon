@@ -56,3 +56,18 @@ struct BeaconTests {
         #expect(snapshot.disks.count == 2)
     }
 }
+
+/// A beacon:// link from outside the app (anything can open one) waits for the owner, and never replaces another Mac.
+@MainActor
+struct PairingConfirmationTests {
+    @Test func aLinkFromOutsideIsOnlyProposed() throws {
+        let model = AppModel(demoOnly: true)
+        let pairing = RemotePairing(name: "Mac mini", host: "mac-mini.local", alternateHost: nil, port: 47823,
+                                    id: "0f9b6c1e-1111-4222-8333-444455556666", key: Data(count: 32))
+        model.propose(link: pairing.url.absoluteString)
+        #expect(model.proposedPairing == pairing)
+        #expect(model.macs.isEmpty, "nothing is saved before the owner confirms")
+        model.proposedPairing = nil
+        #expect(model.macs.isEmpty)
+    }
+}
