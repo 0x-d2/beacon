@@ -704,6 +704,9 @@ final class SystemMonitor: ObservableObject {
     }
 
     private func startTimer() {
+#if VORSSAINT_DEVELOPMENT
+        if kitFrozen { return }
+#endif
         let cadenceSeconds = TimeInterval(intervalSeconds * scheduledWakeTicks)
         let t = Timer(timeInterval: cadenceSeconds, repeats: true) { [weak self] _ in
             self?.refresh()
@@ -711,6 +714,28 @@ final class SystemMonitor: ObservableObject {
         t.tolerance = cadenceSeconds * 0.15
         RunLoop.main.add(t, forMode: .common)
         timer = t
+    }
+
+#if VORSSAINT_DEVELOPMENT
+    /// BeaconKit™'s renders (Kit/KitFixtures.swift): a fixed snapshot in place
+    /// of the readings and the timer stopped for good, so a render draws the
+    /// same numbers on every Mac and in every run.
+    private(set) var kitFrozen = false
+
+    func freezeForKit(_ snapshot: SystemSnapshot) {
+        kitFrozen = true
+        timer?.invalidate()
+        timer = nil
+        self.snapshot = snapshot
+    }
+#endif
+
+    private var isKitFrozen: Bool {
+#if VORSSAINT_DEVELOPMENT
+        return kitFrozen
+#else
+        return false
+#endif
     }
 
     private func restartTimer() {
@@ -726,6 +751,9 @@ final class SystemMonitor: ObservableObject {
             DispatchQueue.main.async { [weak self] in self?.refresh(suppressImmediateGPU: suppressImmediateGPU, forcing: forcing) }
             return
         }
+#if VORSSAINT_DEVELOPMENT
+        if kitFrozen { return }
+#endif
         let defaults = UserDefaults.standard
         let plan = currentPlan(defaults: defaults)
         syncPeripheralBatterySampling()
@@ -983,7 +1011,7 @@ final class SystemMonitor: ObservableObject {
                 // same mode): the values are identical to the ones on screen.
                 let planChanged = plan != self.lastPublishedPlan
                     || foregroundSampling != self.lastPublishedForeground
-                if sampledAnything || planChanged {
+                if (sampledAnything || planChanged) && !self.isKitFrozen {
                     self.snapshot = next
                     self.lastPublishedPlan = plan
                     self.lastPublishedForeground = foregroundSampling

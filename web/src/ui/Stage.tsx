@@ -3,7 +3,7 @@
 import { useRef, useState, type PointerEvent } from 'react'
 import { useCatalog, useT } from '../data.tsx'
 
-type Shot = { src: string; width: number; height: number }
+type Shot = { src: string; width: number; height: number; mode?: string }
 
 export function Stage({ images, title, scale = 1 }: { images: Record<string, Shot>; title: string; scale?: number }) {
   const { settings } = useCatalog()
@@ -36,6 +36,12 @@ export function Stage({ images, title, scale = 1 }: { images: Record<string, Sho
         <span>{round(shot.width)} × {round(shot.height)} pt</span>
         {scale !== 1 && <span>· {t(`${t.percent(Math.round(scale * 100))} ölçek`, `${t.percent(Math.round(scale * 100))} scale`)}</span>}
         {fellBack && <span className="badge warn">{t(`${language.toUpperCase()} görüntüsü yok`, `no ${language.toUpperCase()} image`)}</span>}
+        {shot.mode === 'window' && (
+          <span className="badge" title={t('Ekran Kaydı izni olmadan çekildi: renderer yalnız kendi pencerelerini görür, malzemeler arkalarını bulanıklaştırmaz', 'Taken without Screen Recording permission: the renderer sees only its own windows, so materials don\'t blur what\'s behind')}>
+            {t('malzeme düz', 'flat material')}
+          </span>
+        )}
+        {shot.mode === 'imageRenderer' && <span className="badge" title={t('ImageRenderer ile çizildi: malzemeler ve AppKit kontrolleri yok', 'Drawn with ImageRenderer: no materials or AppKit controls')}>ImageRenderer</span>}
       </div>
     </div>
   )

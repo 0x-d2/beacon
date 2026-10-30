@@ -58,3 +58,31 @@ jobs:
 
       - name: Unit tests
         run: ./build.sh --test
+
+      # The developer variant's own code (the probes, BeaconKit™'s renderer and
+      # specimens) compiles only there; a release build never sees it.
+      - name: Developer variant
+        run: ./build.sh --typecheck-dev
+
+  kit:
+    name: BeaconKit™ catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 25
+
+      # The collector reads the Swift sources line by line: a change that breaks
+      # what it expects (a token's shape, a guide entry's line) shows here.
+      - name: Collect and build
+        working-directory: web
+        run: |
+          npm ci
+          npm run collect
+          npm run build

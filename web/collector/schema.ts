@@ -19,7 +19,8 @@ const literalKinds = z.enum(['radius', 'font', 'padding', 'spacing', 'frame', 's
 const literalCounts = z.partialRecord(literalKinds, z.number())
 
 /** A render of a variant or a surface, keyed `<language>-<theme>` (`tr-dark`): docs/beaconkit.md › Renders. */
-const image = z.object({ src: z.string(), width: z.number(), height: z.number() })
+/** `mode`: `screen` (the screen itself), `window` (the renderer's windows alone: materials flat), `imageRenderer`. */
+const image = z.object({ src: z.string(), width: z.number(), height: z.number(), mode: z.string() })
 const images = z.record(z.string(), image)
 
 export const colorToken = z.object({

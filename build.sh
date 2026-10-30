@@ -32,9 +32,14 @@ DEV=0
 INSTALL=0
 TEST=0
 TEST_ARGS=()
+# --typecheck-dev type-checks the app as the developer variant compiles it
+# (VORSSAINT_DEVELOPMENT: the probes and BeaconKit™'s renderer), without
+# building, signing or touching the keychain, so CI covers that code too.
+TYPECHECK_DEV=0
 for arg in "$@"; do
     case "$arg" in
         --dev)     DEV=1 ;;
+        --typecheck-dev) TYPECHECK_DEV=1 ;;
         --install) INSTALL=1 ;;
         --test)    TEST=1 ;;
         --test-suite=*) TEST=1; TEST_ARGS+=("--suite=${arg#*=}") ;;
@@ -598,6 +603,14 @@ if (( TEST )); then
     fi
     discard_test_preferences || test_status=1
     exit $test_status
+fi
+
+if (( TYPECHECK_DEV )); then
+    echo "▸ Type-checking the developer variant against $(basename "$SDK")…"
+    swiftc -typecheck -enable-batch-mode -j "$(sysctl -n hw.logicalcpu)" -target "$TARGET" -sdk "$SDK" "${SDK_COMPAT_FLAGS[@]}" "${VM_STATISTICS_COMPAT_FLAGS[@]}" \
+        "${HID_EVENT_SYSTEM_FLAGS[@]}" -D VORSSAINT_DEVELOPMENT Sources/Vorssaint/**/*.swift
+    echo "✓ The developer variant type-checks"
+    exit 0
 fi
 
 echo "▸ Compiling ($BUILD_CONFIGURATION) against $(basename "$SDK")…"

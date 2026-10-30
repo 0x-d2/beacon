@@ -3,15 +3,17 @@
 // web/public/renders, skipped when the WebP is newer than its PNG. Their sizes are in points (the renders are @2x).
 //
 //   <kit>/export/registry.json                         the specimens and their variants, in render order
-//   <kit>/render/components/<lang>/<theme>/<specimen>/<variant>.png   + manifest.json
+//   <kit>/render/components/<lang>/<theme>/<slug>/<variant>.png        + manifest.json (slug: the id's letters)
 //   <kit>/render/surfaces/<lang>/<theme>/<surface>.png                + manifest.json
 //   <kit>/render/rendered.json                         each group's commit and time
 import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
-type Image = { src: string; width: number; height: number }
-type Manifest = Record<string, { width: number; height: number }>
-type Registry = { specimens: { id: string; variants: { id: string; title: string; capture: 'screen' | 'imageRenderer' }[] }[] }
+/** `mode`: how the image was taken (`screen`: the screen itself; `window`: the renderer's windows alone, without
+ *  Screen Recording permission, so materials come out flat; `imageRenderer`: SwiftUI alone). */
+type Image = { src: string; width: number; height: number; mode: string }
+type Manifest = Record<string, { width: number; height: number; mode?: string }>
+type Registry = { specimens: { id: string; slug: string; variants: { id: string; title: string; capture: 'screen' | 'imageRenderer' }[] }[] }
 type Rendered = { sha: string; at: string } | null
 
 const readJSON = <T>(path: string): T | null => (existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) as T : null)
@@ -40,13 +42,13 @@ export async function readRenders(kit: string, web: string, warnings: string[]) 
     variants.set(specimen.id, specimen.variants.map((variant) => {
       const images: Record<string, Image> = {}
       for (const [key, size] of Object.entries(componentManifest)) {
-        const [language, theme, id, name] = key.split('/')
-        if (id !== specimen.id || name !== variant.id) continue
-        const png = join(kit, 'render', 'components', language, theme, id, `${name}.png`)
+        const [language, theme, slug, name] = key.split('/')
+        if (slug !== specimen.slug || name !== variant.id) continue
+        const png = join(kit, 'render', 'components', language, theme, slug, `${name}.png`)
         if (!existsSync(png)) continue
-        const src = `renders/components/${language}/${theme}/${id}/${name}.webp`
+        const src = `renders/components/${language}/${theme}/${slug}/${name}.webp`
         convert(png, join(web, 'public', src))
-        images[`${language}-${theme}`] = { src, width: size.width, height: size.height }
+        images[`${language}-${theme}`] = { src, width: size.width, height: size.height, mode: size.mode ?? 'screen' }
       }
       return { ...variant, images }
     }))
@@ -59,7 +61,7 @@ export async function readRenders(kit: string, web: string, warnings: string[]) 
     if (!existsSync(png)) continue
     const src = `renders/surfaces/${language}/${theme}/${id}.webp`
     convert(png, join(web, 'public', src))
-    surfaces.set(id, { ...(surfaces.get(id) ?? {}), [`${language}-${theme}`]: { src, width: size.width, height: size.height } })
+    surfaces.set(id, { ...(surfaces.get(id) ?? {}), [`${language}-${theme}`]: { src, width: size.width, height: size.height, mode: size.mode ?? 'screen' } })
   }
 
   // A few at a time: sharp is threaded, so four files at once keep every core busy.

@@ -52,6 +52,45 @@ zod schema (`collector/schema.ts`) the site shares; a mismatch fails the collect
 - **Git and notes** (`git.ts`): the commit, each file's last change, the latest commits under `UI/`, the open
   `kit-revize` issues (with `gh` signed in).
 
+## Renders (`Sources/Vorssaint/Kit/`, `docs/scripts/kit.sh`)
+
+The site shows the app's own pixels: every specimen variant and some whole surfaces, photographed in Turkish and
+English, dark and light. All of `Kit/` is `#if VORSSAINT_DEVELOPMENT`, so a release never carries it, and it lives apart
+from the components so the upstream files stay untouched.
+
+| | |
+|---|---|
+| `KitSpecimen`, `KitVariant` (`Kit/KitSpecimen.swift`) | A component by its catalog id (`SettingsCard`, `.panelCard()`), its category, its variants: `id`, `title` (the API that makes it), `width` (308 is the panel's content width), `backdrop` (`.panel`: the panel's glass over a desktop; `.window`; `.notch`: black and dark; `.desktop`), `capture` (`.screen`, or `.imageRenderer` for plain shapes only) |
+| `Kit/Specimens/*.swift` | The specimens, a file per category. Copy the app itself shows comes from `L10n`; sample copy the tables don't have is `kitText("…", "…")` |
+| `KitCatalog` (`Kit/KitCatalog.swift`) | The specimens in the site's order, and the surfaces (`KitSurface`, by `surfaces.ts`'s id: `panel.system`). A surface goes there only if it draws from the frozen readings and starts no service: a page that registers hotkeys, applies the appearance or asks for a permission would change what it photographs, or the Mac |
+| `KitFixtures` | The readings the renders draw (`SystemMonitor.freezeForKit(_:)`, development builds only): the same numbers on every Mac and run |
+| `KitRenderer` | `--kit-render <dir>` (`main.swift`, development builds): each variant in a borderless window of its own above an opaque backdrop window, per language (`L10n`) and theme (`NSApp.appearance`), photographed with ScreenCaptureKit |
+
+```sh
+docs/scripts/kit.sh                          # build, then everything: TR + EN, dark + light (≈ 1 min)
+docs/scripts/kit.sh --specimen SettingsCard  # some specimens; the others' images stay
+docs/scripts/kit.sh --only surfaces --no-build
+cd web && npm run collect -- --kit ~/BeaconKit/kit && npm run dev
+```
+
+- **Adding a specimen:** a `static var` in the category's file under `Kit/Specimens/`, then its name in
+  `KitCatalog.specimens`. Its id is the component's as the site lists it; the collector warns when it names none.
+  `./build.sh --typecheck-dev` (CI runs it) checks the development code, which a release build never compiles. No
+  macros (`#Preview`, `@Observable`): the app builds against the macOS 26 SDK with the Command Line Tools.
+- **The renderer** is the developer build copied to `~/BeaconKit/BeaconKit Renderer.app` under its own bundle id
+  (`co.ikili.beaconkit.renderer`), so the language it switches through stays out of the developer app's settings, and
+  launched with `open`, so Screen Recording is asked of it. **With** that permission it photographs the screen itself:
+  a material blurs the backdrop as it would the desktop. **Without** it, it photographs its own two windows
+  (`SCShareableContent.currentProcess`, no prompt) and materials come out flat; the manifest and the site
+  ("malzeme düz") say which. Either way controls draw in their active state (the render panel can be key and never
+  hides).
+- **A render on a 1x screen is refused** (the site shows @2x pixels): the mini needs a HiDPI mode
+  (`docs/beaconkit-mac-mini.md`). `KIT_ALLOW_1X=1` renders anyway, to try something.
+- **Output:** `export/registry.json`; `render/components/<lang>/<theme>/<slug>/<variant>.png` and
+  `render/surfaces/<lang>/<theme>/<surface>.png`, each with a `manifest.json` (sizes in points, the capture mode);
+  `render/rendered.json` (each group's commit and time, for the site's "Bileşen görüntüleri: <date> · <commit>").
+  Log: `docs/logs/kit-render.log`. The collector turns the PNGs into lossless WebP under `web/public/renders`.
+
 ## Site (`web/`, Vite + React + TypeScript)
 
 ```sh
@@ -79,8 +118,9 @@ collect shows it on the item. Work through them with `gh issue list --label kit-
 
 ## Hosting (`.github/workflows/kit.yml`)
 
-- **Manual only:** Actions › BeaconKit™ › Run workflow, or `gh workflow run kit.yml -f scope=site`. Pushes and pull
-  requests never trigger it. The job runs only when the repo's owner starts it (`github.triggering_actor`), since the
+- **Manual only:** Actions › BeaconKit™ › Run workflow, or `gh workflow run kit.yml -f scope=all`. Pushes and pull
+  requests never trigger it. `scope`: `all` (components and surfaces, then the site), `components`, `surfaces`, or
+  `site` (the site alone, on the images kept in `~/BeaconKit/kit` from an earlier run); `languages`: `tr en`, `tr`, `en`. The job runs only when the repo's owner starts it (`github.triggering_actor`), since the
   repo is public and the runner is the owner's Mac.
 - **The runner:** the Mac mini `brain`, a runner of this repo's own (`~/actions-runner/beacon`, label `beacon-kit`,
   beside Ata-Online's `ata-kit`), a LaunchAgent in the mini's GUI session.

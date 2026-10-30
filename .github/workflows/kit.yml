@@ -1,19 +1,27 @@
 # The BeaconKit™ catalog (docs/beaconkit.md › Hosting): manual only (Actions › BeaconKit™ › Run workflow, or
 # `gh workflow run kit.yml`); pushes and pull requests never trigger it, so nobody else's code ever reaches the
 # self-hosted runner. The Mac mini at home (`brain` on Tailscale, a runner of its own for this repo labelled
-# `beacon-kit`, beside Ata-Online's `ata-kit`) collects the Swift sources, builds the site and publishes it to the
-# tailnet only, at https://brain.<tailnet>.ts.net:8445. Setup on the mini: docs/beaconkit-mac-mini.md.
+# `beacon-kit`, beside Ata-Online's `ata-kit`) photographs the app's components and surfaces (docs/scripts/kit.sh),
+# collects them with the Swift sources, builds the site and publishes it to the tailnet only, at
+# https://brain.<tailnet>.ts.net:8445. Renders stay in ~/BeaconKit/kit between runs, so `site` publishes a source change
+# on the images already taken. Setup on the mini: docs/beaconkit-mac-mini.md.
 name: BeaconKit™
-run-name: BeaconKit™ · ${{ inputs.scope }}
+run-name: >-
+  BeaconKit™ · ${{ inputs.scope }}${{ inputs.languages != 'tr en' && format(' · {0}', inputs.languages) || '' }}
 
 on:
   workflow_dispatch:
     inputs:
       scope:
-        description: "Kapsam · site: kaynak koddan katalog, görüntüler olduğu gibi"
+        description: "Kapsam · all: bileşenler ve yüzeyler çekilir · site: yalnız site, görüntüler olduğu gibi · components · surfaces"
         type: choice
-        options: [site]
-        default: site
+        options: [all, site, components, surfaces]
+        default: all
+      languages:
+        description: Dil
+        type: choice
+        options: [tr en, tr, en]
+        default: tr en
 
 permissions:
   contents: read
@@ -30,7 +38,7 @@ jobs:
     # The repo is public and the runner is the owner's own Mac: only the owner starts or re-runs it.
     if: github.triggering_actor == github.repository_owner
     runs-on: [self-hosted, macOS, beacon-kit]
-    timeout-minutes: 60
+    timeout-minutes: 90
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -49,6 +57,20 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 25
+
+      # The inputs reach the script as environment values only; kit.sh takes only the steps and languages it knows.
+      - name: Renders
+        if: inputs.scope != 'site'
+        env:
+          SCOPE: ${{ inputs.scope }}
+          LANGUAGES: ${{ inputs.languages }}
+        run: |
+          case $SCOPE in
+            all) args=() ;;
+            components|surfaces) args=(--only "$SCOPE") ;;
+            *) echo "::error::Bilinmeyen kapsam: $SCOPE"; exit 1 ;;
+          esac
+          LANGUAGES=${LANGUAGES// /,} docs/scripts/kit.sh "${args[@]}"
 
       - name: Site
         working-directory: web
@@ -73,3 +95,11 @@ jobs:
           mv -fh "$site/current.next" "$site/current"
           for old in $(ls -1t "$site/releases" | tail -n +3); do rm -rf "$site/releases/$old"; done
           echo "Yayında: ~/BeaconKit/site/releases/$GITHUB_RUN_NUMBER" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: kit-logs
+          path: docs/logs/kit-*.log
+          if-no-files-found: ignore

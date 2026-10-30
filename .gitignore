@@ -24,3 +24,6 @@ CLAUDE.md
 *.xcodeproj
 xcuserdata/
 .swiftpm/
+
+# BeaconKit™ render logs (docs/scripts/kit.sh)
+docs/logs/

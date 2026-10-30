@@ -28,7 +28,9 @@ const kit = argument('--kit')
 const started = Date.now()
 const warnings: string[] = []
 
-const files = readSources(root, 'Sources/Vorssaint')
+// The app's code; the catalog's own specimens (Sources/Vorssaint/Kit/) are read apart, so they count as no use.
+const allFiles = readSources(root, 'Sources/Vorssaint')
+const files = allFiles.filter((f) => !f.path.startsWith('Sources/Vorssaint/Kit/'))
 const byPath = new Map(files.map((f) => [f.path, f]))
 const file = (path: string) => {
   const found = byPath.get(`Sources/Vorssaint/${path}`)
@@ -130,6 +132,12 @@ const systemColorList = Object.entries(systemColors.colors)
 
 const strings = appStrings(files)
 const kitSpecimens = new Set<string>()
+for (const f of allFiles.filter((f) => f.path.startsWith('Sources/Vorssaint/Kit/Specimens/'))) {
+  for (const line of f.lines) {
+    const id = line.match(/KitSpecimen\("([^"]+)"/)?.[1]
+    if (id) kitSpecimens.add(id)
+  }
+}
 const preliminary = findComponents(files, tokenIds)
 const surfaceResult = findSurfaces(files, strings, new Set(preliminary.map((c) => c.id)), tokenIds)
 const components: Component[] = findComponents(files, tokenIds, kitSpecimens, surfaceResult.views)
@@ -138,6 +146,7 @@ const componentIds = new Set(components.map((c) => c.id))
 const { surfaces } = findSurfaces(files, strings, componentIds, tokenIds)
 
 const renders = kit ? await readRenders(kit, web, warnings) : null
+for (const id of kitSpecimens) if (!components.some((c) => c.id === id)) warnings.push(`specimen ${id} names no component the collector found`)
 const changed = lastChanges(root, ['Sources/Vorssaint'])
 const repo = repository(root)
 const issues = revisionNotes(repo)

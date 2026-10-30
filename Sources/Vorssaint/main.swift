@@ -33,6 +33,10 @@ if CommandLine.arguments.contains("--uninstall") {
 if NotchPresentationProbe.isRequested(by: CommandLine.arguments) {
     NotchPresentationProbe.runAndExit()
 }
+// BeaconKit™'s renders (docs/beaconkit.md › Renders; docs/scripts/kit.sh).
+if KitRenderer.isRequested(by: CommandLine.arguments) {
+    KitRenderer.runAndExit()
+}
 #endif
 
 let app = NSApplication.shared
