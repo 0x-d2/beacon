@@ -30,7 +30,14 @@ struct MetricDetailView: View {
                 }
                 .padding(.vertical, BeaconMetrics.spacing3)
             }
-            rows(snapshot)
+            MetricRows(kind: kind, snapshot: snapshot, cpuCores: session.info?.cpuCores, unit: model.temperatureUnit)
+            if kind == .network, !session.history.networkUp.isEmpty {
+                Section("Upload") {
+                    HistoryChart(values: session.history.networkUp, tint: BeaconColor.upload, maxValue: nil, format: { Format.rate($0) },
+                                 interval: session.info?.interval ?? 2)
+                        .frame(height: 120)
+                }
+            }
         }
         .navigationTitle(kind.title)
         .navigationBarTitleDisplayMode(.inline)
@@ -39,20 +46,7 @@ struct MetricDetailView: View {
     }
 
     private func headline(_ snapshot: RemoteSnapshot?) -> String {
-        switch kind {
-        case .cpu: return Format.percent(snapshot?.cpuUsage)
-        case .gpu: return Format.percent(snapshot?.gpuUsage)
-        case .memory: return Format.bytes(snapshot?.memoryUsed)
-        case .temperature: return Format.temperature(snapshot?.cpuTemperature, unit: model.temperatureUnit)
-        case .network: return Format.rate(snapshot?.networkDownBytesPerSec)
-        case .power:
-            if let charge = snapshot?.power?.chargePercent { return Format.percent(Double(charge) / 100) }
-            return Format.watts(snapshot?.power?.systemWatts)
-        case .disk:
-            let disk = snapshot?.disks.first
-            return disk.map { Format.percent(Double($0.usedBytes) / Double(max($0.totalBytes, 1))) } ?? "–"
-        case .fans: return snapshot?.fanSpeeds.first.map(Format.rpm) ?? "–"
-        }
+        snapshot?.headline(kind, unit: model.temperatureUnit) ?? "–"
     }
 
     private var series: (values: [Double], maxValue: Double?, format: (Double) -> String)? {
@@ -64,99 +58,6 @@ struct MetricDetailView: View {
         case .network: return (history.networkDown, nil, { Format.rate($0) })
         case .power: return history.power.isEmpty ? nil : (history.power, nil, { Format.watts($0) })
         case .temperature, .disk, .fans: return nil
-        }
-    }
-
-    @ViewBuilder
-    private func rows(_ snapshot: RemoteSnapshot?) -> some View {
-        let unit = model.temperatureUnit
-        switch kind {
-        case .cpu:
-            if let cores = snapshot?.cpuCoreUsage, !cores.isEmpty {
-                Section("Cores") { CoreGrid(usage: cores).padding(.vertical, BeaconMetrics.spacing3) }
-            }
-            Section {
-                StatRow(title: "Temperature", value: Format.temperature(snapshot?.cpuTemperature, unit: unit), tint: BeaconColor.temperature)
-                if let cores = session.info?.cpuCores { StatRow(title: "Cores", value: "\(cores)") }
-            }
-        case .memory:
-            Section {
-                if let pressure = snapshot?.memoryPressure {
-                    HStack { Text("Pressure").foregroundStyle(.secondary); Spacer(); PressureBadge(pressure: pressure) }
-                }
-                StatRow(title: "Used", value: Format.bytes(snapshot?.memoryUsed))
-                StatRow(title: "App memory", value: Format.bytes(snapshot?.memoryAppUsed))
-                StatRow(title: "Compressed", value: Format.bytes(snapshot?.memoryCompressed))
-                StatRow(title: "Cached files", value: Format.bytes(snapshot?.memoryCached))
-                StatRow(title: "Swap used", value: Format.bytes(snapshot?.memorySwapUsed))
-                StatRow(title: "Total", value: Format.bytes(snapshot?.memoryTotal))
-            }
-        case .gpu:
-            Section { StatRow(title: "Temperature", value: Format.temperature(snapshot?.gpuTemperature, unit: unit), tint: BeaconColor.temperature) }
-        case .temperature:
-            Section {
-                StatRow(title: "CPU", value: Format.temperature(snapshot?.cpuTemperature, unit: unit))
-                StatRow(title: "GPU", value: Format.temperature(snapshot?.gpuTemperature, unit: unit))
-                if snapshot?.batteryTemperature != nil {
-                    StatRow(title: "Battery", value: Format.temperature(snapshot?.batteryTemperature, unit: unit))
-                }
-            }
-        case .network:
-            Section {
-                StatRow(title: "Download", value: Format.rate(snapshot?.networkDownBytesPerSec), tint: BeaconColor.download)
-                StatRow(title: "Upload", value: Format.rate(snapshot?.networkUpBytesPerSec), tint: BeaconColor.upload)
-            }
-            Section("Since the Mac started watching") {
-                StatRow(title: "Downloaded", value: Format.bytes(snapshot?.networkTotalDown))
-                StatRow(title: "Uploaded", value: Format.bytes(snapshot?.networkTotalUp))
-            }
-            if !session.history.networkUp.isEmpty {
-                Section("Upload") {
-                    HistoryChart(values: session.history.networkUp, tint: BeaconColor.upload, maxValue: nil, format: { Format.rate($0) },
-                                 interval: session.info?.interval ?? 2)
-                        .frame(height: 120)
-                }
-            }
-        case .power:
-            let power = snapshot?.power
-            Section {
-                StatRow(title: "The Mac draws", value: Format.watts(power?.systemWatts))
-                if power?.adapterWatts != nil { StatRow(title: "Adapter", value: Format.watts(power?.adapterWatts)) }
-                if power?.hasBattery == true {
-                    StatRow(title: "Battery", value: power?.chargePercent.map { Format.percent(Double($0) / 100) } ?? "–", tint: BeaconColor.power)
-                    StatRow(title: power?.isCharging == true ? "Charging at" : "Battery draw", value: Format.watts(power?.batteryWatts))
-                    StatRow(title: "Time remaining", value: Format.duration(power?.timeRemainingSeconds))
-                    StatRow(title: "Health", value: power?.healthPercent.map { Format.percent($0 / 100) } ?? "–")
-                    StatRow(title: "Cycles", value: power?.cycleCount.map { "\($0)" } ?? "–")
-                }
-            }
-        case .disk:
-            Section {
-                ForEach(snapshot?.disks ?? [], id: \.name) { disk in
-                    VStack(alignment: .leading, spacing: BeaconMetrics.spacing3) {
-                        HStack {
-                            Label(disk.name, systemImage: disk.isInternal ? "internaldrive" : "externaldrive")
-                            Spacer()
-                            Text("\(Format.diskBytes(disk.usedBytes)) / \(Format.diskBytes(disk.totalBytes))")
-                                .font(.callout.monospacedDigit()).foregroundStyle(.secondary)
-                        }
-                        LevelBar(fraction: Double(disk.usedBytes) / Double(max(disk.totalBytes, 1)), tint: BeaconColor.disk)
-                        HStack {
-                            Text("Read \(Format.rate(disk.readBytesPerSec))")
-                            Spacer()
-                            Text("Write \(Format.rate(disk.writeBytesPerSec))")
-                        }
-                        .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
-                    }
-                    .padding(.vertical, 4)
-                }
-            }
-        case .fans:
-            Section {
-                ForEach(Array((snapshot?.fanSpeeds ?? []).enumerated()), id: \.offset) { index, speed in
-                    StatRow(title: "Fan \(index + 1)", value: Format.rpm(speed))
-                }
-            }
         }
     }
 }

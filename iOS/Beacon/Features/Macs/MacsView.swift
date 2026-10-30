@@ -134,13 +134,6 @@ extension MacSession {
     }
 }
 
-extension RemoteSnapshot {
-    var memoryFraction: Double? {
-        guard let used = memoryUsed, let total = memoryTotal, total > 0 else { return nil }
-        return Double(used) / Double(total)
-    }
-}
-
 #Preview("Empty") {
     MacsView().environment(AppModel(demoOnly: true))
 }

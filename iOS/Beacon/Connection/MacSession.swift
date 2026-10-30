@@ -56,13 +56,20 @@ final class MacSession: Identifiable {
 
     func unwatch() {
         watchers = max(0, watchers - 1)
-        watching = watchers > 0
+        watching = watchers > 0 || watchedFromWatch
     }
 
-    /// The app leaves the screen: every watcher at once.
+    /// The app leaves the screen: every watcher at once, but the watch's.
     func stopWatching() {
         watchers = 0
-        watching = false
+        watching = watchedFromWatch
+    }
+
+    /// Whether the Apple Watch shows this Mac's readings (WatchRelay). It
+    /// watches through this phone even with Beacon in the background, so the
+    /// app leaving the screen doesn't stop it.
+    var watchedFromWatch = false {
+        didSet { watching = watchers > 0 || watchedFromWatch }
     }
 
     private var connection: NWConnection?
@@ -293,43 +300,5 @@ final class MacSession: Identifiable {
     private func stopDemo() {
         demoTask?.cancel()
         demoTask = nil
-    }
-}
-
-/// The recent readings for the charts: the Mac's history when the phone
-/// subscribes, then each snapshot as it comes, 120 at most (four minutes at
-/// the Mac's usual two seconds).
-struct LiveHistory: Equatable {
-    static let capacity = 120
-    var cpu: [Double] = []
-    var gpu: [Double] = []
-    var memory: [Double] = []
-    var networkDown: [Double] = []
-    var networkUp: [Double] = []
-    var power: [Double] = []
-
-    init() {}
-
-    init(_ history: RemoteHistory) {
-        cpu = Array(history.cpu.suffix(Self.capacity))
-        gpu = Array(history.gpu.suffix(Self.capacity))
-        memory = Array(history.memory.suffix(Self.capacity))
-        networkDown = Array(history.networkDown.suffix(Self.capacity))
-        networkUp = Array(history.networkUp.suffix(Self.capacity))
-        power = Array(history.power.suffix(Self.capacity))
-    }
-
-    mutating func append(_ snapshot: RemoteSnapshot) {
-        func push(_ value: Double?, _ list: inout [Double]) {
-            guard let value else { return }
-            list.append(value)
-            if list.count > Self.capacity { list.removeFirst(list.count - Self.capacity) }
-        }
-        push(snapshot.cpuUsage, &cpu)
-        push(snapshot.gpuUsage, &gpu)
-        if let used = snapshot.memoryUsed, let total = snapshot.memoryTotal, total > 0 { push(Double(used) / Double(total), &memory) }
-        push(snapshot.networkDownBytesPerSec, &networkDown)
-        push(snapshot.networkUpBytesPerSec, &networkUp)
-        push(snapshot.power?.systemWatts, &power)
     }
 }

@@ -37,7 +37,7 @@ struct SettingsView: View {
                     Text("Every component of the app in every variant, as the BeaconKit™ catalog shows them.")
                 }
                 Section {
-                    Text("Beacon talks only to the Macs you pair, directly, on your network or over Tailscale. Each Mac gives this phone its own key, kept in the phone's keychain; nothing is sent anywhere else.")
+                    Text("Beacon talks only to the Macs you pair, directly, on your network or over Tailscale, and passes their readings on to your Apple Watch. Each Mac gives this phone its own key, kept in the phone's keychain and never sent to the watch; nothing is sent anywhere else.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 } header: {

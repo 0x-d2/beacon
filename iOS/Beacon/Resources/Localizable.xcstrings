@@ -120,12 +120,12 @@
         }
       }
     },
-    "Beacon talks only to the Macs you pair, directly, on your network or over Tailscale. Each Mac gives this phone its own key, kept in the phone's keychain; nothing is sent anywhere else.": {
+    "Beacon talks only to the Macs you pair, directly, on your network or over Tailscale, and passes their readings on to your Apple Watch. Each Mac gives this phone its own key, kept in the phone's keychain and never sent to the watch; nothing is sent anywhere else.": {
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Beacon yalnız eşleştirdiğin Mac’lerle, doğrudan, ağında ya da Tailscale üzerinden konuşur. Her Mac bu telefona kendi anahtarını verir, anahtar telefonun anahtar zincirinde durur; başka hiçbir yere bir şey gönderilmez."
+            "value": "Beacon yalnız eşleştirdiğin Mac’lerle, doğrudan, ağında ya da Tailscale üzerinden konuşur ve ölçümlerini Apple Watch’una iletir. Her Mac bu telefona kendi anahtarını verir, anahtar telefonun anahtar zincirinde durur ve saate gitmez; başka hiçbir yere bir şey gönderilmez."
           }
         }
       }
@@ -146,6 +146,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Önbellekteki dosyalar"
+          }
+        }
+      }
+    },
+    "Can't reach your iPhone. Keep it nearby, with Bluetooth or Wi-Fi on.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone’una ulaşılamıyor. Onu yakında tut, Bluetooth ya da Wi‑Fi açık olsun."
           }
         }
       }
@@ -470,6 +480,16 @@
         }
       }
     },
+    "Mac reading": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac ölçümü"
+          }
+        }
+      }
+    },
     "Macs": {
       "localizations": {
         "tr": {
@@ -600,6 +620,26 @@
         }
       }
     },
+    "One of your Mac's readings, as the watch last saw it.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’inin ölçümlerinden biri, saatin en son gördüğü haliyle."
+          }
+        }
+      }
+    },
+    "Open Beacon on the watch to see your Mac here.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’ini burada görmek için saatte Beacon’ı aç."
+          }
+        }
+      }
+    },
     "Or paste the link": {
       "localizations": {
         "tr": {
@@ -616,6 +656,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Eşleştir"
+          }
+        }
+      }
+    },
+    "Pair a Mac in Beacon on your iPhone and it shows up here.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone’undaki Beacon’da bir Mac eşleştir, burada görünür."
           }
         }
       }
@@ -666,6 +716,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Okuma %@"
+          }
+        }
+      }
+    },
+    "Reading": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ölçüm"
           }
         }
       }
@@ -800,6 +860,16 @@
         }
       }
     },
+    "The Mac turned the iPhone away (%@).": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac iPhone’u geri çevirdi (%@)."
+          }
+        }
+      }
+    },
     "The Mac turned this phone away (%@).": {
       "localizations": {
         "tr": {
@@ -820,6 +890,16 @@
         }
       }
     },
+    "The iPhone no longer has this Mac.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone’da bu Mac artık yok."
+          }
+        }
+      }
+    },
     "The phone forgets the Mac's key. Remove the phone on the Mac too, under Settings › Monitor › Watch from iPhone.": {
       "localizations": {
         "tr": {
@@ -836,6 +916,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bu Mac"
+          }
+        }
+      }
+    },
+    "This iPhone was removed on the Mac. Pair it again in Beacon on the iPhone.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu iPhone Mac’te kaldırılmış. iPhone’daki Beacon’da yeniden eşleştir."
           }
         }
       }
@@ -979,6 +1069,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mac’te iPhone’dan izle kapalı"
+          }
+        }
+      }
+    },
+    "Which of the Mac's readings the complication shows.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komplikasyonun Mac’in hangi ölçümünü gösterdiği."
           }
         }
       }

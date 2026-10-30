@@ -71,3 +71,68 @@ struct PairingConfirmationTests {
         #expect(model.macs.isEmpty)
     }
 }
+
+/// The Apple Watch reads the Macs through the phone (WatchLink.swift): what they say, and how long the phone watches for it.
+@MainActor
+struct WatchLinkTests {
+    @Test func messagesSurviveTheTripToTheWatch() throws {
+        let messages: [WatchMessage] = [
+            .watch(macID: "0f9b6c1e-1111", active: true),
+            .status(macID: "0f9b6c1e-1111", status: .offline("Not reachable")),
+            .status(macID: "0f9b6c1e-1111", status: .live(away: true)),
+            .info(macID: "0f9b6c1e-1111", info: DemoData.info),
+            .history(macID: "0f9b6c1e-1111", history: DemoData.history),
+            .snapshot(macID: "0f9b6c1e-1111", snapshot: DemoData.snapshot),
+        ]
+        for message in messages {
+            let read = try WatchMessage.decoded(from: message.encoded())
+            // Dates go as seconds since 1970, as the Mac's do: equal to well under a millisecond.
+            if case let .snapshot(_, snapshot) = read, case let .snapshot(_, sent) = message {
+                #expect(snapshot.time.timeIntervalSince(sent.time).magnitude < 0.001)
+                #expect(snapshot.cpuCoreUsage == sent.cpuCoreUsage)
+            } else {
+                #expect(read == message)
+            }
+        }
+    }
+
+    @Test func theWatchLearnsTheMacsButNotTheirKeys() throws {
+        let context = WatchContext(macs: [WatchMac(id: "0f9b6c1e-1111", name: "Mac mini")], temperatureUnit: "fahrenheit")
+        let dictionary = try context.dictionary()
+        #expect(WatchContext(dictionary: dictionary) == context)
+        let text = String(decoding: try #require(dictionary["context"] as? Data), as: UTF8.self)
+        #expect(!text.contains("key") && !text.contains("host"), "only each Mac's id and name go to the watch")
+    }
+
+    @Test func theWatchKeepsItsMacWhenThePhoneLeavesTheScreen() {
+        let model = AppModel(demoOnly: true)
+        model.demo.watch()
+        model.demo.watchedFromWatch = true
+        model.pauseAll()
+        #expect(model.demo.watching, "the watch still shows it")
+        model.demo.watchedFromWatch = false
+        #expect(!model.demo.watching)
+    }
+
+    @Test func thePhoneStopsForAWatchThatGoesQuiet() async throws {
+        let model = AppModel(demoOnly: true)
+        let relay = WatchRelay(model: model, silence: .milliseconds(150))
+        relay.receive(.watch(macID: model.demo.id, active: true))
+        #expect(model.demo.watchedFromWatch)
+        try await Task.sleep(for: .milliseconds(100))
+        relay.receive(.watch(macID: model.demo.id, active: true))
+        try await Task.sleep(for: .milliseconds(100))
+        #expect(model.demo.watchedFromWatch, "a heartbeat keeps it watching")
+        try await Task.sleep(for: .milliseconds(300))
+        #expect(!model.demo.watchedFromWatch, "silence past the timeout ends it")
+        #expect(relay.watched == nil)
+    }
+
+    @Test func aWatchThatSaysItStoppedIsLetGoAtOnce() {
+        let model = AppModel(demoOnly: true)
+        let relay = WatchRelay(model: model)
+        relay.receive(.watch(macID: model.demo.id, active: true))
+        relay.receive(.watch(macID: model.demo.id, active: false))
+        #expect(!model.demo.watchedFromWatch)
+    }
+}

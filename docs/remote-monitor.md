@@ -36,6 +36,13 @@ Settings › Monitor › **Watch from iPhone** sends this Mac's readings to the 
   connections.
 - **Settings backup:** the three `remoteMonitor…` keys are this Mac's (`SettingsBackupSupport.machineStateKeys`): a
   backup restored on another Mac doesn't turn on a listener there.
+- **Apple Watch:** Beacon's watch app (`iOS/BeaconWatch/`) doesn't connect to the Mac: watchOS keeps the Network
+  framework, the only way to a pre-shared key, to audio and call apps (Apple's TN3135), and the simulator doesn't
+  enforce that. The phone reads the Mac for it instead (`iOS/Beacon/Connection/WatchRelay.swift`,
+  `WatchLink.swift`): while a watch screen shows a Mac, the watch says so every 5 s over WatchConnectivity, which wakes
+  Beacon on the phone in the background; the phone subscribes as for its own screen and passes `info`, `history` and
+  each `snapshot` on, and unsubscribes 15 s after the watch goes quiet. To the Mac it is that phone watching: nothing
+  changes on this side, and the key never leaves the phone (the watch knows each Mac by id and name).
 
 ## Tests
 

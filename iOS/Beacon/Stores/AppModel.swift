@@ -6,23 +6,38 @@ import SwiftUI
 /// The app's state: the paired Macs and a live session for each, the demo
 /// Mac, and the reading preferences. Pairing goes through here, from the
 /// scanner, a pasted link or a `beacon://pair` link the Camera app opened.
+/// The Apple Watch reads the same sessions through `WatchRelay`.
 @MainActor
 @Observable
 final class AppModel {
-    private(set) var macs: [PairedMac] = []
+    private(set) var macs: [PairedMac] = [] {
+        didSet { watchRelay?.publishContext() }
+    }
     private var sessions: [String: MacSession] = [:]
     /// Where the navigation stack is: a Mac's dashboard, then one of its readings.
     var path: [Route] = []
     var pairingError: String?
 
     var temperatureUnit = TemperatureUnit(rawValue: UserDefaults.standard.string(forKey: "temperatureUnit") ?? "") ?? .celsius {
-        didSet { UserDefaults.standard.set(temperatureUnit.rawValue, forKey: "temperatureUnit") }
+        didSet {
+            UserDefaults.standard.set(temperatureUnit.rawValue, forKey: "temperatureUnit")
+            watchRelay?.publishContext()
+        }
     }
 
     let demo = MacSession(mac: PairedMac(pairing: DemoData.pairing), isDemo: true)
 
+    /// The Apple Watch's way to the Macs; none for the demo-only app (the catalog's renders, the tests).
+    @ObservationIgnored private var watchRelay: WatchRelay?
+
     init(demoOnly: Bool = false) {
         macs = demoOnly ? [] : PairingStore.all()
+        if !demoOnly {
+            // Early, as WatchConnectivity asks: the watch's message may be what launched the app, in the background.
+            let relay = WatchRelay(model: self)
+            watchRelay = relay
+            relay.activate()
+        }
     }
 
     func session(for id: String) -> MacSession? {
@@ -99,9 +114,12 @@ final class AppModel {
         if let kind = MetricKind(rawValue: screen) { path = [.mac(demo.id), .metric(demo.id, kind)] }
     }
 
-    /// The app went to the background: nothing is read while no one looks.
+    /// The app went to the background: nothing is read while no one looks, but the Mac the Apple Watch shows.
     func pauseAll() {
-        sessions.values.forEach { $0.stopWatching(); $0.disconnect() }
+        sessions.values.forEach { session in
+            session.stopWatching()
+            if !session.watching { session.disconnect() }
+        }
         demo.stopWatching()
     }
 }

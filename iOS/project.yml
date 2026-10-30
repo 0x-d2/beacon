@@ -1,4 +1,4 @@
-# Beacon, the iPhone app that shows a Mac's readings (iOS/README.md). XcodeGen writes Beacon.xcodeproj from this file
+# Beacon, the iPhone app that shows a Mac's readings, and Beacon for Apple Watch inside it (iOS/README.md). XcodeGen writes Beacon.xcodeproj from this file
 # (`xcodegen generate`); the project itself is never committed (the repo's .gitignore). The signing team stays out of
 # the repo too: Config/Beacon.xcconfig includes the git-ignored Config/Local.xcconfig, which names it.
 name: Beacon
@@ -6,6 +6,7 @@ options:
   bundleIdPrefix: co.ikili
   deploymentTarget:
     iOS: "27.0"
+    watchOS: "27.0"
   developmentLanguage: en
   createIntermediateGroups: true
   groupSortPosition: top
@@ -54,6 +55,84 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         CODE_SIGN_STYLE: Automatic
         ENABLE_PREVIEWS: YES
+    dependencies:
+      # Embedded in Beacon.app/Watch: the watch app installs with the phone's.
+      - target: BeaconWatch
+  # Beacon for Apple Watch. The watch can't reach a Mac itself (watchOS keeps the Network framework to audio and call
+  # apps), so it reads them through the phone (Beacon/Connection/WatchLink.swift); it compiles the phone's readings,
+  # formats and components, and its own colours (watchOS is always dark).
+  BeaconWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: BeaconWatch
+      - path: ../Sources/Vorssaint/Services/RemoteMonitor/RemoteMonitorProtocol.swift
+        group: Beacon/Shared
+      - Beacon/Connection/WatchLink.swift
+      - Beacon/Stores/Readings.swift
+      - Beacon/Formatting/Format.swift
+      - Beacon/Fixtures/DemoData.swift
+      - Beacon/DesignSystem/BeaconStyle.swift
+      - Beacon/DesignSystem/Catalog/KitSpecimen.swift
+      - Beacon/DesignSystem/Components
+      - Beacon/Features/Detail/MetricRows.swift
+      - Beacon/Resources/Localizable.xcstrings
+      - Beacon/Resources/Assets.xcassets
+    info:
+      path: BeaconWatch/Info.plist
+      properties:
+        CFBundleDisplayName: Beacon
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        CFBundleLocalizations: [en, tr]
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: co.ikili.beacon
+    entitlements:
+      path: BeaconWatch/BeaconWatch.entitlements
+      properties:
+        # Shared with the complication, which draws the last reading the app kept (BeaconWatch/Shared/LastReading.swift).
+        com.apple.security.application-groups: [group.co.ikili.beacon]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.ikili.beacon.watchkitapp
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_PREVIEWS: YES
+    dependencies:
+      - target: BeaconWatchWidgets
+  # The complications: a Mac's reading on the watch face, as the watch app last had it.
+  BeaconWatchWidgets:
+    type: app-extension
+    platform: watchOS
+    sources:
+      - path: BeaconWatchWidgets
+      - path: ../Sources/Vorssaint/Services/RemoteMonitor/RemoteMonitorProtocol.swift
+        group: Beacon/Shared
+      - BeaconWatch/Shared/LastReading.swift
+      - BeaconWatch/DesignSystem/BeaconColor+watchOS.swift
+      - Beacon/Stores/Readings.swift
+      - Beacon/Formatting/Format.swift
+      - Beacon/Fixtures/DemoData.swift
+      - Beacon/Resources/Localizable.xcstrings
+    info:
+      path: BeaconWatchWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Beacon
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        CFBundleLocalizations: [en, tr]
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: BeaconWatchWidgets/BeaconWatchWidgets.entitlements
+      properties:
+        com.apple.security.application-groups: [group.co.ikili.beacon]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.ikili.beacon.watchkitapp.widgets
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_PREVIEWS: YES
   BeaconTests:
     type: bundle.unit-test
     platform: iOS
@@ -72,6 +151,13 @@ schemes:
         BeaconTests: [test]
     test:
       targets: [BeaconTests]
+    run:
+      commandLineArguments:
+        "-demo 1": false
+  BeaconWatch:
+    build:
+      targets:
+        BeaconWatch: all
     run:
       commandLineArguments:
         "-demo 1": false
