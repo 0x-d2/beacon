@@ -1,0 +1,77 @@
+# Beacon, the iPhone app that shows a Mac's readings (iOS/README.md). XcodeGen writes Beacon.xcodeproj from this file
+# (`xcodegen generate`); the project itself is never committed (the repo's .gitignore). The signing team stays out of
+# the repo too: Config/Beacon.xcconfig includes the git-ignored Config/Local.xcconfig, which names it.
+name: Beacon
+options:
+  bundleIdPrefix: co.ikili
+  deploymentTarget:
+    iOS: "27.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+  groupSortPosition: top
+configFiles:
+  Debug: Config/Beacon.xcconfig
+  Release: Config/Beacon.xcconfig
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+targets:
+  Beacon:
+    type: application
+    platform: iOS
+    sources:
+      - path: Beacon
+      # The protocol the Mac app speaks, the very same file (docs/remote-monitor.md).
+      - path: ../Sources/Vorssaint/Services/RemoteMonitor/RemoteMonitorProtocol.swift
+        group: Beacon/Shared
+    info:
+      path: Beacon/Info.plist
+      properties:
+        CFBundleDisplayName: Beacon
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        CFBundleLocalizations: [en, tr]
+        NSLocalNetworkUsageDescription: "Beacon connects to the Macs you pair, on your network or over Tailscale, to show their readings."
+        NSBonjourServices: [_beacon-mac._tcp]
+        NSCameraUsageDescription: "Beacon uses the camera only to scan the pairing code your Mac shows."
+        CFBundleURLTypes:
+          - CFBundleURLName: co.ikili.beacon.pair
+            CFBundleURLSchemes: [beacon]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.ikili.beacon
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_PREVIEWS: YES
+  BeaconTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [BeaconTests]
+    dependencies:
+      - target: Beacon
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.ikili.beacon.tests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Beacon:
+    build:
+      targets:
+        Beacon: all
+        BeaconTests: [test]
+    test:
+      targets: [BeaconTests]
+    run:
+      commandLineArguments:
+        "-demo 1": false

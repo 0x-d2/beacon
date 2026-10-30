@@ -1,0 +1,1047 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ / %@": {
+      "shouldTranslate": false
+    },
+    "%@ · %@": {
+      "shouldTranslate": false
+    },
+    "%lld": {
+      "shouldTranslate": false
+    },
+    "%lld cores": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld çekirdek"
+          }
+        }
+      }
+    },
+    "%lld fans": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld fan"
+          }
+        }
+      }
+    },
+    "Adapter": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adaptör"
+          }
+        }
+      }
+    },
+    "Add a Mac": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac ekle"
+          }
+        }
+      }
+    },
+    "App memory": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama belleği"
+          }
+        }
+      }
+    },
+    "Away": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uzakta"
+          }
+        }
+      }
+    },
+    "Away from home": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evden uzakta"
+          }
+        }
+      }
+    },
+    "Away from home, Beacon reaches the Mac at the second address, such as its Tailscale name, with Tailscale on in both.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evden uzaktayken Beacon Mac’e ikinci adresten, örneğin Tailscale adından ulaşır; ikisinde de Tailscale açık olmalı."
+          }
+        }
+      }
+    },
+    "Badges": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozetler"
+          }
+        }
+      }
+    },
+    "Battery": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil"
+          }
+        }
+      }
+    },
+    "Battery draw": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilden çekilen"
+          }
+        }
+      }
+    },
+    "Beacon talks only to the Macs you pair, directly, on your network or over Tailscale. Each Mac gives this phone its own key, kept in the phone's keychain; nothing is sent anywhere else.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beacon yalnız eşleştirdiğin Mac’lerle, doğrudan, ağında ya da Tailscale üzerinden konuşur. Her Mac bu telefona kendi anahtarını verir, anahtar telefonun anahtar zincirinde durur; başka hiçbir yere bir şey gönderilmez."
+          }
+        }
+      }
+    },
+    "CPU": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU"
+          }
+        }
+      }
+    },
+    "Cached files": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önbellekteki dosyalar"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vazgeç"
+          }
+        }
+      }
+    },
+    "Celsius": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Santigrat"
+          }
+        }
+      }
+    },
+    "Charging": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj oluyor"
+          }
+        }
+      }
+    },
+    "Charging at": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj gücü"
+          }
+        }
+      }
+    },
+    "Compressed": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıkıştırılmış"
+          }
+        }
+      }
+    },
+    "Connected through": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlandığı adres"
+          }
+        }
+      }
+    },
+    "Connecting": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlanıyor"
+          }
+        }
+      }
+    },
+    "Connection": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantı"
+          }
+        }
+      }
+    },
+    "Core %lld": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çekirdek %lld"
+          }
+        }
+      }
+    },
+    "Cores": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çekirdekler"
+          }
+        }
+      }
+    },
+    "Couldn't pair": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleştirilemedi"
+          }
+        }
+      }
+    },
+    "Couldn't save the Mac's key on this phone.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’in anahtarı bu telefona kaydedilemedi."
+          }
+        }
+      }
+    },
+    "Critical": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kritik"
+          }
+        }
+      }
+    },
+    "Cycles": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Döngü"
+          }
+        }
+      }
+    },
+    "Demo": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demo"
+          }
+        }
+      }
+    },
+    "Design catalog": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tasarım kataloğu"
+          }
+        }
+      }
+    },
+    "Disks": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diskler"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitti"
+          }
+        }
+      }
+    },
+    "Download": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirme"
+          }
+        }
+      }
+    },
+    "Downloaded": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirilen"
+          }
+        }
+      }
+    },
+    "Every component of the app in every variant, as the BeaconKit™ catalog shows them.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamanın her bileşeni, her hâliyle, BeaconKit™ kataloğunun gösterdiği gibi."
+          }
+        }
+      }
+    },
+    "Fahrenheit": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fahrenhayt"
+          }
+        }
+      }
+    },
+    "Fan %lld": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan %lld"
+          }
+        }
+      }
+    },
+    "Fans": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fanlar"
+          }
+        }
+      }
+    },
+    "Forget": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unut"
+          }
+        }
+      }
+    },
+    "Forget this Mac": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac’i unut"
+          }
+        }
+      }
+    },
+    "Forget this Mac?": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac unutulsun mu?"
+          }
+        }
+      }
+    },
+    "GPU": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU"
+          }
+        }
+      }
+    },
+    "GPU %@": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU %@"
+          }
+        }
+      }
+    },
+    "Health": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağlık"
+          }
+        }
+      }
+    },
+    "Instruments": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Göstergeler"
+          }
+        }
+      }
+    },
+    "Live": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canlı"
+          }
+        }
+      }
+    },
+    "Macs": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’ler"
+          }
+        }
+      }
+    },
+    "Memory": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bellek"
+          }
+        }
+      }
+    },
+    "Model": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model"
+          }
+        }
+      }
+    },
+    "Network": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ"
+          }
+        }
+      }
+    },
+    "No Macs yet": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Henüz Mac yok"
+          }
+        }
+      }
+    },
+    "No fan readings": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan ölçümü yok"
+          }
+        }
+      }
+    },
+    "Normal": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Normal"
+          }
+        }
+      }
+    },
+    "Not reachable": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ulaşılamıyor"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamam"
+          }
+        }
+      }
+    },
+    "Offline": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çevrimdışı"
+          }
+        }
+      }
+    },
+    "On the Mac: Vorssaint › Settings › Monitor › Watch from iPhone › Add a phone.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’te: Vorssaint › Ayarlar › Monitör › iPhone’dan izle › Telefon ekle."
+          }
+        }
+      }
+    },
+    "On this network": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu ağda"
+          }
+        }
+      }
+    },
+    "On your Mac, open Vorssaint's Settings › Monitor, turn on Watch from iPhone and add a phone. Then scan the code here.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’inde Vorssaint’in Ayarlar › Monitör sayfasını aç, iPhone’dan izle’yi açıp bir telefon ekle. Sonra kodu burada okut."
+          }
+        }
+      }
+    },
+    "Or paste the link": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya da bağlantıyı yapıştır"
+          }
+        }
+      }
+    },
+    "Pair": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eşleştir"
+          }
+        }
+      }
+    },
+    "Port": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port"
+          }
+        }
+      }
+    },
+    "Power": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güç"
+          }
+        }
+      }
+    },
+    "Pressure": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basınç"
+          }
+        }
+      }
+    },
+    "Privacy": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlilik"
+          }
+        }
+      }
+    },
+    "Read %@": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okuma %@"
+          }
+        }
+      }
+    },
+    "Readings": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ölçümler"
+          }
+        }
+      }
+    },
+    "Readings every": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ölçüm aralığı"
+          }
+        }
+      }
+    },
+    "Rows and states": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satırlar ve durumlar"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        }
+      }
+    },
+    "Since the Mac started watching": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac izlemeye başladığından beri"
+          }
+        }
+      }
+    },
+    "Swap used": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılan takas"
+          }
+        }
+      }
+    },
+    "System": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
+          }
+        }
+      }
+    },
+    "Temperature": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıcaklık"
+          }
+        }
+      }
+    },
+    "Temperatures": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıcaklıklar"
+          }
+        }
+      }
+    },
+    "That isn't a Beacon pairing code. On the Mac, open Settings › Monitor › Watch from iPhone and add a phone.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu bir Beacon eşleştirme kodu değil. Mac’te Ayarlar › Monitör › iPhone’dan izle’yi açıp bir telefon ekle."
+          }
+        }
+      }
+    },
+    "The Mac didn't accept this phone's key": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac bu telefonun anahtarını kabul etmedi"
+          }
+        }
+      }
+    },
+    "The Mac draws": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’in çektiği"
+          }
+        }
+      }
+    },
+    "The Mac stopped answering": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac yanıt vermeyi bıraktı"
+          }
+        }
+      }
+    },
+    "The Mac turned this phone away (%@).": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac bu telefonu geri çevirdi (%@)."
+          }
+        }
+      }
+    },
+    "The camera isn't available here. Paste the link instead: on the Mac, Copy link under the code.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kamera burada kullanılamıyor. Bağlantıyı yapıştır: Mac’te kodun altındaki Bağlantıyı kopyala ile."
+          }
+        }
+      }
+    },
+    "The phone forgets the Mac's key. Remove the phone on the Mac too, under Settings › Monitor › Watch from iPhone.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telefon Mac’in anahtarını unutur. Telefonu Mac’te de kaldır: Ayarlar › Monitör › iPhone’dan izle."
+          }
+        }
+      }
+    },
+    "This Mac": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac"
+          }
+        }
+      }
+    },
+    "This phone was removed on the Mac. Pair it again to see its readings.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu telefon Mac’te kaldırılmış. Ölçümleri görmek için yeniden eşleştir."
+          }
+        }
+      }
+    },
+    "Tiles": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kutucuklar"
+          }
+        }
+      }
+    },
+    "Time": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaman"
+          }
+        }
+      }
+    },
+    "Time remaining": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalan süre"
+          }
+        }
+      }
+    },
+    "Total": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toplam"
+          }
+        }
+      }
+    },
+    "Try with sample data": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Örnek veriyle dene"
+          }
+        }
+      }
+    },
+    "Turn on Watch from iPhone in your Mac's Settings › Monitor, then scan its code.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’inde Ayarlar › Monitör’den iPhone’dan izle’yi aç, sonra kodunu okut."
+          }
+        }
+      }
+    },
+    "Unknown": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilinmiyor"
+          }
+        }
+      }
+    },
+    "Upload": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleme"
+          }
+        }
+      }
+    },
+    "Uploaded": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüklenen"
+          }
+        }
+      }
+    },
+    "Used": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılan"
+          }
+        }
+      }
+    },
+    "Value": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değer"
+          }
+        }
+      }
+    },
+    "Vorssaint": {
+      "shouldTranslate": false
+    },
+    "Warning": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyarı"
+          }
+        }
+      }
+    },
+    "Watch from iPhone is off on the Mac": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac’te iPhone’dan izle kapalı"
+          }
+        }
+      }
+    },
+    "Write %@": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yazma %@"
+          }
+        }
+      }
+    },
+    "beacon://pair?…": {
+      "shouldTranslate": false
+    },
+    "now": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "şimdi"
+          }
+        }
+      }
+    },
+    "of %@": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ içinde"
+          }
+        }
+      }
+    },
+    "t": {
+      "shouldTranslate": false
+    },
+    "v": {
+      "shouldTranslate": false
+    },
+    "↑ %@": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↑ %@"
+          }
+        }
+      }
+    },
+    "−%lld min": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "−%lld dk"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
