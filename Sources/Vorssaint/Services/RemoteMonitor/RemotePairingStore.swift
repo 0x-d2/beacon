@@ -22,12 +22,14 @@ enum RemotePairingStore {
         "\(Bundle.main.bundleIdentifier ?? "com.vorssaint.utils").remote-monitor"
     }
 
+    /// The login keychain is the file-based one, which refuses `kSecMatchLimitAll`
+    /// with `kSecReturnData` (errSecParam), so the phones are listed by account
+    /// first and each one's data is read on its own.
     static func phones() -> [RemotePairedPhone] {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecMatchLimit as String: kSecMatchLimitAll,
-            kSecReturnData as String: true,
             kSecReturnAttributes as String: true,
         ]
         var result: CFTypeRef?
@@ -35,9 +37,23 @@ enum RemotePairingStore {
               let items = result as? [[String: Any]] else { return [] }
         let decoder = JSONDecoder()
         return items.compactMap { item in
-            (item[kSecValueData as String] as? Data).flatMap { try? decoder.decode(RemotePairedPhone.self, from: $0) }
+            (item[kSecAttrAccount as String] as? String).flatMap(data(account:))
+                .flatMap { try? decoder.decode(RemotePairedPhone.self, from: $0) }
         }
         .sorted { $0.pairedAt < $1.pairedAt }
+    }
+
+    private static func data(account: String) -> Data? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecReturnData as String: true,
+        ]
+        var result: CFTypeRef?
+        guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess else { return nil }
+        return result as? Data
     }
 
     @discardableResult
