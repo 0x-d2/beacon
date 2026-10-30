@@ -1,5 +1,5 @@
 // A render on the bench: at the app's size (1 pt = 1 CSS px; surfaces at a scale), in the chosen theme, or both themes
-// split by a handle the viewer drags across, the way two prints are laid one over the other. AtaKit™'s stage.
+// split by a handle the viewer drags across, the way two prints are laid one over the other.
 import { useRef, useState, type PointerEvent } from 'react'
 import { useCatalog, useT } from '../data.tsx'
 
@@ -14,7 +14,7 @@ export function Stage({ images, title, scale = 1 }: { images: Record<string, Sho
   const fellBack = !images[`${language}-dark`] && !images[`${language}-light`]
 
   if (!dark && !light) {
-    return <div className="missing">{t('Bunun henüz görüntüsü yok.', 'This has no image yet.')}<br />{t('docs/scripts/kit.sh çalıştırın (ya da AtaKit gibi Actions › BeaconKit™).', 'Run docs/scripts/kit.sh (or Actions › BeaconKit™).')}</div>
+    return <div className="missing">{t('Bunun henüz görüntüsü yok.', 'This has no image yet.')}<br />{t('docs/scripts/kit.sh çalıştırın (ya da 0x-d2/beacon-kit-runner › Actions › BeaconKit™).', 'Run docs/scripts/kit.sh (or 0x-d2/beacon-kit-runner › Actions › BeaconKit™).')}</div>
   }
   const mode = settings.theme === 'split' && dark && light ? 'split' : settings.theme === 'light' && light ? 'light' : dark ? 'dark' : 'light'
   const shot = (mode === 'light' ? light : dark) as Shot

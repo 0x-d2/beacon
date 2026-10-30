@@ -1,5 +1,5 @@
 // The bench: the catalog's sections on the left (hidden with the top bar's first button or ⌘B, as wide as its edge is
-// dragged), the viewer's settings and the search on top, the page in between. AtaKit™'s shell, without Özelleştir.
+// dragged), the viewer's settings and the search on top, the page in between.
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type KeyboardEvent as KeyEvent, type RefObject } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useCatalog, useT, useText, type ThemeMode } from '../data.tsx'

@@ -6,6 +6,9 @@ günlüğü `CHANGELOG.md`'dir; Beacon oraya yazılmaz.
 
 ## 2026-10-31
 
+- **BeaconKit:** Mac mini'deki katalog kurulumu kendi başına: siteyi kendi Caddy süreci sunuyor, makinedeki başka
+  hiçbir projenin dosyasına, sunucusuna ya da portuna bağlı değil. Portlar doluysa boş olanları kendisi seçiyor ve
+  adres değişince `0x-d2/beacon-kit-runner`'daki "BeaconKit adresi" issue'suna yorum olarak yazıyor.
 - **Geliştirme:** Ajanlar her işi `custom` dalından açıp PR'ını `custom`'a gönderiyor; Conductor çalışma alanına başka
   bir hedef dal gösterse de.
 

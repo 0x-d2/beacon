@@ -126,7 +126,6 @@ Pages: Genel bakış, Neyi nereden değiştiririm, Renkler, Tipografi (samples i
 list), a page per component and per surface, Satır içi değerler (by kind, with a histogram), Değişiklikler. ⌘K searches
 everything. The top bar's Tema (Koyu · Koyu | Açık · Açık) is the renders' theme and the site's appearance; Dil
 (TR · EN) is the renders' language and the site's own copy, every string written in both (`t('Renkler', 'Colours')`).
-The layout follows AtaKit™'s (0x-d2/Ata-Online `web/`).
 
 `web/public/{data,renders}`, `node_modules` and `dist` are never committed.
 
@@ -152,9 +151,14 @@ collect shows it on the item. Work through them with `gh issue list --label kit-
 - **The checkout is this repo's:** the collector reads the repo and branch its links name from the checkout
   (`git.ts`'s `repository()` falls back to the `origin` remote when `GITHUB_REPOSITORY` is unset, which the workflow
   ensures with `env -u`), so the site links here, not to the private repo.
-- **The runner:** the Mac mini `brain`, registered on the private repo (`~/actions-runner/beacon`, label `beacon-kit`,
-  beside Ata-Online's `ata-kit`), a LaunchAgent in the mini's GUI session.
+- **The runner:** the Mac mini `brain`, registered on the private repo (`~/actions-runner/beacon`, label `beacon-kit`),
+  a LaunchAgent in the mini's GUI session. Everything Beacon has on the mini is its own (`docs/beaconkit-mac-mini.md`):
+  no other project's files, binaries, configuration or ports.
 - **Publish:** `web/dist` → `~/BeaconKit/site/releases/<run>`, the `current` link moved to it in one rename (the newest
-  two stay). Caddy serves `current` on 127.0.0.1:8789; `tailscale serve --bg --https=8445 http://127.0.0.1:8789` brings
-  it to the tailnet only: `https://brain.<tailnet>.ts.net:8445`. The repo never writes the mini's user or the tailnet's
-  name.
+  two stay). Then `docs/scripts/kit-serve.sh`: Beacon's own Caddy (a LaunchAgent of its own, `admin off`) serves
+  `current` on a local port and Tailscale Serve brings it to the tailnet only, on an HTTPS port; each starts at 8789 and
+  8445, keeps the port it chose last (`~/BeaconKit/serve.env`) while it is still Beacon's and moves to the next free
+  one when another server or Serve entry took it, never touching what isn't Beacon's.
+- **The address** (`https://brain.<tailnet>.ts.net:<port>`) goes to the run's summary, and to a comment on the private
+  repo's "BeaconKit adresi" issue whenever it or the local port changes. It names the tailnet, so this repo never
+  carries it, nor the mini's user.
