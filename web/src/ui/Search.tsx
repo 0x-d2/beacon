@@ -29,6 +29,9 @@ export function SearchPalette({ onClose }: { onClose: () => void }) {
     ...catalog.tokens.metrics.map((m) => ({ kind: 'metric' as const, label: m.id, hint: String(m.value), to: `/olculer#${m.id}` })),
     ...catalog.tokens.landmarks.map((m) => ({ kind: 'metric' as const, label: text(m.title), hint: String(m.value), to: `/olculer#${m.id}` })),
     ...catalog.tokens.motions.map((m) => ({ kind: 'motion' as const, label: m.id, hint: m.kind, to: `/hareket#${m.id}` })),
+    ...(catalog.ios?.components ?? []).map((c) => ({ kind: 'component' as const, label: `iOS · ${c.id}`, hint: c.source.file.replace('iOS/Beacon/', ''), to: `/ios/bilesenler#${c.id}` })),
+    ...(catalog.ios?.colors ?? []).map((c) => ({ kind: 'color' as const, label: `BeaconColor.${c.id}`, hint: c.dark?.hex ?? '', to: `/ios/renkler#${c.id}` })),
+    ...(catalog.ios?.screens ?? []).map((s) => ({ kind: 'surface' as const, label: `iOS · ${text(s.title)}`, hint: s.id, to: `/ios/ekranlar#${s.id}` })),
     ...(Object.entries(catalog.literals) as [string, typeof catalog.literals.radius][]).flatMap(([kind, groups]) =>
       groups.slice(0, 60).map((g) => ({ kind: 'value' as const, label: `${kind} ${g.key}`, hint: t.n(g.count, 'yer', 'place'), to: `/degerler/${kind}?deger=${encodeURIComponent(g.key)}` }))),
   ], [catalog, text, t])

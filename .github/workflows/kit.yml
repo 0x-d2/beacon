@@ -1,7 +1,8 @@
 # The BeaconKit™ catalog (docs/beaconkit.md › Hosting): manual only (Actions › BeaconKit™ › Run workflow, or
 # `gh workflow run kit.yml`); pushes and pull requests never trigger it, so nobody else's code ever reaches the
 # self-hosted runner. The Mac mini at home (`brain` on Tailscale, a runner of its own for this repo labelled
-# `beacon-kit`, beside Ata-Online's `ata-kit`) photographs the app's components and surfaces (docs/scripts/kit.sh),
+# `beacon-kit`, beside Ata-Online's `ata-kit`) photographs the app's components and surfaces and the Beacon iPhone app's
+# components and screens on the simulator (docs/scripts/kit.sh),
 # collects them with the Swift sources, builds the site and publishes it to the tailnet only, at
 # https://brain.<tailnet>.ts.net:8445. Renders stay in ~/BeaconKit/kit between runs, so `site` publishes a source change
 # on the images already taken. Setup on the mini: docs/beaconkit-mac-mini.md.
@@ -13,9 +14,9 @@ on:
   workflow_dispatch:
     inputs:
       scope:
-        description: "Kapsam · all: bileşenler ve yüzeyler çekilir · site: yalnız site, görüntüler olduğu gibi · components · surfaces"
+        description: "Kapsam · all: Mac bileşenleri, yüzeyleri ve iPhone uygulaması çekilir · site: yalnız site, görüntüler olduğu gibi · components · surfaces · ios"
         type: choice
-        options: [all, site, components, surfaces]
+        options: [all, site, components, surfaces, ios]
         default: all
       languages:
         description: Dil
@@ -67,7 +68,7 @@ jobs:
         run: |
           case $SCOPE in
             all) args=() ;;
-            components|surfaces) args=(--only "$SCOPE") ;;
+            components|surfaces|ios) args=(--only "$SCOPE") ;;
             *) echo "::error::Bilinmeyen kapsam: $SCOPE"; exit 1 ;;
           esac
           LANGUAGES=${LANGUAGES// /,} docs/scripts/kit.sh "${args[@]}"

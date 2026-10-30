@@ -7,7 +7,7 @@
 # language and theme.
 #
 #   docs/scripts/kit.sh                          everything: TR + EN, dark + light
-#   docs/scripts/kit.sh --only components        one step (components | surfaces)
+#   docs/scripts/kit.sh --only components        one step (components | surfaces | ios)
 #   docs/scripts/kit.sh --specimen SettingsCard  some specimens (repeatable; the others' images stay)
 #   docs/scripts/kit.sh --no-build               the last build
 #
@@ -37,7 +37,7 @@ while (( $# )); do
   shift
 done
 # What a run asks for also comes from the workflow's inputs: only the known values.
-[[ $only == ("components"|"surfaces"|"") ]] || { print -u2 "Unknown step: $only (components, surfaces)"; exit 1 }
+[[ $only == ("components"|"surfaces"|"ios"|"") ]] || { print -u2 "Unknown step: $only (components, surfaces, ios)"; exit 1 }
 for language in ${(s:,:)LANGUAGES}; [[ $language == (tr|en) ]] || { print -u2 "Unknown language: $language (tr, en)"; exit 1 }
 for theme in ${(s:,:)THEMES}; [[ $theme == (dark|light) ]] || { print -u2 "Unknown theme: $theme (dark, light)"; exit 1 }
 
@@ -45,6 +45,7 @@ mkdir -p docs/logs "$OUT"
 LOG=$PWD/docs/logs/kit-render.log
 : > "$LOG"
 
+if [[ $only != ios ]]; then
 if (( build )); then
   echo "▸ Building the developer variant…"
   ./build.sh --dev >> "$LOG" 2>&1 || { tail -30 "$LOG"; exit 1; }
@@ -93,4 +94,96 @@ json.dump(data, open(path, "w"), indent=2)
 PY
 fi
 echo "✓ $summary in $(( $(date +%s) - started )) s → $OUT"
-grep -q '^  ✘' "$LOG" && exit 1 || exit 0
+grep -q '^  ✘' "$LOG" && mac_failed=1
+fi
+
+# MARK: iOS (Beacon): its specimens drawn by the app itself (`-kitExport 1`, ImageRenderer @3x, both themes) once per
+# language, and its screens photographed on the simulator with the demo Mac (`-demo 1 -screen …`), both themes.
+#   $OUT/export/ios-registry.json, ios-tokens.json
+#   $OUT/render/ios/components/<lang>/<theme>/<id>/<variant>.png + manifest.json
+#   $OUT/render/ios/screens/<lang>/<theme>/<screen>.png + manifest.json
+if [[ -z $only || $only == ios ]] && (( ${#specimens} == 0 )); then
+  if ! command -v xcodegen >/dev/null || ! xcrun --sdk iphonesimulator --show-sdk-path >/dev/null 2>&1; then
+    echo "! iOS skipped: needs XcodeGen (brew install xcodegen) and Xcode's iOS SDK"
+  else
+    echo "▸ iOS: building Beacon for the simulator…"
+    IOS_LOG=$PWD/docs/logs/kit-ios.log
+    : > "$IOS_LOG"
+    SIM_NAME="BeaconKit"
+    SIM=$(xcrun simctl list devices available -j | python3 -I -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next((x['udid'] for r in d.values() for x in r if x['name']=='$SIM_NAME'), ''))")
+    if [[ -z $SIM ]]; then
+      RUNTIME=$(xcrun simctl list runtimes -j | python3 -I -c "import json,sys; r=[x['identifier'] for x in json.load(sys.stdin)['runtimes'] if x['platform']=='iOS' and x['isAvailable']]; print(sorted(r)[-1] if r else '')")
+      SIM=$(xcrun simctl create "$SIM_NAME" com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro "$RUNTIME")
+    fi
+    (cd iOS && xcodegen generate --quiet && xcodebuild -project Beacon.xcodeproj -scheme Beacon -destination "platform=iOS Simulator,id=$SIM" \
+      -derivedDataPath "$(dirname "$OUT")/ios-dd" build CODE_SIGN_IDENTITY=-) >> "$IOS_LOG" 2>&1 || { tail -20 "$IOS_LOG"; exit 1 }
+    APP=$(dirname "$OUT")/ios-dd/Build/Products/Debug-iphonesimulator/Beacon.app
+    xcrun simctl boot "$SIM" 2>/dev/null || true
+    xcrun simctl bootstatus "$SIM" -b >> "$IOS_LOG" 2>&1
+    xcrun simctl status_bar "$SIM" override --time "9:41" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 2>/dev/null || true
+    xcrun simctl uninstall "$SIM" co.ikili.beacon 2>/dev/null || true
+    xcrun simctl install "$SIM" "$APP"
+    rm -rf "$OUT/render/ios"
+    mkdir -p "$OUT/render/ios" "$OUT/export"
+    screens=(macs dashboard cpu memory network power disk temperature)
+    for language in ${(s:,:)LANGUAGES}; do
+      locale=$([[ $language == tr ]] && echo tr_TR || echo en_US)
+      echo "▸ iOS ($language): specimens…"
+      xcrun simctl launch --console-pty "$SIM" co.ikili.beacon -demo 1 -kitExport 1 -AppleLanguages "($language)" -AppleLocale "$locale" >> "$IOS_LOG" 2>&1 || true
+      CONTAINER=$(xcrun simctl get_app_container "$SIM" co.ikili.beacon data)
+      [[ -f $CONTAINER/Documents/kit/registry.json ]] || { print -u2 "The iOS export wrote nothing: $IOS_LOG"; exit 1 }
+      mkdir -p "$OUT/render/ios/components/$language"
+      ditto "$CONTAINER/Documents/kit/components" "$OUT/render/ios/components/$language"
+      cp "$CONTAINER/Documents/kit/registry.json" "$OUT/export/ios-registry.json"
+      cp "$CONTAINER/Documents/kit/tokens.json" "$OUT/export/ios-tokens.json"
+      echo "▸ iOS ($language): screens…"
+      for theme in dark light; do
+        xcrun simctl ui "$SIM" appearance "$theme"
+        for screen in $screens; do
+          xcrun simctl terminate "$SIM" co.ikili.beacon 2>/dev/null || true
+          args=(-demo 1 -AppleLanguages "($language)" -AppleLocale "$locale")
+          [[ $screen != macs ]] && args+=(-screen "$screen")
+          xcrun simctl launch "$SIM" co.ikili.beacon "${args[@]}" >> "$IOS_LOG" 2>&1
+          sleep 4
+          mkdir -p "$OUT/render/ios/screens/$language/$theme"
+          xcrun simctl io "$SIM" screenshot "$OUT/render/ios/screens/$language/$theme/$screen.png" >> "$IOS_LOG" 2>&1
+        done
+      done
+      xcrun simctl terminate "$SIM" co.ikili.beacon 2>/dev/null || true
+    done
+    # One manifest per group, keyed <lang>/<theme>/…, sizes in points (the export's own; the screens' @3x pixels / 3).
+    python3 -I - "$OUT/render/ios" <<'PY'
+import json, os, struct, sys
+root = sys.argv[1]
+components = {}
+for language in sorted(os.listdir(os.path.join(root, "components"))):
+    path = os.path.join(root, "components", language, "manifest.json")
+    if os.path.exists(path):
+        for key, size in json.load(open(path)).items():
+            components[f"{language}/{key}"] = size
+        os.remove(path)
+json.dump(components, open(os.path.join(root, "components", "manifest.json"), "w"), indent=2, sort_keys=True)
+screens = {}
+for language in sorted(os.listdir(os.path.join(root, "screens"))):
+    for theme in sorted(os.listdir(os.path.join(root, "screens", language))):
+        for name in sorted(os.listdir(os.path.join(root, "screens", language, theme))):
+            with open(os.path.join(root, "screens", language, theme, name), "rb") as png:
+                width, height = struct.unpack(">II", png.read(24)[16:24])
+            screens[f"{language}/{theme}/{name[:-4]}"] = {"width": width / 3, "height": height / 3}
+json.dump(screens, open(os.path.join(root, "screens", "manifest.json"), "w"), indent=2, sort_keys=True)
+print(f"  {len(components)} iOS component images, {len(screens)} iOS screens")
+PY
+    xcrun simctl shutdown "$SIM" 2>/dev/null || true
+    python3 -I - "$OUT/render/rendered.json" "$(git rev-parse HEAD)" <<'PY'
+import json, sys, datetime
+path, sha = sys.argv[1], sys.argv[2]
+try:
+    data = json.load(open(path))
+except Exception:
+    data = {}
+data["ios"] = {"sha": sha, "at": datetime.datetime.now(datetime.timezone.utc).isoformat()}
+json.dump(data, open(path, "w"), indent=2)
+PY
+  fi
+fi
+(( ${mac_failed:-0} )) && exit 1 || exit 0

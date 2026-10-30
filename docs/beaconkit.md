@@ -91,6 +91,27 @@ cd web && npm run collect -- --kit ~/BeaconKit/kit && npm run dev
   `render/rendered.json` (each group's commit and time, for the site's "Bileşen görüntüleri: <date> · <commit>").
   Log: `docs/logs/kit-render.log`. The collector turns the PNGs into lossless WebP under `web/public/renders`.
 
+## iOS (`iOS/`, the Beacon app)
+
+The catalog has a second platform: Beacon, the iPhone app (`iOS/README.md`). Its design system is tokens from the
+start (`iOS/Beacon/DesignSystem/`: `BeaconColor`, `BeaconType`, `BeaconMetrics`, `BeaconMotion`), and each component
+declares its `KitSpecimen` in its own file, which its `#Preview`s, the in-app Settings › Design catalog and the site
+all draw. `BeaconColor`'s doc names the Mac token each colour keeps the meaning of (`/// CPU: PanelMetricColor.green.`),
+and the site's iPhone › Colours shows the two side by side.
+
+- **Renders** (`kit.sh`'s iOS step, `--only ios`; part of every full run): builds Beacon for the simulator with
+  XcodeGen and xcodebuild, on a simulator of its own ("BeaconKit", iPhone 18 Pro, the newest iOS runtime), status bar
+  at 9:41. Per language the app runs `-demo 1 -kitExport 1`: it draws every specimen variant in both themes with
+  ImageRenderer at @3x and resolves the colour tokens into its Documents/kit, which the script copies out; then each
+  screen opens on the demo Mac (`-screen dashboard`, `cpu`, …; `macs` is the empty list) and `simctl io screenshot`
+  takes it, dark and light. Output: `export/ios-{registry,tokens}.json`, `render/ios/{components,screens}/…` with
+  manifests (sizes in points), `rendered.json`'s `ios` stamp. Log: `docs/logs/kit-ios.log`. ≈ 3 min for TR and EN.
+- **Collector** (`collector/ios.ts`): the components from the `KitSpecimen("…", .category, [` declarations and the
+  `///` above each `struct`, the colours from `BeaconColor.swift` (the app's own resolution from the renders where
+  there is one), the screens; the renders as WebP. Pages: iPhone · Beacon › Bileşenler, Ekranlar, Renkler.
+- **Adding a component** to the iOS catalog: a `@MainActor static let` specimen in its file, its id in
+  `KitCatalog.specimens` (`iOS/Beacon/DesignSystem/Catalog/KitSpecimen.swift`), a `#Preview` drawing `.preview()`.
+
 ## Site (`web/`, Vite + React + TypeScript)
 
 ```sh
@@ -119,7 +140,8 @@ collect shows it on the item. Work through them with `gh issue list --label kit-
 ## Hosting (`.github/workflows/kit.yml`)
 
 - **Manual only:** Actions › BeaconKit™ › Run workflow, or `gh workflow run kit.yml -f scope=all`. Pushes and pull
-  requests never trigger it. `scope`: `all` (components and surfaces, then the site), `components`, `surfaces`, or
+  requests never trigger it. `scope`: `all` (the Mac's components and surfaces and the iPhone app, then the site),
+  `components`, `surfaces`, `ios`, or
   `site` (the site alone, on the images kept in `~/BeaconKit/kit` from an earlier run); `languages`: `tr en`, `tr`, `en`. The job runs only when the repo's owner starts it (`github.triggering_actor`), since the
   repo is public and the runner is the owner's Mac.
 - **The runner:** the Mac mini `brain`, a runner of this repo's own (`~/actions-runner/beacon`, label `beacon-kit`,
